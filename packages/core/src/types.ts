@@ -26,4 +26,4 @@ export interface Viewport {
   maxZoom?: number;
 }
 
-export type SelecionMode = 'replace' | 'add' | 'toggle';
+export type SelectionMode = 'replace' | 'add' | 'toggle';
