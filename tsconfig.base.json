@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "Bundler",
     "lib": [
-      "ES2022",
+      "ES2020",
       "DOM"
     ],
-    "moduleResolution": "Bundler",
-    "skipLibCheck": true,
     "strict": true,
-    "declaration": true,
-    "declarationDir": "dist",
-    "esModuleInterop": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react-jsx"
+    "esModuleInterop": true,
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
   }
 }

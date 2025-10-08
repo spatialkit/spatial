@@ -2,6 +2,10 @@
   "name": "floormap",
   "private": true,
   "packageManager": "pnpm@10.17.0",
+  "workspaces": [
+    "packages/*",
+    "packages/*/*"
+  ],
   "scripts": {
     "build": "pnpm -r --filter \"./packages/*\" run build",
     "dev": "pnpm -C packages/examples dev",
@@ -11,15 +15,15 @@
     "release": "changeset version && pnpm install --no-frozen-lockfile && changeset publish"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.18.8",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "prettier": "^3.3.0",
-    "tsup": "^8.0.1",
-    "typescript": "^5.6.0",
-    "vitest": "^2.0.0",
-    "changesets": "^2.27.7"
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
   }
 }
