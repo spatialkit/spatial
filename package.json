@@ -11,6 +11,7 @@
     "dev": "pnpm -C packages/examples dev",
     "lint": "eslint .",
     "test": "vitest run",
+    "test:watch": "vitest --w",
     "typecheck": "tsc -b --verbose",
     "release": "changeset version && pnpm install --no-frozen-lockfile && changeset publish"
   },
