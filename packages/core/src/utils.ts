@@ -5,7 +5,7 @@ export const clamp = (value: number, min: number, max: number) => {
 };
 
 export const containsPointAABB = (bounds: Bounds, point: Vec2) => {
-  point.x >= bounds.x && point.x <= bounds.x + bounds.width && point.y >= bounds.y && point.y <= bounds.y + bounds.height;
+  return point.x >= bounds.x && point.x <= bounds.x + bounds.width && point.y >= bounds.y && point.y <= bounds.y + bounds.height;
 };
 
 export const expandBounds = (bounds: Bounds, padding: number): Bounds => {
