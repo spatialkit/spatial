@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { worldToScreen, screenToWorld, setZoomAt, panBy } from '../viewport';
-import type { Viewport } from '../types';
+import { worldToScreen, screenToWorld, setZoomAt, panBy, fitToBounds } from '../viewport';
+import type { Bounds, Viewport } from '../types';
 
-describe('Viewport', () => {
+describe('ScreenToWorld <-> WorldToScreen', () => {
   it('should convert world to screen coordinates', () => {
     const viewport: Viewport = {
       zoom: 2,
@@ -49,7 +49,9 @@ describe('Viewport', () => {
 
     expect(viewport.zoom).toBeGreaterThan(1);
   });
+});
 
+describe('setZoomAt', () => {
   it('should clamp zoom between minZoom and maxZoom', () => {
     const viewport: Viewport = {
       zoom: 1,
@@ -70,7 +72,9 @@ describe('Viewport', () => {
     setZoomAt(viewport, cursor, +5);
     expect(viewport.zoom).toBe(viewport.maxZoom);
   });
+});
 
+describe('panBy', () => {
   it('should pan viewport by screen delta at zoom level 1', () => {
     const viewport: Viewport = {
       zoom: 1,
@@ -197,5 +201,218 @@ describe('Viewport', () => {
 
     expect(viewport.pan.x).toBeCloseTo(100, 6);
     expect(viewport.pan.y).toBeCloseTo(60, 6);
+  });
+});
+
+describe('fitToBounds', () => {
+  it('should fit a square bounds perfectly in a square viewport', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 800, height: 800 },
+      minZoom: 0.1,
+      maxZoom: 8,
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    expect(viewport.zoom).toBeCloseTo(7.84, 1);
+    expect(viewport.pan.x).toBeCloseTo(50 - 51, 1);
+    expect(viewport.pan.y).toBeCloseTo(50 - 51, 1);
+  });
+
+  it('should fit a wide rectangle using height as limiting factor', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 1000, height: 500 },
+      minZoom: 0.1,
+      maxZoom: 8,
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 200,
+      height: 100,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    expect(viewport.zoom).toBeCloseTo(4.9, 1);
+  });
+
+  it('should fit a tall rectangle using width as limiting factor', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 500, height: 1000 },
+      minZoom: 0.1,
+      maxZoom: 8,
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 200,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    expect(viewport.zoom).toBeCloseTo(4.9, 1);
+  });
+
+  it('should respect minZoom constraint', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 100, height: 100 },
+      minZoom: 0.5,
+      maxZoom: 8,
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 10000,
+      height: 10000,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    expect(viewport.zoom).toBe(0.5);
+  });
+
+  it('should respect maxZoom constraint', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 1000, height: 1000 },
+      minZoom: 0.1,
+      maxZoom: 2,
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 10,
+      height: 10,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    expect(viewport.zoom).toBe(2);
+  });
+
+  it('should apply padding correctly', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 800, height: 800 },
+      minZoom: 0.1,
+      maxZoom: 8,
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    };
+
+    fitToBounds(viewport, bounds, 50);
+
+    expect(viewport.zoom).toBeCloseTo(5.26, 1);
+  });
+
+  it('should center bounds with offset position', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 800, height: 800 },
+      minZoom: 0.1,
+      maxZoom: 8,
+    };
+
+    const bounds: Bounds = {
+      x: 100,
+      y: 200,
+      width: 100,
+      height: 100,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    const zoom = viewport.zoom;
+
+    expect(viewport.pan.x).toBeCloseTo(150 - 800 / zoom / 2, 1);
+    expect(viewport.pan.y).toBeCloseTo(250 - 800 / zoom / 2, 1);
+  });
+
+  it('should handle zero padding', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 800, height: 800 },
+      minZoom: 0.1,
+      maxZoom: 8,
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    };
+
+    fitToBounds(viewport, bounds, 0);
+
+    expect(viewport.zoom).toBeCloseTo(7.84, 1);
+  });
+
+  it('should use default minZoom when not specified', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 100, height: 100 },
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 10000,
+      height: 10000,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    expect(viewport.zoom).toBe(0.1);
+  });
+
+  it('should use default maxZoom when not specified', () => {
+    const viewport: Viewport = {
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      screenSize: { width: 1000, height: 1000 },
+    };
+
+    const bounds: Bounds = {
+      x: 0,
+      y: 0,
+      width: 1,
+      height: 1,
+    };
+
+    fitToBounds(viewport, bounds);
+
+    expect(viewport.zoom).toBe(8);
   });
 });

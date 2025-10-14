@@ -1,5 +1,5 @@
-import type { Bounds, Vec2, Viewport } from "./types";
-import { clamp } from "./utils";
+import type { Bounds, Vec2, Viewport } from './types';
+import { clamp } from './utils';
 
 export function worldToScreen(viewport: Viewport, pan: Vec2): Vec2 {
   return {
@@ -39,7 +39,8 @@ export function panBy(viewport: Viewport, deltaScreen: Vec2) {
 }
 
 export function fitToBounds(viewport: Viewport, bounds: Bounds, padding = 0) {
-  const W = viewport.screenSize.width, H = viewport.screenSize.height;
+  const W = viewport.screenSize.width;
+  const H = viewport.screenSize.height;
   const scaleX = W / (bounds.width + 2 + padding);
   const scaleY = H / (bounds.height + 2 + padding);
   const targetZoom = Math.min(scaleX, scaleY);
@@ -47,6 +48,6 @@ export function fitToBounds(viewport: Viewport, bounds: Bounds, padding = 0) {
   const max = viewport.maxZoom ?? 8;
   viewport.zoom = clamp(targetZoom, min, max);
 
-  viewport.pan.x = bounds.x + bounds.width / 2 - (W / viewport.zoom) / 2;
-  viewport.pan.y = bounds.y + bounds.height / 2 - (H / viewport.zoom) / 2;
+  viewport.pan.x = bounds.x + bounds.width / 2 - W / viewport.zoom / 2;
+  viewport.pan.y = bounds.y + bounds.height / 2 - H / viewport.zoom / 2;
 }
