@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import type { Scene, Entity, LayerId, EntityId } from '../types';
 import {
-  
   createEmptyScene,
   addEntity,
   updateEntity,
