@@ -6,7 +6,9 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -20,7 +22,8 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "vitest": "^2.0.0"
+    "vitest": "^2.0.0",
+    "@floormap/core": "workspace:*"
   },
   "peerDependencies": {
     "@floormap/core": "0.x"
