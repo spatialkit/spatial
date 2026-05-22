@@ -1,16 +1,28 @@
-import type { Entity } from '@floormap/core';
+import type { Entity, EntityId } from '@floormap/core';
+import type { SelectionOverlayStyle } from './selection-overlay';
+import type { GridOptions } from './grid';
 
 export interface SvgRendererOptions {
   mount: SVGSVGElement;
-  drawEntity: (entity: Entity, ctx: { g: SVGGElement }) => void;
-  defs?: (svg: SVGSVGElement) => void;
+  drawEntity: (entity: Entity, ctx: { g: SVGGElement; selected: boolean }) => void;
+  defs?: (defs: SVGDefsElement) => void;
   enableWheel?: boolean;
   enablePanDrag?: boolean;
   wheelZoomFactor?: number;
   dragButton?: 0 | 1 | 2;
   clickSelect?: boolean;
-  onClickEntity?: (id: Entity['id']) => void;
+  onClickEntity?: (id: EntityId) => void;
   clickThresholdPx?: number;
+  /** Use Shift/Ctrl+click for add/toggle selection modes. Default: true */
+  modifierSelect?: boolean;
+  /** Sensitivity for pinch-to-zoom gestures. Default: 0.005 */
+  pinchZoomFactor?: number;
+  /** Automatic selection overlay drawn in selectionG. false to disable. Default: {} */
+  selectionOverlay?: SelectionOverlayStyle | false;
+  /** Background grid drawn in gridG. false to disable. Default: false */
+  grid?: GridOptions | false;
+  /** Remove SVG groups from DOM on destroy(). Default: true */
+  clearOnDestroy?: boolean;
 }
 
 export interface SvgRenderer {
@@ -20,3 +32,5 @@ export interface SvgRenderer {
 
 export { mountSvgRenderer } from './renderer';
 export type { SvgRendererOptions as Options, SvgRenderer as Renderer } from './index';
+export type { SelectionOverlayStyle } from './selection-overlay';
+export type { GridOptions } from './grid';

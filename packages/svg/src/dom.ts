@@ -1,6 +1,6 @@
 const NS = 'http://www.w3.org/2000/svg';
 
-export function setupSvgRoot(svg: SVGSVGElement, defs?: (svg: SVGSVGElement) => void) {
+export function setupSvgRoot(svg: SVGSVGElement, defs?: (defs: SVGDefsElement) => void) {
   svg.setAttribute('xmlns', NS);
 
   if (!svg.querySelector("g[data-fm='viewport']")) {
@@ -26,10 +26,10 @@ export function setupSvgRoot(svg: SVGSVGElement, defs?: (svg: SVGSVGElement) => 
     svg.appendChild(viewportG);
 
     if (defs && !svg.querySelector("defs[data-fm='defs']")) {
-      const defsElement = document.createElementNS(NS, 'defs');
+      const defsElement = document.createElementNS(NS, 'defs') as SVGDefsElement;
       defsElement.setAttribute('data-fm', 'defs');
       svg.appendChild(defsElement);
-      defs(svg);
+      defs(defsElement);
     }
   }
 }
