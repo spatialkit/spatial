@@ -1,9 +1,13 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src", "src/**/*.test.ts"],
+  "include": [
+    "src",
+    "src/**/*.test.ts"
+  ],
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
-    "noEmit": true
+    "noEmit": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"]
   }
 }
