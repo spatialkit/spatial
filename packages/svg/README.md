@@ -321,7 +321,7 @@ mountSvgRenderer(core, {
 svg.addEventListener('contextmenu', (e) => e.preventDefault());
 ```
 
-### Disabling interaction entirely
+### Disabling mouse interaction
 
 ```ts
 mountSvgRenderer(core, {
@@ -332,6 +332,8 @@ mountSvgRenderer(core, {
   clickSelect: false,
 });
 ```
+
+> **Note:** `enablePanDrag: false` only disables mouse drag-to-pan. Touch and pen pointers are always tracked for pinch-to-zoom and single-finger pan, regardless of this flag. There is currently no option to disable touch/pen interaction entirely.
 
 ---
 

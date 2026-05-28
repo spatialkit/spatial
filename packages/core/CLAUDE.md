@@ -11,7 +11,7 @@ Everything flows through `FloormapCore`, the object returned by `createCore()`. 
 ```ts
 import { createCore, createEmptyScene } from '@floormap/core';
 
-const scene = createEmptyScene({ width: 2000, height: 1500 }, ['floor', 'furniture']);
+const scene = createEmptyScene({ width: 2000, height: 1500 }, ['floor' as LayerId, 'furniture' as LayerId]);
 const core = createCore({
   scene,
   viewport: { zoom: 1, pan: { x: 0, y: 0 }, screenSize: { width: 800, height: 600 } },

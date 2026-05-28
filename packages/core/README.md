@@ -56,7 +56,7 @@ Creates an empty scene with no entities.
 ```ts
 const scene = createEmptyScene(
   { width: 2000, height: 1500 }, // world dimensions
-  ['floor', 'furniture'] as LayerId[],
+  ['floor' as LayerId, 'furniture' as LayerId],
 );
 ```
 

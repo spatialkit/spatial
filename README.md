@@ -208,7 +208,6 @@ pnpm install
 | `pnpm typecheck` | `tsc -b` across all packages |
 | `pnpm build` | tsup build (ESM + CJS + .d.ts) |
 | `pnpm lint` | ESLint on all `.ts` files |
-| `pnpm dev` | Dev server (`packages/examples`) |
 
 All commands run from the repo root. Per-package commands also work inside each `packages/*` directory.
 
