@@ -31,6 +31,6 @@ export interface SvgRenderer {
 }
 
 export { mountSvgRenderer } from './renderer';
-export type { SvgRendererOptions as Options, SvgRenderer as Renderer } from './index';
+export type { SvgRendererOptions as Options, SvgRenderer as Renderer };
 export type { SelectionOverlayStyle } from './selection-overlay';
 export type { GridOptions } from './grid';

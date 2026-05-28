@@ -22,6 +22,7 @@ export function attachHandlers(
     downPos: { x: 0, y: 0 },
     lastPos: { x: 0, y: 0 },
     btn: -1 as number,
+    capturedPointerId: -1,
   };
 
   // Tracks active pointer positions for pinch-to-zoom
@@ -50,8 +51,10 @@ export function attachHandlers(
   }
 
   function onPointerDown(event: PointerEvent) {
-    if (!options.enablePanDrag) return;
-    if (event.button !== options.dragButton) return;
+    const isTouch = event.pointerType !== 'mouse';
+
+    if (!isTouch && !options.enablePanDrag) return;
+    if (!isTouch && event.button !== options.dragButton) return;
 
     const cursor = getCursor(event);
     pointers.set(event.pointerId, cursor);
@@ -59,6 +62,7 @@ export function attachHandlers(
     if (pointers.size > 1) return; // second finger starts pinch, don't start drag
 
     svg.setPointerCapture(event.pointerId);
+    state.capturedPointerId = event.pointerId;
     state.dragging = true;
     state.btn = event.button;
     state.downPos = state.lastPos = cursor;
@@ -97,7 +101,10 @@ export function attachHandlers(
 
     if (!state.dragging) return;
 
-    svg.releasePointerCapture(e.pointerId);
+    if (state.capturedPointerId === e.pointerId) {
+      svg.releasePointerCapture(e.pointerId);
+      state.capturedPointerId = -1;
+    }
     const up = getCursor(e);
     const deltaX = up.x - state.downPos.x;
     const deltaY = up.y - state.downPos.y;
@@ -135,6 +142,7 @@ export function attachHandlers(
     if (state.dragging) {
       state.dragging = false;
       state.btn = -1;
+      state.capturedPointerId = -1;
       svg.style.cursor = '';
     }
   }

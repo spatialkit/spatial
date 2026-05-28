@@ -1,4 +1,4 @@
-import type { FloormapCore, Entity } from '@floormap/core';
+import type { FloormapCore, Entity, LayerId } from '@floormap/core';
 import type { SvgRenderer, SvgRendererOptions } from './index';
 import { setupSvgRoot, getGroups, clearChildren } from './dom';
 import { attachHandlers } from './handlers';
@@ -102,13 +102,22 @@ function paint(
 ) {
   clearChildren(objectsG);
 
+  const byLayer = new Map<LayerId, Entity[]>();
+  for (const e of core.scene.entities.values()) {
+    const bucket = byLayer.get(e.layer);
+    if (bucket) {
+      bucket.push(e);
+    } else {
+      byLayer.set(e.layer, [e]);
+    }
+  }
+
   for (const layer of core.scene.layers) {
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     g.setAttribute('data-fm-layer', String(layer));
     objectsG.appendChild(g);
 
-    for (const e of core.scene.entities.values()) {
-      if (e.layer !== layer) continue;
+    for (const e of byLayer.get(layer) ?? []) {
       drawEntity(e, { g, selected: core.selection.has(e.id) });
     }
   }

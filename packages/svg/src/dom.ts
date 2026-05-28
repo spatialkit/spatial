@@ -24,13 +24,13 @@ export function setupSvgRoot(svg: SVGSVGElement, defs?: (defs: SVGDefsElement) =
     viewportG.appendChild(selectionG);
     viewportG.appendChild(overlaysG);
     svg.appendChild(viewportG);
+  }
 
-    if (defs && !svg.querySelector("defs[data-fm='defs']")) {
-      const defsElement = document.createElementNS(NS, 'defs') as SVGDefsElement;
-      defsElement.setAttribute('data-fm', 'defs');
-      svg.appendChild(defsElement);
-      defs(defsElement);
-    }
+  if (defs && !svg.querySelector("defs[data-fm='defs']")) {
+    const defsElement = document.createElementNS(NS, 'defs') as SVGDefsElement;
+    defsElement.setAttribute('data-fm', 'defs');
+    svg.appendChild(defsElement);
+    defs(defsElement);
   }
 }
 
