@@ -5,7 +5,9 @@
 Floormap is a zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts, warehouse maps). It exposes low-level primitives for pan/zoom/selection/picking and ships pluggable renderers.
 
 **Repo:** `github.com/floormap-tools/floormap`  
-**Status:** v0.0.0 (early stage, stabilizing core before React adapter)
+**Status:** v0.0.0 — core stable, SVG renderer complete, React adapter not yet started
+
+> Detailed per-package guides: [`packages/core/CLAUDE.md`](packages/core/CLAUDE.md) · [`packages/svg/CLAUDE.md`](packages/svg/CLAUDE.md)
 
 ---
 
@@ -43,45 +45,51 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 
 | Module | Responsibility |
 |--------|---------------|
-| `core.ts` | `createCore()` factory — public API surface |
-| `store.ts` | Entity CRUD on the scene (`add`, `update`, `remove`, `getEntity`, `allEntities`, `sceneBounds`) |
+| `core.ts` | `createCore()` factory — public API, wires all modules together |
+| `store.ts` | `createEmptyScene()` + entity CRUD: `add`, `update`, `remove`, `getEntity`, `allEntities`, `sceneBounds` |
 | `viewport.ts` | Camera transforms: `worldToScreen`, `screenToWorld`, `setZoomAt`, `panBy`, `fitToBounds` |
-| `events.ts` | `EventBus` (pub/sub): `on`, `off`, `emit` |
-| `picking.ts` | `hitTestPoint` — AABB point-in-bounds, z-order aware |
-| `selection.ts` | `applySelection(current, ids, mode)` — replace / add / toggle, never mutates |
+| `events.ts` | `EventBus` (pub/sub): `on` returns unsubscribe fn, `off`, `emit` |
+| `picking.ts` | `hitTestPoint` — AABB hit test, z-order aware (top layer / last-added first) |
+| `selection.ts` | `applySelection(current, ids, mode)` — pure, returns new `Set`, never mutates |
 | `utils.ts` | `clamp`, `containsPointAABB`, `expandBounds`, `unionBounds` |
-| `types.ts` | Core types: `Vec2`, `Bounds`, `Entity`, `Scene`, `Viewport`, `SelectionMode` |
+| `types.ts` | `Vec2`, `Bounds`, `Entity`, `Scene`, `Viewport`, `SelectionMode`, `EntityId`, `LayerId` |
 
-**Key events emitted by core:**
-- `"viewport:change"` — `{ viewport }`
+**Key events emitted by core (with payload shapes):**
+- `"viewport:change"` — `{ viewport: Viewport }`
 - `"entities:changed"` — `{ type: "add"|"update"|"remove", ids: EntityId[] }`
 - `"selection:change"` — `{ selection: EntityId[] }`
 
 **Coordinate system:**
-- `worldToScreen`: `(world - pan) * zoom`
-- `screenToWorld`: `screen / zoom + pan`
+- `worldToScreen`: `screen = (world - pan) * zoom`
+- `screenToWorld`: `world = screen / zoom + pan`
+- `zoomAt` delta is multiplicative: `0.1` = +10%, `−0.1` = −10%
+- `panBy` takes screen-space delta; positive `x` shifts content left (pan moves right in world)
 
 ### @floormap/svg
 
 | Module | Responsibility |
 |--------|---------------|
 | `renderer.ts` | `mountSvgRenderer(core, opts)` — wires DOM, subscribes to core events, returns `{ rerender(), destroy() }` |
-| `dom.ts` | `setupSvgRoot(svg, defs?)` — builds the `<g data-fm>` group hierarchy; `getGroups`, `clearChildren` |
-| `handlers.ts` | `attachHandlers(svg, core, opts)` — wheel zoom, pointer drag pan, click-to-select |
+| `dom.ts` | `setupSvgRoot(svg, defs?)` — idempotent group hierarchy builder; `getGroups`, `clearChildren` |
+| `handlers.ts` | `attachHandlers(svg, core, opts)` — wheel zoom, pointer drag-pan, pinch zoom, click-to-select |
+| `grid.ts` | `paintGrid(core, gridG, opts)` — draws background grid lines in world space |
+| `selection-overlay.ts` | `paintSelectionOverlay(core, selectionG, style)` — draws outline rects around selected entities |
 
 **SVG group hierarchy:**
 ```
 <svg>
-  <g data-fm="viewport">        ← transform matrix applied here
+  <g data-fm="viewport">           ← transform matrix applied here
     <g data-fm="grid">
     <g data-fm="objects">
-      <g data-fm-layer="...">   ← one per layer
+      <g data-fm-layer="...">      ← one per layer, in scene.layers order
     <g data-fm="selection">
     <g data-fm="overlays">
-  <defs data-fm="defs">
+  <defs data-fm="defs">            ← only if defs callback is provided
 ```
 
 **Transform matrix:** `matrix(zoom 0 0 zoom -pan.x*zoom -pan.y*zoom)`
+
+**SVG tests require jsdom stubs** — always mock `getBoundingClientRect` (returns zero rect by default in jsdom); mock `setPointerCapture`/`releasePointerCapture` when testing pointer interactions.
 
 ---
 
