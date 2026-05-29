@@ -1,0 +1,17 @@
+{
+  "name": "@floormap/examples",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@floormap/core": "workspace:*",
+    "@floormap/svg": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
