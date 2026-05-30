@@ -24,6 +24,7 @@ export interface FloormapCore {
   // Entity controls
   add(entity: Entity): void;
   update(id: EntityId, patch: Partial<Entity>): void;
+  updateMany(patches: { id: EntityId; patch: Partial<Entity> }[]): void;
   remove(id: EntityId): void;
 
   // Selection controls
@@ -86,6 +87,14 @@ export function createCore(props: CreateCoreProps): FloormapCore {
     update: (id, patch) => {
       updateEntity(scene, id, patch);
       bus.emit("entities:changed", { type: "update", ids: [id] });
+    },
+    updateMany: (patches) => {
+      const ids: EntityId[] = [];
+      for (const { id, patch } of patches) {
+        updateEntity(scene, id, patch);
+        ids.push(id);
+      }
+      if (ids.length > 0) bus.emit("entities:changed", { type: "update", ids });
     },
     remove: (id) => {
       removeEntity(scene, id);

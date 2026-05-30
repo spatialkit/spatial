@@ -132,16 +132,21 @@ export function attachHandlers(
         x: worldCurr.x - state.entityDragWorldStart.x,
         y: worldCurr.y - state.entityDragWorldStart.y,
       };
+      const patches = [];
       for (const [id, snap] of state.entitySnapshots) {
-        core.update(id, {
-          bounds: {
-            x: snap.x + worldDelta.x,
-            y: snap.y + worldDelta.y,
-            width: snap.width,
-            height: snap.height,
+        patches.push({
+          id,
+          patch: {
+            bounds: {
+              x: snap.x + worldDelta.x,
+              y: snap.y + worldDelta.y,
+              width: snap.width,
+              height: snap.height,
+            },
           },
         });
       }
+      core.updateMany(patches);
       state.lastPos = curr;
       return;
     }
@@ -206,9 +211,12 @@ export function attachHandlers(
   function onPointerCancel(e: PointerEvent) {
     pointers.delete(e.pointerId);
     if (state.dragMode !== 'idle') {
+      if (state.capturedPointerId === e.pointerId) {
+        svg.releasePointerCapture(e.pointerId);
+        state.capturedPointerId = -1;
+      }
       state.dragMode = 'idle';
       state.btn = -1;
-      state.capturedPointerId = -1;
       state.hitEntityId = null;
       state.entitySnapshots.clear();
       svg.style.cursor = '';
