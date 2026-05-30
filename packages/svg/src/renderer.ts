@@ -12,6 +12,7 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
     defs,
     enableWheel = true,
     enablePanDrag = true,
+    enableEntityDrag = true,
     wheelZoomFactor = 0.0015,
     dragButton = 0,
     clickSelect = true,
@@ -39,6 +40,7 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
 
   const offEntities = core.on('entities:changed', () => {
     paint(core, groups.objectsG, drawEntity);
+    if (selectionOverlay !== false) paintSelectionOverlay(core, groups.selectionG, selectionOverlay);
   });
 
   const offSelection = core.on('selection:change', () => {
@@ -53,6 +55,7 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
   const detach = attachHandlers(mount, core, {
     enableWheel,
     enablePanDrag,
+    enableEntityDrag,
     wheelZoomFactor,
     dragButton,
     clickSelect,

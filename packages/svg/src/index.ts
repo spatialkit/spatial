@@ -15,6 +15,8 @@ export interface SvgRendererOptions {
   clickThresholdPx?: number;
   /** Use Shift/Ctrl+click for add/toggle selection modes. Default: true */
   modifierSelect?: boolean;
+  /** Allow dragging selected entities to move them. Default: true */
+  enableEntityDrag?: boolean;
   /** Sensitivity for pinch-to-zoom gestures. Default: 0.005 */
   pinchZoomFactor?: number;
   /** Automatic selection overlay drawn in selectionG. false to disable. Default: {} */

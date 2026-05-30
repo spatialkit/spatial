@@ -46,6 +46,12 @@ function click(svg: SVGSVGElement, x: number, y: number, opts: PointerEventInit 
   svg.dispatchEvent(new PointerEvent('pointerup', { button: 0, clientX: x, clientY: y, bubbles: true, ...opts }));
 }
 
+function drag(svg: SVGSVGElement, fromX: number, fromY: number, toX: number, toY: number) {
+  svg.dispatchEvent(new PointerEvent('pointerdown', { button: 0, clientX: fromX, clientY: fromY, bubbles: true }));
+  svg.dispatchEvent(new PointerEvent('pointermove', { button: 0, clientX: toX, clientY: toY, bubbles: true }));
+  svg.dispatchEvent(new PointerEvent('pointerup', { button: 0, clientX: toX, clientY: toY, bubbles: true }));
+}
+
 describe('Svg renderer - multi-select modifier keys', () => {
   let svg: SVGSVGElement;
 
@@ -122,5 +128,88 @@ describe('Svg renderer - multi-select modifier keys', () => {
 
     expect([...core.selection]).toEqual(['e1']);
     expect(core.selection.has('e2' as any)).toBe(false);
+  });
+});
+
+describe('Svg renderer - entity drag', () => {
+  let svg: SVGSVGElement;
+
+  beforeEach(() => {
+    svg = makesvg();
+  });
+
+  it('dragging a selected entity moves it by the pointer delta in world space', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    drag(svg, 150, 150, 200, 180); // drag 50px right, 30px down
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBeCloseTo(150);
+    expect(e1.bounds.y).toBeCloseTo(130);
+  });
+
+  it('dragging moves all selected entities together', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any, 'e2' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    drag(svg, 150, 150, 160, 160); // drag 10px right, 10px down (on e1)
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    const e2 = core.scene.entities.get('e2' as any)!;
+    expect(e1.bounds.x).toBeCloseTo(110);
+    expect(e1.bounds.y).toBeCloseTo(110);
+    expect(e2.bounds.x).toBeCloseTo(310);
+    expect(e2.bounds.y).toBeCloseTo(310);
+  });
+
+  it('dragging an unselected entity selects it and moves it', () => {
+    const core = makeCore();
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    drag(svg, 150, 150, 200, 200); // drag on e1 (unselected)
+
+    expect(core.selection.has('e1' as any)).toBe(true);
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBeCloseTo(150);
+    expect(e1.bounds.y).toBeCloseTo(150);
+  });
+
+  it('a small movement within click threshold is treated as click, not drag', () => {
+    const core = makeCore();
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    // Move only 2px (below default 3px threshold) — should be a click, not a drag
+    drag(svg, 150, 150, 152, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBe(100); // unchanged
+    expect(core.selection.has('e1' as any)).toBe(true); // was treated as click
+  });
+
+  it('dragging on empty space pans instead of moving entities', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    const initialPan = { ...core.viewport.pan };
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    drag(svg, 500, 400, 550, 420); // empty space drag
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBe(100); // entity unmoved
+    expect(core.viewport.pan.x).not.toBe(initialPan.x); // viewport panned
+  });
+
+  it('enableEntityDrag: false disables entity drag', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {}, enableEntityDrag: false });
+
+    drag(svg, 150, 150, 200, 200);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBe(100); // entity unmoved
   });
 });

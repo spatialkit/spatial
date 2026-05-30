@@ -79,7 +79,7 @@ const NS = 'http://www.w3.org/2000/svg';
 mountSvgRenderer(core, {
   mount: svgEl,
   grid: { size: 40, stroke: '#f1f5f9', strokeWidth: 1 },
-  selectionOverlay: { stroke: '#2563eb', strokeWidth: 2, padding: 4 },
+  selectionOverlay: false,
 
   drawEntity(entity, { g, selected }) {
     const data = entity.data as EntityData;
@@ -185,6 +185,7 @@ function deleteSelected() {
 // ── Selection panel ───────────────────────────────────────────────────────────
 
 core.on('selection:change', renderPanel);
+core.on('entities:changed', () => { if (core.selection.size > 0) renderPanel(); });
 
 function renderPanel() {
   const container = document.getElementById('selection-info')!;
@@ -198,7 +199,10 @@ function renderPanel() {
     const p2 = document.createElement('p');
     p2.className = 'hint';
     p2.textContent = 'Shift+click to add, Ctrl/⌘+click to toggle.';
-    container.append(p1, p2);
+    const p3 = document.createElement('p');
+    p3.className = 'hint';
+    p3.textContent = 'Drag a selected entity to move it.';
+    container.append(p1, p2, p3);
     return;
   }
 
@@ -226,7 +230,7 @@ function renderPanel() {
 
     const bounds = document.createElement('div');
     bounds.className = 'card-bounds';
-    bounds.textContent = `${width}×${height} at (${x}, ${y})`;
+    bounds.textContent = `${width}×${height} at (${Math.round(x)}, ${Math.round(y)})`;
 
     card.append(cardId, badge, cardName, bounds);
     container.append(card);
@@ -243,6 +247,15 @@ function updateZoomDisplay() {
 
 core.on('viewport:change', updateZoomDisplay);
 updateZoomDisplay();
+
+// ── Hover cursor ─────────────────────────────────────────────────────────────
+
+svgEl.addEventListener('pointermove', (e) => {
+  if (e.buttons !== 0) return;
+  const rect = svgEl.getBoundingClientRect();
+  const world = core.screenToWorld({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  svgEl.style.cursor = core.hitTest(world) ? 'grab' : '';
+});
 
 // ── Resize handling ───────────────────────────────────────────────────────────
 
