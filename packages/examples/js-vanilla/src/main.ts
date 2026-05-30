@@ -76,7 +76,7 @@ for (let row = 0; row < DESK_GRID.rows; row++) {
 
 const NS = 'http://www.w3.org/2000/svg';
 
-const renderer = mountSvgRenderer(core, {
+mountSvgRenderer(core, {
   mount: svgEl,
   grid: { size: 40, stroke: '#f1f5f9', strokeWidth: 1 },
   selectionOverlay: { stroke: '#2563eb', strokeWidth: 2, padding: 4 },
@@ -189,46 +189,64 @@ core.on('selection:change', renderPanel);
 function renderPanel() {
   const container = document.getElementById('selection-info')!;
   const ids = [...core.selection];
+  container.replaceChildren();
 
   if (ids.length === 0) {
-    container.innerHTML = `
-      <p class="hint">Click an entity to select it.</p>
-      <p class="hint">Shift+click to add, Ctrl+click to toggle.</p>
-    `;
+    const p1 = document.createElement('p');
+    p1.className = 'hint';
+    p1.textContent = 'Click an entity to select it.';
+    const p2 = document.createElement('p');
+    p2.className = 'hint';
+    p2.textContent = 'Shift+click to add, Ctrl/⌘+click to toggle.';
+    container.append(p1, p2);
     return;
   }
 
-  container.innerHTML = ids
-    .map((id) => {
-      const entity = core.scene.entities.get(id);
-      if (!entity) return '';
-      const data = entity.data as EntityData;
-      const { x, y, width, height } = entity.bounds;
-      const name = data.kind === 'room' ? data.name : data.label;
+  for (const id of ids) {
+    const entity = core.scene.entities.get(id);
+    if (!entity) continue;
+    const data = entity.data as EntityData;
+    const { x, y, width, height } = entity.bounds;
+    const name = data.kind === 'room' ? data.name : data.label;
 
-      return `
-        <div class="entity-card">
-          <div class="card-id">${id}</div>
-          <span class="card-badge ${data.kind}">${data.kind}</span>
-          <div class="card-name">${name}</div>
-          <div class="card-bounds">${width}×${height} at (${x}, ${y})</div>
-        </div>
-      `;
-    })
-    .join('');
+    const card = document.createElement('div');
+    card.className = 'entity-card';
+
+    const cardId = document.createElement('div');
+    cardId.className = 'card-id';
+    cardId.textContent = id;
+
+    const badge = document.createElement('span');
+    badge.className = `card-badge ${data.kind}`;
+    badge.textContent = data.kind;
+
+    const cardName = document.createElement('div');
+    cardName.className = 'card-name';
+    cardName.textContent = name;
+
+    const bounds = document.createElement('div');
+    bounds.className = 'card-bounds';
+    bounds.textContent = `${width}×${height} at (${x}, ${y})`;
+
+    card.append(cardId, badge, cardName, bounds);
+    container.append(card);
+  }
 }
 
 // ── Zoom display ──────────────────────────────────────────────────────────────
 
 const zoomDisplay = document.getElementById('zoom-display')!;
 
-core.on('viewport:change', () => {
+function updateZoomDisplay() {
   zoomDisplay.textContent = `${Math.round(core.viewport.zoom * 100)}%`;
-});
+}
+
+core.on('viewport:change', updateZoomDisplay);
+updateZoomDisplay();
 
 // ── Resize handling ───────────────────────────────────────────────────────────
 
 new ResizeObserver(() => {
   core.viewport.screenSize = { width: svgEl.clientWidth, height: svgEl.clientHeight };
-  renderer.rerender();
+  core.emit('viewport:change', { viewport: { ...core.viewport } });
 }).observe(svgEl);
