@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Floormap — Vanilla TS</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header id="toolbar">
+        <span class="logo">Floormap</span>
+        <span class="example-name">Office Floor Plan</span>
+        <div class="controls">
+          <button id="btn-fit" title="Fit all entities into view">Fit to scene</button>
+          <button id="btn-add-desk" title="Add a new desk to the open space">Add desk</button>
+          <button id="btn-delete" title="Delete selected entities (Del)">Delete selected</button>
+        </div>
+        <div id="zoom-display">100%</div>
+      </header>
+
+      <div id="main">
+        <svg id="canvas"></svg>
+
+        <aside id="panel">
+          <div class="panel-section">
+            <div class="panel-label">Selection</div>
+            <div id="selection-info">
+              <p class="hint">Click an entity to select it.</p>
+              <p class="hint">Shift+click to add, Ctrl/⌘+click to toggle.</p>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-label">Layers</div>
+            <div class="layer-list">
+              <div class="layer-row">
+                <span class="layer-dot" style="background:#93c5fd"></span>
+                <span>rooms</span>
+              </div>
+              <div class="layer-row">
+                <span class="layer-dot" style="background:#6ee7b7"></span>
+                <span>desks</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-label">Keyboard</div>
+            <div class="shortcuts">
+              <div class="shortcut"><kbd>Scroll</kbd> Zoom</div>
+              <div class="shortcut"><kbd>Drag</kbd> Pan</div>
+              <div class="shortcut"><kbd>Shift</kbd>+click Add</div>
+              <div class="shortcut"><kbd>Ctrl</kbd>/<kbd>⌘</kbd>+click Toggle</div>
+              <div class="shortcut"><kbd>Del</kbd> Delete</div>
+              <div class="shortcut"><kbd>Esc</kbd> Deselect</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
