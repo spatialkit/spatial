@@ -1,8 +1,10 @@
 import { FloormapCore, EntityId } from '@floormap/core';
+import type { Bounds } from '@floormap/core';
 
 type AttachHandlersOptions = {
   enableWheel: boolean;
   enablePanDrag: boolean;
+  enableEntityDrag: boolean;
   wheelZoomFactor: number;
   dragButton: 0 | 1 | 2;
   clickSelect: boolean;
@@ -18,11 +20,15 @@ export function attachHandlers(
   options: AttachHandlersOptions,
 ) {
   const state = {
-    dragging: false,
+    dragMode: 'idle' as 'idle' | 'pending' | 'pan' | 'entity',
     downPos: { x: 0, y: 0 },
     lastPos: { x: 0, y: 0 },
     btn: -1 as number,
     capturedPointerId: -1,
+    // entity drag state
+    hitEntityId: null as EntityId | null,
+    entitySnapshots: new Map<EntityId, Bounds>(),
+    entityDragWorldStart: { x: 0, y: 0 },
   };
 
   // Tracks active pointer positions for pinch-to-zoom
@@ -53,7 +59,7 @@ export function attachHandlers(
   function onPointerDown(event: PointerEvent) {
     const isTouch = event.pointerType !== 'mouse';
 
-    if (!isTouch && !options.enablePanDrag) return;
+    if (!isTouch && !options.enablePanDrag && !options.enableEntityDrag) return;
     if (!isTouch && event.button !== options.dragButton) return;
 
     const cursor = getCursor(event);
@@ -63,9 +69,12 @@ export function attachHandlers(
 
     svg.setPointerCapture(event.pointerId);
     state.capturedPointerId = event.pointerId;
-    state.dragging = true;
+    state.dragMode = 'pending';
     state.btn = event.button;
     state.downPos = state.lastPos = cursor;
+    state.hitEntityId = options.enableEntityDrag
+      ? core.hitTest(core.screenToWorld(cursor))
+      : null;
     svg.style.cursor = 'grabbing';
   }
 
@@ -87,19 +96,73 @@ export function attachHandlers(
       return;
     }
 
-    if (!state.dragging || state.btn !== options.dragButton) return;
+    if (state.dragMode === 'idle' || state.btn !== options.dragButton) return;
 
-    const deltaX = curr.x - state.lastPos.x;
-    const deltaY = curr.y - state.lastPos.y;
-    state.lastPos = curr;
-    core.panBy({ x: -deltaX, y: -deltaY });
+    if (state.dragMode === 'pending') {
+      if (state.hitEntityId !== null) {
+        // Stay pending until movement exceeds click threshold
+        const dx = curr.x - state.downPos.x;
+        const dy = curr.y - state.downPos.y;
+        const threshold2 = options.clickThresholdPx * options.clickThresholdPx;
+        if (dx * dx + dy * dy <= threshold2) {
+          state.lastPos = curr;
+          return;
+        }
+        // Commit to entity drag
+        state.dragMode = 'entity';
+        if (!core.selection.has(state.hitEntityId)) {
+          core.setSelection([state.hitEntityId], 'replace');
+        }
+        state.entitySnapshots.clear();
+        for (const id of core.selection) {
+          const e = core.scene.entities.get(id);
+          if (e) state.entitySnapshots.set(id, { ...e.bounds });
+        }
+        state.entityDragWorldStart = core.screenToWorld(state.downPos);
+        svg.style.cursor = 'move';
+      } else {
+        // No entity hit — immediately commit to pan
+        state.dragMode = 'pan';
+      }
+    }
+
+    if (state.dragMode === 'entity') {
+      const worldCurr = core.screenToWorld(curr);
+      const worldDelta = {
+        x: worldCurr.x - state.entityDragWorldStart.x,
+        y: worldCurr.y - state.entityDragWorldStart.y,
+      };
+      for (const [id, snap] of state.entitySnapshots) {
+        core.update(id, {
+          bounds: {
+            x: snap.x + worldDelta.x,
+            y: snap.y + worldDelta.y,
+            width: snap.width,
+            height: snap.height,
+          },
+        });
+      }
+      state.lastPos = curr;
+      return;
+    }
+
+    if (state.dragMode === 'pan') {
+      if (!options.enablePanDrag) {
+        state.lastPos = curr;
+        return;
+      }
+      const deltaX = curr.x - state.lastPos.x;
+      const deltaY = curr.y - state.lastPos.y;
+      state.lastPos = curr;
+      core.panBy({ x: -deltaX, y: -deltaY });
+    }
   }
 
   function onPointerUp(e: PointerEvent) {
     const wasPinching = pointers.size >= 2;
     pointers.delete(e.pointerId);
 
-    if (!state.dragging) return;
+    if (state.dragMode === 'idle') return;
 
     if (state.capturedPointerId === e.pointerId) {
       svg.releasePointerCapture(e.pointerId);
@@ -113,11 +176,14 @@ export function attachHandlers(
     svg.style.cursor = '';
 
     const wasClick = dist2 <= threshold2;
+    const prevMode = state.dragMode;
 
-    state.dragging = false;
+    state.dragMode = 'idle';
     state.btn = -1;
+    state.hitEntityId = null;
+    state.entitySnapshots.clear();
 
-    if (wasClick && options.clickSelect && !wasPinching) {
+    if (wasClick && options.clickSelect && !wasPinching && prevMode !== 'entity') {
       const mode = options.modifierSelect
         ? e.shiftKey
           ? ('add' as const)
@@ -139,12 +205,18 @@ export function attachHandlers(
 
   function onPointerCancel(e: PointerEvent) {
     pointers.delete(e.pointerId);
-    if (state.dragging) {
-      state.dragging = false;
+    if (state.dragMode !== 'idle') {
+      state.dragMode = 'idle';
       state.btn = -1;
       state.capturedPointerId = -1;
+      state.hitEntityId = null;
+      state.entitySnapshots.clear();
       svg.style.cursor = '';
     }
+  }
+
+  function onSelectStart(e: Event) {
+    e.preventDefault();
   }
 
   svg.addEventListener('wheel', onWheel, { passive: false });
@@ -152,6 +224,7 @@ export function attachHandlers(
   svg.addEventListener('pointermove', onPointerMove);
   svg.addEventListener('pointerup', onPointerUp);
   svg.addEventListener('pointercancel', onPointerCancel);
+  svg.addEventListener('selectstart', onSelectStart);
 
   return function detach() {
     svg.removeEventListener('wheel', onWheel as EventListener);
@@ -159,5 +232,6 @@ export function attachHandlers(
     svg.removeEventListener('pointermove', onPointerMove as EventListener);
     svg.removeEventListener('pointerup', onPointerUp as EventListener);
     svg.removeEventListener('pointercancel', onPointerCancel as EventListener);
+    svg.removeEventListener('selectstart', onSelectStart);
   };
 }
