@@ -1,0 +1,233 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  color: #1e293b;
+  background: #f1f5f9;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ── Toolbar ── */
+
+#toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  height: 48px;
+  background: #0f172a;
+  color: #f8fafc;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: #38bdf8;
+}
+
+.example-name {
+  font-size: 13px;
+  color: #64748b;
+  padding-left: 12px;
+  border-left: 1px solid #1e293b;
+}
+
+.controls {
+  display: flex;
+  gap: 6px;
+  margin-left: 8px;
+}
+
+button {
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+  white-space: nowrap;
+}
+
+button:hover {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+button:active {
+  background: #475569;
+}
+
+#zoom-display {
+  margin-left: auto;
+  font-size: 12px;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ── Main layout ── */
+
+#main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+#canvas {
+  flex: 1;
+  display: block;
+  background: #ffffff;
+  cursor: default;
+  outline: none;
+}
+
+/* ── Side panel ── */
+
+#panel {
+  width: 200px;
+  flex-shrink: 0;
+  border-left: 1px solid #e2e8f0;
+  background: #f8fafc;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.panel-section {
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.panel-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.hint {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* ── Selection cards ── */
+
+.entity-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.entity-card:last-child {
+  margin-bottom: 0;
+}
+
+.card-id {
+  font-family: 'Menlo', 'Consolas', 'Monaco', monospace;
+  font-size: 10px;
+  color: #94a3b8;
+  margin-bottom: 5px;
+}
+
+.card-badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.card-badge.room { background: #dbeafe; color: #1d4ed8; }
+.card-badge.desk { background: #d1fae5; color: #065f46; }
+
+.card-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.card-bounds {
+  font-size: 11px;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Layers ── */
+
+.layer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.layer-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #475569;
+}
+
+.layer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Shortcuts ── */
+
+.shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.shortcut {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 10px;
+  font-family: inherit;
+  color: #475569;
+  white-space: nowrap;
+}
