@@ -14,5 +14,6 @@ export function useSelection(core: FloormapCore): ReadonlySet<EntityId> {
       [core],
     ),
     useCallback(() => snapshotRef.current, []),
+    () => new Set<EntityId>() as ReadonlySet<EntityId>,
   );
 }

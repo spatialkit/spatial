@@ -14,5 +14,6 @@ export function useEntities(core: FloormapCore): Entity[] {
       [core],
     ),
     useCallback(() => snapshotRef.current, []),
+    () => [],
   );
 }

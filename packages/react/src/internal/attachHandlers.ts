@@ -55,9 +55,12 @@ export function attachHandlers(
 
     const cursor = getCursor(event);
     pointers.set(event.pointerId, cursor);
+    svg.setPointerCapture(event.pointerId);
+
     if (pointers.size > 1) return;
 
-    svg.setPointerCapture(event.pointerId);
+    if (isTouch && !options.enablePanDrag && !options.enableEntityDrag) return;
+
     state.capturedPointerId = event.pointerId;
     state.dragMode = 'pending';
     state.btn = event.button;
@@ -149,13 +152,11 @@ export function attachHandlers(
   function onPointerUp(e: PointerEvent) {
     const wasPinching = pointers.size >= 2;
     pointers.delete(e.pointerId);
+    svg.releasePointerCapture(e.pointerId);
 
     if (state.dragMode === 'idle') return;
-
-    if (state.capturedPointerId === e.pointerId) {
-      svg.releasePointerCapture(e.pointerId);
-      state.capturedPointerId = -1;
-    }
+    if (state.capturedPointerId !== e.pointerId) return;
+    state.capturedPointerId = -1;
 
     const up = getCursor(e);
     const dx = up.x - state.downPos.x;
@@ -190,9 +191,9 @@ export function attachHandlers(
 
   function onPointerCancel(e: PointerEvent) {
     pointers.delete(e.pointerId);
+    svg.releasePointerCapture(e.pointerId);
     if (state.dragMode !== 'idle') {
       if (state.capturedPointerId === e.pointerId) {
-        svg.releasePointerCapture(e.pointerId);
         state.capturedPointerId = -1;
       }
       state.dragMode = 'idle';

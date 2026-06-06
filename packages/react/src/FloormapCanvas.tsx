@@ -15,6 +15,8 @@ import { SelectionOverlay } from './internal/SelectionOverlay';
 import { useSelection } from './hooks/useSelection';
 import type { GridOptions, SelectionOverlayStyle } from './types';
 
+const DEFAULT_SELECTION_OVERLAY: SelectionOverlayStyle = {};
+
 export interface FloormapCanvasProps {
   core: FloormapCore;
   drawEntity: (entity: Entity, ctx: { selected: boolean }) => ReactNode;
@@ -44,7 +46,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
   core,
   drawEntity,
   grid = false,
-  selectionOverlay = {},
+  selectionOverlay = DEFAULT_SELECTION_OVERLAY,
   enableWheel = true,
   enablePanDrag = true,
   enableEntityDrag = true,
