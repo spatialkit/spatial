@@ -5,7 +5,7 @@
 Floormap is a zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts, warehouse maps). It exposes low-level primitives for pan/zoom/selection/picking and ships pluggable renderers.
 
 **Repo:** `github.com/floormap-tools/floormap`  
-**Status:** v0.0.0 — core stable, SVG renderer complete, React adapter not yet started
+**Status:** v0.0.0 — core stable, SVG renderer complete, React adapter in progress
 
 > Detailed per-package guides: [`packages/core/CLAUDE.md`](packages/core/CLAUDE.md) · [`packages/svg/CLAUDE.md`](packages/svg/CLAUDE.md)
 
@@ -15,11 +15,17 @@ Floormap is a zero-dependency TypeScript toolkit for building interactive 2D edi
 
 ```
 packages/
-  core/   @floormap/core    — scene engine, viewport, selection, events, picking
-  svg/    @floormap/svg     — SVG renderer + DOM event handlers
+  core/             @floormap/core   — scene engine, viewport, selection, events, picking
+  svg/              @floormap/svg    — SVG renderer + DOM event handlers
+  adapters/
+    react/          @floormap/react  — React adapter (hooks + FloormapCanvas component)
+  examples/
+    js-vanilla/     vanilla JS example
+    react/          React example
 ```
 
-Both packages ship dual ESM + CJS builds via tsup. No production dependencies.
+Core and SVG packages ship dual ESM + CJS builds via tsup. No production dependencies.  
+Adapters live under `packages/adapters/` — add new framework adapters (e.g. `vue/`) there.
 
 ---
 

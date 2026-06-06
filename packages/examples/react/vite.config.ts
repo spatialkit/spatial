@@ -10,7 +10,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@floormap/core': resolve(__dirname, '../../core/src/index.ts'),
-      '@floormap/react': resolve(__dirname, '../../react/src/index.ts'),
+      '@floormap/react': resolve(__dirname, '../../adapters/react/src/index.ts'),
     },
   },
 });
