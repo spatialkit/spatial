@@ -77,7 +77,7 @@ describe('FloormapCanvas', () => {
 
   it('re-renders with selected=true when entity is selected', () => {
     const core = makeCore();
-    const drawEntity = vi.fn((_e: Entity) => null);
+    const drawEntity = vi.fn((_e: Entity, _ctx: { selected: boolean }) => null);
     render(<FloormapCanvas core={core} drawEntity={drawEntity} />);
 
     act(() => {

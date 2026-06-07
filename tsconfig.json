@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@floormap/core": ["./packages/core/src/index.ts"],
+      "@floormap/svg": ["./packages/svg/src/index.ts"],
+      "@floormap/react": ["./packages/adapters/react/src/index.ts"]
+    }
+  },
+  "include": [
+    "packages/core/src/**/*",
+    "packages/svg/src/**/*",
+    "packages/adapters/react/src/**/*"
+  ]
+}
