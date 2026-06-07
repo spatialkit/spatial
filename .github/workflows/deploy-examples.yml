@@ -1,0 +1,86 @@
+name: Deploy Examples
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build vanilla example
+        run: pnpm -C packages/examples/js-vanilla run build -- --base=/floormap/vanilla/
+
+      - name: Build react example
+        run: pnpm -C packages/examples/react run build -- --base=/floormap/react/
+
+      - name: Assemble pages
+        run: |
+          mkdir -p pages/vanilla pages/react
+          cp -r packages/examples/js-vanilla/dist/. pages/vanilla/
+          cp -r packages/examples/react/dist/. pages/react/
+          cat > pages/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <title>Floormap — Examples</title>
+            <style>
+              body { font-family: sans-serif; max-width: 480px; margin: 80px auto; padding: 0 24px; }
+              h1 { font-size: 1.5rem; margin-bottom: 8px; }
+              p  { color: #555; margin-bottom: 32px; }
+              a  { display: block; padding: 14px 20px; border: 1px solid #e5e7eb;
+                   border-radius: 8px; text-decoration: none; color: #111;
+                   margin-bottom: 12px; }
+              a:hover { background: #f9fafb; }
+              a span { display: block; font-size: 0.85rem; color: #888; margin-top: 2px; }
+            </style>
+          </head>
+          <body>
+            <h1>Floormap</h1>
+            <p>Interactive 2D editor toolkit — live examples</p>
+            <a href="vanilla/">
+              Vanilla JS
+              <span>@floormap/core + @floormap/svg</span>
+            </a>
+            <a href="react/">
+              React
+              <span>@floormap/core + @floormap/react</span>
+            </a>
+          </body>
+          </html>
+          EOF
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
