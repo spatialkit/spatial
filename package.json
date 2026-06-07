@@ -9,6 +9,7 @@
   "scripts": {
     "build": "pnpm -r --filter \"./packages/core\" --filter \"./packages/svg\" --filter \"./packages/adapters/*\" run build",
     "dev": "pnpm -C packages/examples/js-vanilla dev",
+    "dev:react": "pnpm -C packages/examples/react dev",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest --w",

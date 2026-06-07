@@ -124,7 +124,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
   }, [entities]);
 
   return (
-    <svg ref={svgRef} className={className} style={{ display: 'block', ...style }}>
+    <svg ref={svgRef} className={className} style={{ display: 'block', touchAction: 'none', ...style }}>
       <g data-fm="viewport" ref={viewportGRef}>
         {grid !== false && <GridLayer core={core} options={grid} />}
         <g data-fm="objects">
