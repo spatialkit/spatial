@@ -4,18 +4,12 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
     steps:
       - uses: actions/checkout@v4
 
@@ -29,10 +23,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Build vanilla example
-        run: pnpm -C packages/examples/js-vanilla run build -- --base=/floormap/vanilla/
+        run: pnpm -C packages/examples/js-vanilla run build -- --base=/vanilla/
 
       - name: Build react example
-        run: pnpm -C packages/examples/react run build -- --base=/floormap/react/
+        run: pnpm -C packages/examples/react run build -- --base=/react/
 
       - name: Assemble pages
         run: |
@@ -71,16 +65,10 @@ jobs:
           </html>
           EOF
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: cloudflare/pages-action@v1
         with:
-          path: pages
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/deploy-pages@v4
-        id: deployment
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: floormap-examples
+          directory: pages
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
