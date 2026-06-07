@@ -231,7 +231,7 @@ export function App() {
             </div>
           </div>
 
-          <div className="panel-section">
+          <div className="panel-section panel-section--keyboard">
             <div className="panel-label">Keyboard</div>
             <div className="shortcuts">
               <div className="shortcut"><kbd>Scroll</kbd> Zoom</div>
