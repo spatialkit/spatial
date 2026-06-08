@@ -1,0 +1,2 @@
+name = "floormap-examples"
+pages_build_output_dir = "packages/examples/react/dist"
