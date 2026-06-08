@@ -1,0 +1,5 @@
+name = "floormap"
+compatibility_date = "2026-06-08"
+
+[assets]
+directory = "./packages/examples/react/dist"
