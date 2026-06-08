@@ -1,2 +1,5 @@
-name = "floormap-examples"
-pages_build_output_dir = "packages/examples/react/dist"
+name = "floormap"
+compatibility_date = "2026-06-08"
+
+[assets]
+directory = "./packages/examples/react/dist"
