@@ -65,10 +65,8 @@ jobs:
           </html>
           EOF
 
-      - uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --assets=./pages
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          packageManager: pnpm
+      - name: Deploy to Cloudflare
+        run: pnpm dlx wrangler deploy --assets=./pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
