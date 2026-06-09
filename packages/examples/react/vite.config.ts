@@ -5,12 +5,13 @@ import { fileURLToPath } from 'url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react()],
+  base: command === 'build' ? '/react/' : '/',
   resolve: {
     alias: {
       '@floormap/core': resolve(__dirname, '../../core/src/index.ts'),
       '@floormap/react': resolve(__dirname, '../../adapters/react/src/index.ts'),
     },
   },
-});
+}));
