@@ -71,4 +71,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --assets=./pages
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          packageManager: npm
+          packageManager: pnpm
