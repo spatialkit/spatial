@@ -87,6 +87,37 @@ describe("createCore", () => {
       expect(handler).toHaveBeenCalledWith({ type: "remove", ids: ["entity-1"] });
     });
 
+    it("should update many entities and emit a single event with all ids", () => {
+      const core = createCore({ scene, viewport });
+      const e1: Entity = { id: "e1" as EntityId, layer: "L" as LayerId, bounds: { x: 0, y: 0, width: 10, height: 10 } };
+      const e2: Entity = { id: "e2" as EntityId, layer: "L" as LayerId, bounds: { x: 10, y: 0, width: 10, height: 10 } };
+      core.add(e1);
+      core.add(e2);
+
+      const handler = vi.fn();
+      core.on("entities:changed", handler);
+
+      core.updateMany([
+        { id: "e1" as EntityId, patch: { bounds: { x: 5, y: 5, width: 10, height: 10 } } },
+        { id: "e2" as EntityId, patch: { bounds: { x: 15, y: 5, width: 10, height: 10 } } },
+      ]);
+
+      expect(scene.entities.get("e1" as EntityId)!.bounds.x).toBe(5);
+      expect(scene.entities.get("e2" as EntityId)!.bounds.x).toBe(15);
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(handler).toHaveBeenCalledWith({ type: "update", ids: ["e1", "e2"] });
+    });
+
+    it("should emit no event when updateMany receives an empty array", () => {
+      const core = createCore({ scene, viewport });
+      const handler = vi.fn();
+      core.on("entities:changed", handler);
+
+      core.updateMany([]);
+
+      expect(handler).not.toHaveBeenCalled();
+    });
+
     it("should remove entity from selection when removed", () => {
       const core = createCore({ scene, viewport });
       const entity: Entity = {

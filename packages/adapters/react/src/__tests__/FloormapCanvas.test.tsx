@@ -127,6 +127,39 @@ describe('FloormapCanvas', () => {
     expect(container.querySelector("g[data-fm='selection'] rect")).toBeTruthy();
   });
 
+  it('entity drag moves entity in world space', () => {
+    const core = makeCore();
+    const { container } = render(<FloormapCanvas core={core} drawEntity={() => null} />);
+    const svg = makeSvgStubs(container);
+
+    act(() => {
+      svg.dispatchEvent(new PointerEvent('pointerdown', { button: 0, clientX: 150, clientY: 150, bubbles: true }));
+      svg.dispatchEvent(new PointerEvent('pointermove', { button: 0, clientX: 200, clientY: 180, bubbles: true }));
+      svg.dispatchEvent(new PointerEvent('pointerup',   { button: 0, clientX: 200, clientY: 180, bubbles: true }));
+    });
+
+    const e1 = core.scene.entities.get('e1' as EntityId)!;
+    expect(e1.bounds.x).toBeCloseTo(150);
+    expect(e1.bounds.y).toBeCloseTo(130);
+  });
+
+  it('enableEntityDrag: false disables entity movement', () => {
+    const core = makeCore();
+    const { container } = render(
+      <FloormapCanvas core={core} drawEntity={() => null} enableEntityDrag={false} />,
+    );
+    const svg = makeSvgStubs(container);
+
+    act(() => {
+      svg.dispatchEvent(new PointerEvent('pointerdown', { button: 0, clientX: 150, clientY: 150, bubbles: true }));
+      svg.dispatchEvent(new PointerEvent('pointermove', { button: 0, clientX: 200, clientY: 200, bubbles: true }));
+      svg.dispatchEvent(new PointerEvent('pointerup',   { button: 0, clientX: 200, clientY: 200, bubbles: true }));
+    });
+
+    const e1 = core.scene.entities.get('e1' as EntityId)!;
+    expect(e1.bounds.x).toBe(100);
+  });
+
   it('click on entity selects it via clickSelect', () => {
     const core = makeCore();
     const { container } = render(

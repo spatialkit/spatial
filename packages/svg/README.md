@@ -77,6 +77,7 @@ interface SvgRenderer {
 | `enableWheel` | `boolean` | `true` | Wheel-to-zoom |
 | `wheelZoomFactor` | `number` | `0.0015` | Wheel sensitivity. Delta passed to core = `-deltaY × factor` |
 | `enablePanDrag` | `boolean` | `true` | Pointer drag-to-pan (applies to mouse; touch always tracks for pinch) |
+| `enableEntityDrag` | `boolean` | `true` | Click-drag on an entity to move it in world space. Dragging a selected entity moves all selected entities together |
 | `dragButton` | `0 \| 1 \| 2` | `0` | Mouse button that triggers drag pan (0 = left, 1 = middle, 2 = right) |
 | `pinchZoomFactor` | `number` | `0.005` | Pinch sensitivity. Delta = `distanceDiff × factor` |
 | `clickSelect` | `boolean` | `true` | Click on an entity to select it via `core.hitTest` |

@@ -168,6 +168,12 @@ core.update(id: EntityId, patch: Partial<Entity>): void
 Merges `patch` into the existing entity. The `id` field in `patch` is ignored — the entity id is immutable. No-op if the entity does not exist.
 
 ```ts
+core.updateMany(patches: { id: EntityId; patch: Partial<Entity> }[]): void
+```
+
+Applies multiple patches in a single call and emits one `"entities:changed"` event with all updated ids. Equivalent to calling `update` in a loop but more efficient — use it when moving a group of selected entities together.
+
+```ts
 core.remove(id: EntityId): void
 ```
 
