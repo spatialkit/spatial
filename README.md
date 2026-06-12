@@ -19,9 +19,9 @@ Floormap provides the low-level engine for pan/zoom, selection, hit testing, and
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| [`@floormap/core`](packages/core) | 0.0.0 | Scene engine, viewport, event bus, picking, selection |
-| [`@floormap/svg`](packages/svg) | 0.0.0 | SVG renderer + DOM event handlers |
-| [`@floormap/react`](packages/adapters/react) | 0.0.0 | React adapter — hooks and `FloormapCanvas` component |
+| [`@floormap/core`](packages/core) | 0.1.0 | Scene engine, viewport, event bus, picking, selection |
+| [`@floormap/svg`](packages/svg) | 0.1.0 | SVG renderer + DOM event handlers |
+| [`@floormap/react`](packages/adapters/react) | 0.1.0 | React adapter — hooks and `FloormapCanvas` component |
 
 ---
 
