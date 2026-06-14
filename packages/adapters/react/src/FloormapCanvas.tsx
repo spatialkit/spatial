@@ -6,7 +6,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
-import type { Entity, EntityId, FloormapCore, LayerId } from '@floormap/core';
+import type { Entity, EntityId, FloormapCore, LayerId } from '@floormap-tools/core';
 import { attachHandlers } from './internal/attachHandlers';
 import { useEntities } from './internal/useEntities';
 import { useViewportTransform } from './internal/useViewportTransform';

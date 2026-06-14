@@ -1,5 +1,5 @@
 {
-  "name": "@floormap/example-react",
+  "name": "@floormap-tools/example-react",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@floormap/core": "workspace:*",
-    "@floormap/react": "workspace:*",
+    "@floormap-tools/core": "workspace:*",
+    "@floormap-tools/react": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

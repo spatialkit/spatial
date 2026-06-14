@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef } from 'react';
-import type { FloormapCore, Viewport } from '@floormap/core';
+import type { FloormapCore, Viewport } from '@floormap-tools/core';
 import type { GridOptions } from '../types';
 
 interface GridLayerProps {

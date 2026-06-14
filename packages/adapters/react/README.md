@@ -1,13 +1,13 @@
-# @floormap/react
+# @floormap-tools/react
 
-React adapter for [`@floormap/core`](../../core). Provides a drop-in `<FloormapCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
+React adapter for [`@floormap-tools/core`](../../core). Provides a drop-in `<FloormapCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
 
 ## Installation
 
 ```bash
-npm install @floormap/core @floormap/react
+npm install @floormap-tools/core @floormap-tools/react
 # or
-pnpm add @floormap/core @floormap/react
+pnpm add @floormap-tools/core @floormap-tools/react
 ```
 
 React 18 is required as a peer dependency.
@@ -16,15 +16,15 @@ React 18 is required as a peer dependency.
 
 ```tsx
 import { useCallback, useEffect } from 'react';
-import { createEmptyScene } from '@floormap/core';
-import type { Entity, EntityId, LayerId } from '@floormap/core';
-import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap/react';
+import { createEmptyScene } from '@floormap-tools/core';
+import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
+import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap-tools/react';
 
 const LAYER = 'main' as LayerId;
 
 const initialScene = (() => {
   const scene = createEmptyScene({ width: 1200, height: 800 }, [LAYER]);
-  // addEntity is a store helper — import from @floormap/core if needed,
+  // addEntity is a store helper — import from @floormap-tools/core if needed,
   // or use core.add() after the core is created.
   return scene;
 })();

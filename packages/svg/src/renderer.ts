@@ -1,4 +1,4 @@
-import type { FloormapCore, Entity, LayerId } from '@floormap/core';
+import type { FloormapCore, Entity, LayerId } from '@floormap-tools/core';
 import type { SvgRenderer, SvgRendererOptions } from './index';
 import { setupSvgRoot, getGroups, clearChildren } from './dom';
 import { attachHandlers } from './handlers';

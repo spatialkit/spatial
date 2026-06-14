@@ -1,5 +1,5 @@
 import { type RefObject, useEffect } from 'react';
-import type { FloormapCore } from '@floormap/core';
+import type { FloormapCore } from '@floormap-tools/core';
 
 export function useViewportTransform(
   core: FloormapCore,

@@ -10,8 +10,8 @@ export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/react/' : '/',
   resolve: {
     alias: {
-      '@floormap/core': resolve(__dirname, '../../core/src/index.ts'),
-      '@floormap/react': resolve(__dirname, '../../adapters/react/src/index.ts'),
+      '@floormap-tools/core': resolve(__dirname, '../../core/src/index.ts'),
+      '@floormap-tools/react': resolve(__dirname, '../../adapters/react/src/index.ts'),
     },
   },
 }));

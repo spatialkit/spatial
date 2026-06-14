@@ -1,5 +1,5 @@
 {
-  "name": "@floormap/svg",
+  "name": "@floormap-tools/svg",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -26,11 +26,11 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@floormap/core": "workspace:*",
+    "@floormap-tools/core": "workspace:*",
     "jsdom": "^27.2.0",
     "vitest": "^2.0.0"
   },
   "peerDependencies": {
-    "@floormap/core": "0.x"
+    "@floormap-tools/core": "0.x"
   }
 }

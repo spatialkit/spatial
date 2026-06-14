@@ -8,8 +8,8 @@ export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/vanilla/' : '/',
   resolve: {
     alias: {
-      '@floormap/core': resolve(__dirname, '../../core/src/index.ts'),
-      '@floormap/svg': resolve(__dirname, '../../svg/src/index.ts'),
+      '@floormap-tools/core': resolve(__dirname, '../../core/src/index.ts'),
+      '@floormap-tools/svg': resolve(__dirname, '../../svg/src/index.ts'),
     },
   },
 }));

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@floormap/core';
+import { createCore } from '@floormap-tools/core';
 
 function makesvg() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGSVGElement;

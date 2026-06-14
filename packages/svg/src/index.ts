@@ -1,4 +1,4 @@
-import type { Entity, EntityId } from '@floormap/core';
+import type { Entity, EntityId } from '@floormap-tools/core';
 import type { SelectionOverlayStyle } from './selection-overlay';
 import type { GridOptions } from './grid';
 
