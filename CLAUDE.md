@@ -15,10 +15,10 @@ Floormap is a zero-dependency TypeScript toolkit for building interactive 2D edi
 
 ```
 packages/
-  core/             @floormap/core   — scene engine, viewport, selection, events, picking
-  svg/              @floormap/svg    — SVG renderer + DOM event handlers
+  core/             @floormap-tools/core   — scene engine, viewport, selection, events, picking
+  svg/              @floormap-tools/svg    — SVG renderer + DOM event handlers
   adapters/
-    react/          @floormap/react  — React adapter (hooks + FloormapCanvas component)
+    react/          @floormap-tools/react  — React adapter (hooks + FloormapCanvas component)
   examples/
     js-vanilla/     vanilla JS example
     react/          React example
@@ -47,7 +47,7 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 
 ## Architecture
 
-### @floormap/core
+### @floormap-tools/core
 
 | Module | Responsibility |
 |--------|---------------|
@@ -71,7 +71,7 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 - `zoomAt` delta is multiplicative: `0.1` = +10%, `−0.1` = −10%
 - `panBy` takes screen-space delta; positive `x` shifts content left (pan moves right in world)
 
-### @floormap/svg
+### @floormap-tools/svg
 
 | Module | Responsibility |
 |--------|---------------|
@@ -142,8 +142,8 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 
 ## What NOT to do
 
-- Do not add production dependencies to `@floormap/core` or `@floormap/svg`.
+- Do not add production dependencies to `@floormap-tools/core` or `@floormap-tools/svg`.
 - Do not bypass branded types with plain strings.
 - Do not mutate `Set` objects returned by `applySelection`.
-- Do not add framework-specific code to `@floormap/core` (keep it agnostic).
+- Do not add framework-specific code to `@floormap-tools/core` (keep it agnostic).
 - Do not skip typecheck — the build uses project references.

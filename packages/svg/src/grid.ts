@@ -1,4 +1,4 @@
-import type { FloormapCore } from '@floormap/core';
+import type { FloormapCore } from '@floormap-tools/core';
 import { clearChildren } from './dom';
 
 export type GridOptions = {

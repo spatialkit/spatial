@@ -1,5 +1,5 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
-import type { EntityId, FloormapCore } from '@floormap/core';
+import type { EntityId, FloormapCore } from '@floormap-tools/core';
 
 export function useSelection(core: FloormapCore): ReadonlySet<EntityId> {
   const snapshotRef = useRef<ReadonlySet<EntityId>>(new Set(core.selection));

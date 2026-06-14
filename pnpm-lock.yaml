@@ -44,7 +44,7 @@ importers:
 
   packages/adapters/react:
     devDependencies:
-      '@floormap/core':
+      '@floormap-tools/core':
         specifier: workspace:*
         version: link:../../core
       '@testing-library/react':
@@ -77,10 +77,10 @@ importers:
 
   packages/examples/js-vanilla:
     dependencies:
-      '@floormap/core':
+      '@floormap-tools/core':
         specifier: workspace:*
         version: link:../../core
-      '@floormap/svg':
+      '@floormap-tools/svg':
         specifier: workspace:*
         version: link:../../svg
     devDependencies:
@@ -90,10 +90,10 @@ importers:
 
   packages/examples/react:
     dependencies:
-      '@floormap/core':
+      '@floormap-tools/core':
         specifier: workspace:*
         version: link:../../core
-      '@floormap/react':
+      '@floormap-tools/react':
         specifier: workspace:*
         version: link:../../adapters/react
       react:
@@ -118,7 +118,7 @@ importers:
 
   packages/svg:
     devDependencies:
-      '@floormap/core':
+      '@floormap-tools/core':
         specifier: workspace:*
         version: link:../core
       jsdom:

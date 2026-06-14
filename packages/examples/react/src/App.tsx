@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap/react';
-import { addEntity, createEmptyScene } from '@floormap/core';
-import type { Entity, EntityId, LayerId } from '@floormap/core';
+import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap-tools/react';
+import { addEntity, createEmptyScene } from '@floormap-tools/core';
+import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 

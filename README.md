@@ -19,9 +19,9 @@ Floormap provides the low-level engine for pan/zoom, selection, hit testing, and
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| [`@floormap/core`](packages/core) | 0.1.0 | Scene engine, viewport, event bus, picking, selection |
-| [`@floormap/svg`](packages/svg) | 0.1.0 | SVG renderer + DOM event handlers |
-| [`@floormap/react`](packages/adapters/react) | 0.1.0 | React adapter — hooks and `FloormapCanvas` component |
+| [`@floormap-tools/core`](packages/core) | 0.1.0 | Scene engine, viewport, event bus, picking, selection |
+| [`@floormap-tools/svg`](packages/svg) | 0.1.0 | SVG renderer + DOM event handlers |
+| [`@floormap-tools/react`](packages/adapters/react) | 0.1.0 | React adapter — hooks and `FloormapCanvas` component |
 
 ---
 
@@ -30,13 +30,13 @@ Floormap provides the low-level engine for pan/zoom, selection, hit testing, and
 **Vanilla JS / framework-agnostic:**
 
 ```bash
-npm install @floormap/core @floormap/svg
+npm install @floormap-tools/core @floormap-tools/svg
 ```
 
 **React:**
 
 ```bash
-npm install @floormap/core @floormap/react
+npm install @floormap-tools/core @floormap-tools/react
 ```
 
 All packages ship dual **ESM + CJS** builds with full TypeScript declarations.
@@ -47,14 +47,14 @@ All packages ship dual **ESM + CJS** builds with full TypeScript declarations.
 
 ```tsx
 import { useCallback, useEffect } from 'react';
-import { createEmptyScene, addEntity } from '@floormap/core';
-import type { Entity, EntityId, LayerId } from '@floormap/core';
+import { createEmptyScene, addEntity } from '@floormap-tools/core';
+import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
 import {
   FloormapCanvas,
   useFloormapCore,
   useSelection,
   useViewport,
-} from '@floormap/react';
+} from '@floormap-tools/react';
 
 const LAYER = 'main' as LayerId;
 
@@ -208,9 +208,9 @@ useCoreEvent(core, 'entities:changed', ({ type, ids }) => {
 ## Quick start — Vanilla JS
 
 ```ts
-import { createCore, createEmptyScene } from '@floormap/core';
-import { mountSvgRenderer } from '@floormap/svg';
-import type { EntityId, LayerId } from '@floormap/core';
+import { createCore, createEmptyScene } from '@floormap-tools/core';
+import { mountSvgRenderer } from '@floormap-tools/svg';
+import type { EntityId, LayerId } from '@floormap-tools/core';
 
 // 1. Define layers (bottom → top z-order)
 const LAYERS = {
@@ -290,7 +290,7 @@ renderer.destroy();
 - `fitToBounds`, `fitToScene`, `centerOn` for programmatic camera control
 - Precise coordinate transforms: `worldToScreen` / `screenToWorld`
 
-**Interaction** (via `@floormap/svg` or `@floormap/react`)
+**Interaction** (via `@floormap-tools/svg` or `@floormap-tools/react`)
 - Mouse wheel zoom (configurable sensitivity)
 - Pointer drag-to-pan
 - Pinch-to-zoom on touch and pen devices
@@ -298,13 +298,13 @@ renderer.destroy();
 - Multi-select: Shift (add), Ctrl/Meta (toggle)
 - Drag-to-move selected entities
 
-**Rendering** (via `@floormap/svg` or `@floormap/react`)
+**Rendering** (via `@floormap-tools/svg` or `@floormap-tools/react`)
 - Bring-your-own-drawEntity callback — full SVG freedom
 - World-aligned background grid that stays crisp at any zoom
 - Built-in selection highlight overlay with customisable style
 - Automatic repaints on viewport, entity, and selection changes
 
-**React adapter** (`@floormap/react`)
+**React adapter** (`@floormap-tools/react`)
 - `FloormapCanvas` component — drop in an SVG canvas with zero boilerplate
 - `useFloormapCore` — lazy engine initialisation, stable across re-renders
 - `useSelection` / `useViewport` — fine-grained reactive subscriptions via `useSyncExternalStore`
@@ -327,14 +327,14 @@ renderer.destroy();
   └────────────────┬────────────────────────┘
                    │  FloormapCore API
        ┌───────────▼────────────┐
-       │     @floormap/core     │
+       │     @floormap-tools/core     │
        │  scene · viewport      │
        │  events · picking      │
        │  selection · store     │
        └─────────┬──────────────┘
                  │  subscribes to events
        ┌─────────┴──────────────┬──────────────────────┐
-       │     @floormap/svg      │   @floormap/react     │
+       │     @floormap-tools/svg      │   @floormap-tools/react     │
        │  DOM setup · renderer  │  FloormapCanvas       │
        │  handlers · grid       │  useFloormapCore      │
        │  selection overlay     │  useSelection         │
@@ -343,7 +343,7 @@ renderer.destroy();
                                    └────────────────────┘
 ```
 
-`@floormap/core` is fully framework-agnostic — no DOM, no browser APIs. `@floormap/svg` and `@floormap/react` are independent renderer/adapter layers that connect core to the browser. Use whichever fits your stack.
+`@floormap-tools/core` is fully framework-agnostic — no DOM, no browser APIs. `@floormap-tools/svg` and `@floormap-tools/react` are independent renderer/adapter layers that connect core to the browser. Use whichever fits your stack.
 
 ---
 
@@ -397,7 +397,7 @@ If you find a bug or want to suggest an improvement, please open an **issue**.
 For pull requests:
 - Keep the PR focused on a single change or feature
 - Run `pnpm typecheck && pnpm test && pnpm lint` before submitting
-- Do not add production dependencies to `@floormap/core`, `@floormap/svg`, or `@floormap/react`
+- Do not add production dependencies to `@floormap-tools/core`, `@floormap-tools/svg`, or `@floormap-tools/react`
 
 ---
 

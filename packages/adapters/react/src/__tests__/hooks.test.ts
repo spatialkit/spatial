@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { createCore, createEmptyScene } from '@floormap/core';
-import type { EntityId, LayerId } from '@floormap/core';
+import { createCore, createEmptyScene } from '@floormap-tools/core';
+import type { EntityId, LayerId } from '@floormap-tools/core';
 import { useFloormapCore, useSelection, useViewport } from '../index';
 
 function makeCore() {

@@ -1,9 +1,9 @@
-import { createCore, createEmptyScene } from '@floormap/core';
+import { createCore, createEmptyScene } from '@floormap-tools/core';
 
 document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
 document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
-import { mountSvgRenderer } from '@floormap/svg';
-import type { EntityId, LayerId } from '@floormap/core';
+import { mountSvgRenderer } from '@floormap-tools/svg';
+import type { EntityId, LayerId } from '@floormap-tools/core';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

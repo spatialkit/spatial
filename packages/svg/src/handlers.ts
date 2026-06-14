@@ -1,5 +1,5 @@
-import { FloormapCore, EntityId } from '@floormap/core';
-import type { Bounds } from '@floormap/core';
+import { FloormapCore, EntityId } from '@floormap-tools/core';
+import type { Bounds } from '@floormap-tools/core';
 
 type AttachHandlersOptions = {
   enableWheel: boolean;

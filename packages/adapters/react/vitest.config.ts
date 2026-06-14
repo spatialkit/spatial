@@ -7,7 +7,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   resolve: {
     alias: {
-      '@floormap/core': resolve(__dirname, '../../core/src/index.ts'),
+      '@floormap-tools/core': resolve(__dirname, '../../core/src/index.ts'),
     },
   },
   test: {

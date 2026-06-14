@@ -1,21 +1,21 @@
-# @floormap/svg
+# @floormap-tools/svg
 
-SVG renderer and DOM event handlers for [`@floormap/core`](../core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, and a selection highlight overlay.
+SVG renderer and DOM event handlers for [`@floormap-tools/core`](../core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, and a selection highlight overlay.
 
 ## Installation
 
 ```bash
-npm install @floormap/core @floormap/svg
+npm install @floormap-tools/core @floormap-tools/svg
 # or
-pnpm add @floormap/core @floormap/svg
+pnpm add @floormap-tools/core @floormap-tools/svg
 ```
 
 ## Quick start
 
 ```ts
-import { createCore, createEmptyScene } from '@floormap/core';
-import { mountSvgRenderer } from '@floormap/svg';
-import type { EntityId, LayerId } from '@floormap/core';
+import { createCore, createEmptyScene } from '@floormap-tools/core';
+import { mountSvgRenderer } from '@floormap-tools/svg';
+import type { EntityId, LayerId } from '@floormap-tools/core';
 
 const core = createCore({
   scene: createEmptyScene({ width: 2000, height: 1500 }, ['layer' as LayerId]),

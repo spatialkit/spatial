@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { FloormapCore } from '@floormap/core';
+import type { FloormapCore } from '@floormap-tools/core';
 
 export function useCoreEvent<T = unknown>(
   core: FloormapCore,

@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { render, act } from '@testing-library/react';
-import { createCore, createEmptyScene } from '@floormap/core';
-import type { Entity, EntityId, LayerId } from '@floormap/core';
+import { createCore, createEmptyScene } from '@floormap-tools/core';
+import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
 import { FloormapCanvas } from '../FloormapCanvas';
 
 beforeAll(() => {

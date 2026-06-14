@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import { createCore } from '@floormap/core';
-import type { FloormapCore, Scene, Viewport } from '@floormap/core';
+import { createCore } from '@floormap-tools/core';
+import type { FloormapCore, Scene, Viewport } from '@floormap-tools/core';
 
 export interface FloormapCoreOptions {
   scene: Scene;

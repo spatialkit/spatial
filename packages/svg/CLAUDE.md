@@ -1,13 +1,13 @@
-# @floormap/svg — Claude Code Guide
+# @floormap-tools/svg — Claude Code Guide
 
-SVG renderer and DOM event handlers for `@floormap/core`. Subscribes to core events and paints the scene into an `<svg>` element. No production dependencies.
+SVG renderer and DOM event handlers for `@floormap-tools/core`. Subscribes to core events and paints the scene into an `<svg>` element. No production dependencies.
 
 ---
 
 ## Entry point
 
 ```ts
-import { mountSvgRenderer } from '@floormap/svg';
+import { mountSvgRenderer } from '@floormap-tools/svg';
 
 const renderer = mountSvgRenderer(core, {
   mount: svgElement,
@@ -190,7 +190,7 @@ All SVG tests require jsdom. Use the `// @vitest-environment jsdom` pragma at th
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@floormap/core';
+import { createCore } from '@floormap-tools/core';
 ```
 
 **Required stubs** (jsdom doesn't implement these):

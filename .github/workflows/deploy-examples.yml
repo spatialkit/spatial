@@ -55,11 +55,11 @@ jobs:
             <p>Interactive 2D editor toolkit — live examples</p>
             <a href="vanilla/">
               Vanilla JS
-              <span>@floormap/core + @floormap/svg</span>
+              <span>@floormap-tools/core + @floormap-tools/svg</span>
             </a>
             <a href="react/">
               React
-              <span>@floormap/core + @floormap/react</span>
+              <span>@floormap-tools/core + @floormap-tools/react</span>
             </a>
           </body>
           </html>

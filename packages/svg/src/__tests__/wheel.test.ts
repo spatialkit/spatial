@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@floormap/core';
+import { createCore } from '@floormap-tools/core';
 
 function stubRect(svg: SVGSVGElement) {
   (svg as any).getBoundingClientRect = () => ({
