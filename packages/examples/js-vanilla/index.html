@@ -15,6 +15,12 @@
           <button id="btn-fit" title="Fit all entities into view">Fit to scene</button>
           <button id="btn-add-desk" title="Add a new desk to the open space">Add desk</button>
           <button id="btn-delete" title="Delete selected entities (Del)">Delete selected</button>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer">
+            <input type="checkbox" id="snap-toggle" title="Snap entities to grid when dragging" />
+            Snap to grid
+          </label>
+          <input type="number" id="snap-size" value="40" min="5" max="200" step="5"
+            title="Grid size in world units" style="width:52px;font-size:13px;display:none" />
         </div>
         <div id="zoom-display">100%</div>
       </header>

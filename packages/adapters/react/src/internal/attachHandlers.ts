@@ -1,3 +1,4 @@
+import { snapToGrid } from '@floormap-tools/core';
 import type { FloormapCore, EntityId, Bounds } from '@floormap-tools/core';
 
 export type AttachHandlersOptions = {
@@ -11,6 +12,7 @@ export type AttachHandlersOptions = {
   onClickEntity?: (id: EntityId) => void;
   modifierSelect: boolean;
   pinchZoomFactor: number;
+  snapToGrid?: number;
 };
 
 export function attachHandlers(
@@ -123,12 +125,14 @@ export function attachHandlers(
       };
       const patches = [];
       for (const [id, snap] of state.entitySnapshots) {
+        const rawX = snap.x + worldDelta.x;
+        const rawY = snap.y + worldDelta.y;
         patches.push({
           id,
           patch: {
             bounds: {
-              x: snap.x + worldDelta.x,
-              y: snap.y + worldDelta.y,
+              x: options.snapToGrid ? snapToGrid(rawX, options.snapToGrid) : rawX,
+              y: options.snapToGrid ? snapToGrid(rawY, options.snapToGrid) : rawY,
               width: snap.width,
               height: snap.height,
             },

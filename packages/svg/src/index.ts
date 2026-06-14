@@ -25,6 +25,8 @@ export interface SvgRendererOptions {
   grid?: GridOptions | false;
   /** Remove SVG groups from DOM on destroy(). Default: true */
   clearOnDestroy?: boolean;
+  /** Grid size in world units for snap-to-grid when dragging entities. Disabled when absent. */
+  snapToGrid?: number;
 }
 
 export interface SvgRenderer {

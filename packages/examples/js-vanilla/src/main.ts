@@ -79,66 +79,77 @@ for (let row = 0; row < DESK_GRID.rows; row++) {
 
 const NS = 'http://www.w3.org/2000/svg';
 
-mountSvgRenderer(core, {
-  mount: svgEl,
-  grid: { size: 40, stroke: '#f1f5f9', strokeWidth: 1 },
-  selectionOverlay: false,
+import type { Entity } from '@floormap-tools/core';
 
-  drawEntity(entity, { g, selected }) {
-    const data = entity.data as EntityData;
-    const { x, y, width, height } = entity.bounds;
+function drawEntity(entity: Entity, { g, selected }: { g: SVGGElement; selected: boolean }) {
+  const data = entity.data as EntityData;
+  const { x, y, width, height } = entity.bounds;
 
-    if (data.kind === 'room') {
-      const rect = document.createElementNS(NS, 'rect');
-      rect.setAttribute('x', String(x));
-      rect.setAttribute('y', String(y));
-      rect.setAttribute('width', String(width));
-      rect.setAttribute('height', String(height));
-      rect.setAttribute('fill', selected ? '#bfdbfe' : data.fill);
-      rect.setAttribute('stroke', '#cbd5e1');
-      rect.setAttribute('stroke-width', '1.5');
-      rect.setAttribute('rx', '4');
-      g.appendChild(rect);
+  if (data.kind === 'room') {
+    const rect = document.createElementNS(NS, 'rect');
+    rect.setAttribute('x', String(x));
+    rect.setAttribute('y', String(y));
+    rect.setAttribute('width', String(width));
+    rect.setAttribute('height', String(height));
+    rect.setAttribute('fill', selected ? '#bfdbfe' : data.fill);
+    rect.setAttribute('stroke', '#cbd5e1');
+    rect.setAttribute('stroke-width', '1.5');
+    rect.setAttribute('rx', '4');
+    g.appendChild(rect);
 
-      const text = document.createElementNS(NS, 'text');
-      text.setAttribute('x', String(x + width / 2));
-      text.setAttribute('y', String(y + height / 2));
-      text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('dominant-baseline', 'middle');
-      text.setAttribute('font-size', '12');
-      text.setAttribute('font-family', 'system-ui, sans-serif');
-      text.setAttribute('fill', '#475569');
-      text.setAttribute('pointer-events', 'none');
-      text.textContent = data.name;
-      g.appendChild(text);
-    }
+    const text = document.createElementNS(NS, 'text');
+    text.setAttribute('x', String(x + width / 2));
+    text.setAttribute('y', String(y + height / 2));
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'middle');
+    text.setAttribute('font-size', '12');
+    text.setAttribute('font-family', 'system-ui, sans-serif');
+    text.setAttribute('fill', '#475569');
+    text.setAttribute('pointer-events', 'none');
+    text.textContent = data.name;
+    g.appendChild(text);
+  }
 
-    if (data.kind === 'desk') {
-      const rect = document.createElementNS(NS, 'rect');
-      rect.setAttribute('x', String(x));
-      rect.setAttribute('y', String(y));
-      rect.setAttribute('width', String(width));
-      rect.setAttribute('height', String(height));
-      rect.setAttribute('fill', selected ? '#bfdbfe' : '#e2e8f0');
-      rect.setAttribute('stroke', '#94a3b8');
-      rect.setAttribute('stroke-width', '1');
-      rect.setAttribute('rx', '3');
-      g.appendChild(rect);
+  if (data.kind === 'desk') {
+    const rect = document.createElementNS(NS, 'rect');
+    rect.setAttribute('x', String(x));
+    rect.setAttribute('y', String(y));
+    rect.setAttribute('width', String(width));
+    rect.setAttribute('height', String(height));
+    rect.setAttribute('fill', selected ? '#bfdbfe' : '#e2e8f0');
+    rect.setAttribute('stroke', '#94a3b8');
+    rect.setAttribute('stroke-width', '1');
+    rect.setAttribute('rx', '3');
+    g.appendChild(rect);
 
-      const text = document.createElementNS(NS, 'text');
-      text.setAttribute('x', String(x + width / 2));
-      text.setAttribute('y', String(y + height / 2));
-      text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('dominant-baseline', 'middle');
-      text.setAttribute('font-size', '10');
-      text.setAttribute('font-family', 'system-ui, sans-serif');
-      text.setAttribute('fill', '#64748b');
-      text.setAttribute('pointer-events', 'none');
-      text.textContent = data.label;
-      g.appendChild(text);
-    }
-  },
-});
+    const text = document.createElementNS(NS, 'text');
+    text.setAttribute('x', String(x + width / 2));
+    text.setAttribute('y', String(y + height / 2));
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'middle');
+    text.setAttribute('font-size', '10');
+    text.setAttribute('font-family', 'system-ui, sans-serif');
+    text.setAttribute('fill', '#64748b');
+    text.setAttribute('pointer-events', 'none');
+    text.textContent = data.label;
+    g.appendChild(text);
+  }
+}
+
+let snapEnabled = false;
+let snapGridSize = 40;
+
+function mountRenderer() {
+  return mountSvgRenderer(core, {
+    mount: svgEl,
+    grid: { size: snapEnabled ? snapGridSize : 40, stroke: '#f1f5f9', strokeWidth: 1 },
+    selectionOverlay: false,
+    snapToGrid: snapEnabled ? snapGridSize : undefined,
+    drawEntity,
+  });
+}
+
+let renderer = mountRenderer();
 
 // ── Fit on load ───────────────────────────────────────────────────────────────
 
@@ -149,6 +160,24 @@ core.fitToScene(48);
 document.getElementById('btn-fit')!.addEventListener('click', () => core.fitToScene(48));
 
 document.getElementById('btn-delete')!.addEventListener('click', deleteSelected);
+
+const snapToggleEl = document.getElementById('snap-toggle') as HTMLInputElement;
+const snapSizeEl = document.getElementById('snap-size') as HTMLInputElement;
+
+snapToggleEl.addEventListener('change', () => {
+  snapEnabled = snapToggleEl.checked;
+  snapSizeEl.style.display = snapEnabled ? '' : 'none';
+  renderer.destroy();
+  renderer = mountRenderer();
+});
+
+snapSizeEl.addEventListener('change', () => {
+  snapGridSize = Math.max(5, Number(snapSizeEl.value));
+  if (snapEnabled) {
+    renderer.destroy();
+    renderer = mountRenderer();
+  }
+});
 
 let deskCounter = DESK_GRID.cols * DESK_GRID.rows + 1;
 document.getElementById('btn-add-desk')!.addEventListener('click', () => {

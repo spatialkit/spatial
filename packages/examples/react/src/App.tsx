@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap-tools/react';
 import { addEntity, createEmptyScene } from '@floormap-tools/core';
 import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
@@ -118,6 +118,9 @@ export function App() {
   const viewport = useViewport(core);
   const deskCounterRef = useRef(DESK_GRID.cols * DESK_GRID.rows + 1);
 
+  const [snapEnabled, setSnapEnabled] = useState(false);
+  const [snapSize, setSnapSize] = useState(40);
+
   useEffect(() => {
     core.fitToScene(48);
   }, [core]);
@@ -174,6 +177,26 @@ export function App() {
           <button onClick={() => { for (const id of [...selection]) core.remove(id); }}>
             Delete selected
           </button>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={snapEnabled}
+              onChange={(e) => setSnapEnabled(e.target.checked)}
+            />
+            Snap to grid
+          </label>
+          {snapEnabled && (
+            <input
+              type="number"
+              value={snapSize}
+              min={5}
+              max={200}
+              step={5}
+              title="Grid size in world units"
+              onChange={(e) => setSnapSize(Math.max(5, Number(e.target.value)))}
+              style={{ width: 52, fontSize: 13 }}
+            />
+          )}
         </div>
         <div id="zoom-display">{Math.round(viewport.zoom * 100)}%</div>
       </header>
@@ -182,8 +205,9 @@ export function App() {
         <FloormapCanvas
           core={core}
           drawEntity={drawEntity}
-          grid={{ size: 40, stroke: '#f1f5f9', strokeWidth: 1 }}
+          grid={{ size: snapEnabled ? snapSize : 40, stroke: '#f1f5f9', strokeWidth: 1 }}
           selectionOverlay={false}
+          snapToGrid={snapEnabled ? snapSize : undefined}
           style={{ flex: 1 }}
         />
 

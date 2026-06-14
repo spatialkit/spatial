@@ -23,6 +23,7 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
     selectionOverlay = {},
     grid = false,
     clearOnDestroy = true,
+    snapToGrid,
   } = opts;
 
   setupSvgRoot(mount, defs);
@@ -63,6 +64,7 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
     clickThresholdPx,
     modifierSelect,
     pinchZoomFactor,
+    snapToGrid,
   });
 
   return {

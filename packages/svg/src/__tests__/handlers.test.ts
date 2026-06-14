@@ -42,14 +42,24 @@ function makeCore() {
 }
 
 function click(svg: SVGSVGElement, x: number, y: number, opts: PointerEventInit = {}) {
-  svg.dispatchEvent(new PointerEvent('pointerdown', { button: 0, clientX: x, clientY: y, bubbles: true, ...opts }));
-  svg.dispatchEvent(new PointerEvent('pointerup', { button: 0, clientX: x, clientY: y, bubbles: true, ...opts }));
+  svg.dispatchEvent(
+    new PointerEvent('pointerdown', { button: 0, clientX: x, clientY: y, bubbles: true, ...opts }),
+  );
+  svg.dispatchEvent(
+    new PointerEvent('pointerup', { button: 0, clientX: x, clientY: y, bubbles: true, ...opts }),
+  );
 }
 
 function drag(svg: SVGSVGElement, fromX: number, fromY: number, toX: number, toY: number) {
-  svg.dispatchEvent(new PointerEvent('pointerdown', { button: 0, clientX: fromX, clientY: fromY, bubbles: true }));
-  svg.dispatchEvent(new PointerEvent('pointermove', { button: 0, clientX: toX, clientY: toY, bubbles: true }));
-  svg.dispatchEvent(new PointerEvent('pointerup', { button: 0, clientX: toX, clientY: toY, bubbles: true }));
+  svg.dispatchEvent(
+    new PointerEvent('pointerdown', { button: 0, clientX: fromX, clientY: fromY, bubbles: true }),
+  );
+  svg.dispatchEvent(
+    new PointerEvent('pointermove', { button: 0, clientX: toX, clientY: toY, bubbles: true }),
+  );
+  svg.dispatchEvent(
+    new PointerEvent('pointerup', { button: 0, clientX: toX, clientY: toY, bubbles: true }),
+  );
 }
 
 describe('Svg renderer - multi-select modifier keys', () => {
@@ -211,5 +221,40 @@ describe('Svg renderer - entity drag', () => {
 
     const e1 = core.scene.entities.get('e1' as any)!;
     expect(e1.bounds.x).toBe(100); // entity unmoved
+  });
+
+  it('snapToGrid snaps entity position to nearest grid point', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {}, snapToGrid: 40 });
+
+    drag(svg, 150, 150, 177, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+
+    expect(e1.bounds.x).toBe(120);
+    expect(e1.bounds.y).toBe(120);
+  });
+
+  it('snapToGrid rounds up when past the midpoint', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {}, snapToGrid: 40 });
+
+    drag(svg, 150, 150, 190, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBe(160);
+  });
+
+  it('without snapToGrid entity position is not snapped', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    drag(svg, 150, 150, 177, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBeCloseTo(127);
   });
 });

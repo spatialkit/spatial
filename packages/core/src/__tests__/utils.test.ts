@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { clamp, containsPointAABB, expandBounds, unionBounds } from '../utils';
+import { clamp, containsPointAABB, expandBounds, unionBounds, snapToGrid } from '../utils';
 import { Bounds, Vec2 } from '../types';
 
 describe('clamp', () => {
@@ -90,5 +90,32 @@ describe('unionBounds', () => {
     const b: Bounds = { x: 5, y: 5, width: 10, height: 10 };
     const result = unionBounds(a, b);
     expect(result).toEqual({ x: -10, y: -10, width: 25, height: 25 });
+  });
+});
+
+describe('snapToGrid', () => {
+  it('snaps value to nearest grid point below', () => {
+    expect(snapToGrid(42, 40)).toBe(40);
+    expect(snapToGrid(127, 40)).toBe(120);
+  });
+
+  it('snaps value to nearest grid point above', () => {
+    expect(snapToGrid(61, 40)).toBe(80);
+    expect(snapToGrid(140, 40)).toBe(160);
+  });
+
+  it('value already on grid returns unchanged', () => {
+    expect(snapToGrid(80, 40)).toBe(80);
+    expect(snapToGrid(0, 40)).toBe(0);
+  });
+
+  it('works with negative values', () => {
+    expect(snapToGrid(-21, 40)).toBe(-40);
+    expect(snapToGrid(-85, 40)).toBe(-80);
+  });
+
+  it('works with non-round grid sizes', () => {
+    expect(snapToGrid(37, 25)).toBe(25);
+    expect(snapToGrid(38, 25)).toBe(50);
   });
 });

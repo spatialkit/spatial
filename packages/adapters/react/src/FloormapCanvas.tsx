@@ -37,6 +37,8 @@ export interface FloormapCanvasProps {
   wheelZoomFactor?: number;
   pinchZoomFactor?: number;
 
+  snapToGrid?: number;
+
   // SVG element
   className?: string;
   style?: CSSProperties;
@@ -57,6 +59,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
   clickThresholdPx = 3,
   wheelZoomFactor = 0.0015,
   pinchZoomFactor = 0.005,
+  snapToGrid,
   className,
   style,
 }: FloormapCanvasProps) {
@@ -86,6 +89,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
       clickThresholdPx,
       modifierSelect,
       pinchZoomFactor,
+      snapToGrid,
       onClickEntity: (id) => onClickEntityRef.current?.(id),
     });
   }, [
@@ -99,6 +103,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
     clickThresholdPx,
     modifierSelect,
     pinchZoomFactor,
+    snapToGrid,
   ]);
 
   // Keep viewport.screenSize in sync with the SVG element dimensions
