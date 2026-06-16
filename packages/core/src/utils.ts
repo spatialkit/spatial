@@ -25,3 +25,6 @@ export const unionBounds = (a: Bounds, b: Bounds): Bounds => {
     height: Math.max(a.y + a.height, b.y + b.height) - Math.min(a.y, b.y)
   }
 };
+
+export const snapToGrid = (value: number, gridSize: number): number =>
+  Math.round(value / gridSize) * gridSize;
