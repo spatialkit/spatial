@@ -38,3 +38,5 @@ export { mountSvgRenderer } from './renderer';
 export type { SvgRendererOptions as Options, SvgRenderer as Renderer };
 export type { SelectionOverlayStyle } from './selection-overlay';
 export type { GridOptions } from './grid';
+export { paintResizeHandles } from './resize-handles';
+export type { ResizeHandleStyle } from './resize-handles';

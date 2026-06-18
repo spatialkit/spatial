@@ -12,7 +12,9 @@ import { useEntities } from './internal/useEntities';
 import { useViewportTransform } from './internal/useViewportTransform';
 import { GridLayer } from './internal/GridLayer';
 import { SelectionOverlay } from './internal/SelectionOverlay';
+import { ResizeHandles } from './internal/ResizeHandles';
 import { useSelection } from './hooks/useSelection';
+import { useViewport } from './hooks/useViewport';
 import type { GridOptions, SelectionOverlayStyle } from './types';
 
 const DEFAULT_SELECTION_OVERLAY: SelectionOverlayStyle = {};
@@ -74,6 +76,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
 
   const entities = useEntities(core);
   const selection = useSelection(core);
+  const viewport = useViewport(core);
 
   // Attach interaction handlers
   useEffect(() => {
@@ -146,6 +149,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
         {selectionOverlay !== false && (
           <SelectionOverlay entities={entities} selection={selection} style={selectionOverlay} />
         )}
+        <ResizeHandles entities={entities} selection={selection} zoom={viewport.zoom} />
       </g>
     </svg>
   );

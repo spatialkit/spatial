@@ -1,6 +1,12 @@
 import { describe, it, expect } from 'vitest';
-import { clamp, containsPointAABB, expandBounds, unionBounds, snapToGrid } from '../utils';
-import { Bounds, Vec2 } from '../types';
+import { clamp, containsPointAABB, expandBounds, unionBounds, snapToGrid, hitTestResizeHandles, applyResizeDelta } from '../utils';
+import { Bounds, Entity, EntityId, LayerId, Vec2 } from '../types';
+
+function makeEntity(bounds: Bounds): Entity {
+  return { id: 'e1' as EntityId, layer: 'l1' as LayerId, bounds, selectable: true };
+}
+
+function identityWorldToScreen(p: Vec2): Vec2 { return p; }
 
 describe('clamp', () => {
   it('should return value when within range', () => {
@@ -117,5 +123,124 @@ describe('snapToGrid', () => {
   it('works with non-round grid sizes', () => {
     expect(snapToGrid(37, 25)).toBe(25);
     expect(snapToGrid(38, 25)).toBe(50);
+  });
+});
+
+describe('hitTestResizeHandles', () => {
+  const bounds: Bounds = { x: 100, y: 100, width: 100, height: 100 };
+  const entity = makeEntity(bounds);
+  const entities = [entity];
+
+  it('returns null when no entities', () => {
+    expect(hitTestResizeHandles([], identityWorldToScreen, { x: 100, y: 100 })).toBeNull();
+  });
+
+  it('returns null when pointer is far from all handles', () => {
+    expect(hitTestResizeHandles(entities, identityWorldToScreen, { x: 150, y: 150 })).toBeNull();
+  });
+
+  it('hits nw corner handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 100, y: 100 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'nw' });
+  });
+
+  it('hits ne corner handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 200, y: 100 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'ne' });
+  });
+
+  it('hits se corner handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 200, y: 200 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'se' });
+  });
+
+  it('hits sw corner handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 100, y: 200 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'sw' });
+  });
+
+  it('hits n edge handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 150, y: 100 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'n' });
+  });
+
+  it('hits s edge handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 150, y: 200 });
+    expect(result).toEqual({ entityId: 'e1', direction: 's' });
+  });
+
+  it('hits e edge handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 200, y: 150 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'e' });
+  });
+
+  it('hits w edge handle', () => {
+    const result = hitTestResizeHandles(entities, identityWorldToScreen, { x: 100, y: 150 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'w' });
+  });
+
+  it('respects custom handle size', () => {
+    // pointer 3px away from center — should hit with size=8, miss with size=4
+    expect(hitTestResizeHandles(entities, identityWorldToScreen, { x: 103, y: 100 }, 8)).toEqual({ entityId: 'e1', direction: 'nw' });
+    expect(hitTestResizeHandles(entities, identityWorldToScreen, { x: 103, y: 100 }, 4)).toBeNull();
+  });
+
+  it('works with zoom=2 (worldToScreen scales coords)', () => {
+    // zoom=2: screen = world * 2, entity corner nw at world(100,100) → screen(200,200)
+    const worldToScreen = (p: Vec2): Vec2 => ({ x: p.x * 2, y: p.y * 2 });
+    const result = hitTestResizeHandles(entities, worldToScreen, { x: 200, y: 200 });
+    expect(result).toEqual({ entityId: 'e1', direction: 'nw' });
+  });
+});
+
+describe('applyResizeDelta', () => {
+  const original: Bounds = { x: 100, y: 100, width: 200, height: 100 };
+
+  it('e — extends right edge', () => {
+    const result = applyResizeDelta(original, 'e', { x: 50, y: 0 });
+    expect(result).toEqual({ x: 100, y: 100, width: 250, height: 100 });
+  });
+
+  it('w — moves left edge, keeps right edge fixed', () => {
+    const result = applyResizeDelta(original, 'w', { x: -50, y: 0 });
+    expect(result).toEqual({ x: 50, y: 100, width: 250, height: 100 });
+  });
+
+  it('s — extends bottom edge', () => {
+    const result = applyResizeDelta(original, 's', { x: 0, y: 30 });
+    expect(result).toEqual({ x: 100, y: 100, width: 200, height: 130 });
+  });
+
+  it('n — moves top edge, keeps bottom edge fixed', () => {
+    const result = applyResizeDelta(original, 'n', { x: 0, y: -20 });
+    expect(result).toEqual({ x: 100, y: 80, width: 200, height: 120 });
+  });
+
+  it('se — extends right and bottom', () => {
+    const result = applyResizeDelta(original, 'se', { x: 10, y: 20 });
+    expect(result).toEqual({ x: 100, y: 100, width: 210, height: 120 });
+  });
+
+  it('nw — moves top-left corner', () => {
+    const result = applyResizeDelta(original, 'nw', { x: 10, y: 10 });
+    expect(result).toEqual({ x: 110, y: 110, width: 190, height: 90 });
+  });
+
+  it('enforces minimum width and height of 1', () => {
+    const result = applyResizeDelta(original, 'e', { x: -300, y: 0 });
+    expect(result.width).toBe(1);
+  });
+
+  it('respects snapToGrid', () => {
+    // right edge: 100 + 200 + 15 = 315 → snap to 40 → 320 → width = 320 - 100 = 220
+    const result = applyResizeDelta(original, 'e', { x: 15, y: 0 }, 40);
+    expect(result.width).toBe(220);
+  });
+
+  it('snapToGrid on west edge snaps the x position', () => {
+    // x: 100 + (-15) = 85 → snap to 40 → 80 → width = 200 + (100 - 80) = 220
+    const result = applyResizeDelta(original, 'w', { x: -15, y: 0 }, 40);
+    expect(result.x).toBe(80);
+    expect(result.width).toBe(220);
   });
 });

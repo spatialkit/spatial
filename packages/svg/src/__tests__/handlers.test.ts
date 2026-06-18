@@ -258,3 +258,92 @@ describe('Svg renderer - entity drag', () => {
     expect(e1.bounds.x).toBeCloseTo(127);
   });
 });
+
+describe('Svg renderer - resize handles', () => {
+  let svg: SVGSVGElement;
+
+  beforeEach(() => {
+    svg = makesvg();
+  });
+
+  it('dragging the east handle extends entity width', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    // e1: x=100, y=100, w=100, h=100 — east handle at world(200,150) = screen(200,150)
+    drag(svg, 200, 150, 250, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBeCloseTo(100);      // x unchanged
+    expect(e1.bounds.y).toBeCloseTo(100);      // y unchanged
+    expect(e1.bounds.width).toBeCloseTo(150);  // width grew by 50
+    expect(e1.bounds.height).toBeCloseTo(100); // height unchanged
+  });
+
+  it('dragging the west handle moves x and adjusts width', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    // west handle at world(100,150) = screen(100,150), drag left 30px
+    drag(svg, 100, 150, 70, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBeCloseTo(70);
+    expect(e1.bounds.width).toBeCloseTo(130);
+  });
+
+  it('dragging the south handle extends entity height', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    // south handle at world(150,200) = screen(150,200), drag down 40px
+    drag(svg, 150, 200, 150, 240);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.height).toBeCloseTo(140);
+    expect(e1.bounds.y).toBeCloseTo(100);
+  });
+
+  it('dragging the nw corner moves x,y and adjusts width,height', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    // nw handle at world(100,100) = screen(100,100), drag to (80,80)
+    drag(svg, 100, 100, 80, 80);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.x).toBeCloseTo(80);
+    expect(e1.bounds.y).toBeCloseTo(80);
+    expect(e1.bounds.width).toBeCloseTo(120);
+    expect(e1.bounds.height).toBeCloseTo(120);
+  });
+
+  it('resize within click threshold is not triggered', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
+
+    // Move only 2px from east handle — below default 3px threshold
+    drag(svg, 200, 150, 202, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.width).toBe(100); // unchanged
+  });
+
+  it('resize with snapToGrid snaps the resized edge', () => {
+    const core = makeCore();
+    core.setSelection(['e1' as any], 'replace');
+    mountSvgRenderer(core, { mount: svg, drawEntity: () => {}, snapToGrid: 40 });
+
+    // east handle at 200, drag +15 → right edge = 215 → snap to 40 → 200, width = 100 (no change)
+    // drag +25 → right edge = 225 → snap to 40 → 240, width = 140
+    drag(svg, 200, 150, 225, 150);
+
+    const e1 = core.scene.entities.get('e1' as any)!;
+    expect(e1.bounds.width).toBe(140);
+  });
+});

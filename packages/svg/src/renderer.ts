@@ -3,6 +3,7 @@ import type { SvgRenderer, SvgRendererOptions } from './index';
 import { setupSvgRoot, getGroups, clearChildren } from './dom';
 import { attachHandlers } from './handlers';
 import { paintSelectionOverlay } from './selection-overlay';
+import { paintResizeHandles } from './resize-handles';
 import { paintGrid } from './grid';
 
 export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): SvgRenderer {
@@ -32,16 +33,19 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
   applyViewportTransform(core, groups.viewportG);
   paint(core, groups.objectsG, drawEntity);
   if (selectionOverlay !== false) paintSelectionOverlay(core, groups.selectionG, selectionOverlay);
+  paintResizeHandles(core, groups.overlaysG);
   if (grid !== false) paintGrid(core, groups.gridG, grid);
 
   const offViewport = core.on('viewport:change', () => {
     applyViewportTransform(core, groups.viewportG);
+    paintResizeHandles(core, groups.overlaysG);
     if (grid !== false) paintGrid(core, groups.gridG, grid);
   });
 
   const offEntities = core.on('entities:changed', () => {
     paint(core, groups.objectsG, drawEntity);
     if (selectionOverlay !== false) paintSelectionOverlay(core, groups.selectionG, selectionOverlay);
+    paintResizeHandles(core, groups.overlaysG);
   });
 
   const offSelection = core.on('selection:change', () => {
@@ -51,6 +55,7 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
     } else {
       clearChildren(groups.selectionG);
     }
+    paintResizeHandles(core, groups.overlaysG);
   });
 
   const detach = attachHandlers(mount, core, {
@@ -71,6 +76,7 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
     rerender() {
       paint(core, groups.objectsG, drawEntity);
       if (selectionOverlay !== false) paintSelectionOverlay(core, groups.selectionG, selectionOverlay);
+      paintResizeHandles(core, groups.overlaysG);
       if (grid !== false) paintGrid(core, groups.gridG, grid);
     },
     destroy() {

@@ -27,3 +27,5 @@ export interface Viewport {
 }
 
 export type SelectionMode = 'replace' | 'add' | 'toggle';
+
+export type ResizeDirection = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
