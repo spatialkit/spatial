@@ -1,5 +1,5 @@
-import { FloormapCore, EntityId, snapToGrid } from '@floormap-tools/core';
-import type { Bounds } from '@floormap-tools/core';
+import { FloormapCore, EntityId, snapToGrid, hitTestResizeHandles, applyResizeDelta } from '@floormap-tools/core';
+import type { Bounds, ResizeDirection } from '@floormap-tools/core';
 
 type AttachHandlersOptions = {
   enableWheel: boolean;
@@ -21,7 +21,7 @@ export function attachHandlers(
   options: AttachHandlersOptions,
 ) {
   const state = {
-    dragMode: 'idle' as 'idle' | 'pending' | 'pan' | 'entity',
+    dragMode: 'idle' as 'idle' | 'pending' | 'pan' | 'entity' | 'resize',
     downPos: { x: 0, y: 0 },
     lastPos: { x: 0, y: 0 },
     btn: -1 as number,
@@ -30,6 +30,10 @@ export function attachHandlers(
     hitEntityId: null as EntityId | null,
     entitySnapshots: new Map<EntityId, Bounds>(),
     entityDragWorldStart: { x: 0, y: 0 },
+    // resize state
+    resizeHandle: null as { entityId: EntityId; direction: ResizeDirection } | null,
+    resizeSnapshot: null as Bounds | null,
+    resizeDragWorldStart: { x: 0, y: 0 },
   };
 
   // Tracks active pointer positions for pinch-to-zoom
@@ -73,9 +77,21 @@ export function attachHandlers(
     state.dragMode = 'pending';
     state.btn = event.button;
     state.downPos = state.lastPos = cursor;
-    state.hitEntityId = options.enableEntityDrag
-      ? core.hitTest(core.screenToWorld(cursor))
-      : null;
+
+    const selectedEntities = [...core.selection]
+      .map((id) => core.scene.entities.get(id))
+      .filter((e): e is NonNullable<typeof e> => e != null);
+    const handleHit = hitTestResizeHandles(selectedEntities, (p) => core.worldToScreen(p), cursor);
+
+    if (handleHit) {
+      state.resizeHandle = handleHit;
+      state.hitEntityId = null;
+    } else {
+      state.resizeHandle = null;
+      state.hitEntityId = options.enableEntityDrag
+        ? core.hitTest(core.screenToWorld(cursor))
+        : null;
+    }
     svg.style.cursor = 'grabbing';
   }
 
@@ -100,11 +116,19 @@ export function attachHandlers(
     if (state.dragMode === 'idle' || state.btn !== options.dragButton) return;
 
     if (state.dragMode === 'pending') {
-      if (state.hitEntityId !== null) {
+      const dx = curr.x - state.downPos.x;
+      const dy = curr.y - state.downPos.y;
+      const threshold2 = options.clickThresholdPx * options.clickThresholdPx;
+
+      if (state.resizeHandle !== null) {
+        if (dx * dx + dy * dy <= threshold2) { state.lastPos = curr; return; }
+        state.dragMode = 'resize';
+        const entity = core.scene.entities.get(state.resizeHandle.entityId);
+        state.resizeSnapshot = entity ? { ...entity.bounds } : null;
+        state.resizeDragWorldStart = core.screenToWorld(state.downPos);
+        svg.style.cursor = 'crosshair';
+      } else if (state.hitEntityId !== null) {
         // Stay pending until movement exceeds click threshold
-        const dx = curr.x - state.downPos.x;
-        const dy = curr.y - state.downPos.y;
-        const threshold2 = options.clickThresholdPx * options.clickThresholdPx;
         if (dx * dx + dy * dy <= threshold2) {
           state.lastPos = curr;
           return;
@@ -125,6 +149,25 @@ export function attachHandlers(
         // No entity hit — immediately commit to pan
         state.dragMode = 'pan';
       }
+    }
+
+    if (state.dragMode === 'resize') {
+      if (state.resizeHandle && state.resizeSnapshot) {
+        const worldCurr = core.screenToWorld(curr);
+        const worldDelta = {
+          x: worldCurr.x - state.resizeDragWorldStart.x,
+          y: worldCurr.y - state.resizeDragWorldStart.y,
+        };
+        const newBounds = applyResizeDelta(
+          state.resizeSnapshot,
+          state.resizeHandle.direction,
+          worldDelta,
+          options.snapToGrid,
+        );
+        core.update(state.resizeHandle.entityId, { bounds: newBounds });
+      }
+      state.lastPos = curr;
+      return;
     }
 
     if (state.dragMode === 'entity') {
@@ -190,8 +233,10 @@ export function attachHandlers(
     state.btn = -1;
     state.hitEntityId = null;
     state.entitySnapshots.clear();
+    state.resizeHandle = null;
+    state.resizeSnapshot = null;
 
-    if (wasClick && options.clickSelect && !wasPinching && prevMode !== 'entity') {
+    if (wasClick && options.clickSelect && !wasPinching && prevMode !== 'entity' && prevMode !== 'resize') {
       const mode = options.modifierSelect
         ? e.shiftKey
           ? ('add' as const)
@@ -222,6 +267,8 @@ export function attachHandlers(
       state.btn = -1;
       state.hitEntityId = null;
       state.entitySnapshots.clear();
+      state.resizeHandle = null;
+      state.resizeSnapshot = null;
       svg.style.cursor = '';
     }
   }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap-tools/react';
-import { addEntity, createEmptyScene } from '@floormap-tools/core';
+import { addEntity, createEmptyScene, hitTestResizeHandles } from '@floormap-tools/core';
 import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -120,6 +120,29 @@ export function App() {
 
   const [snapEnabled, setSnapEnabled] = useState(false);
   const [snapSize, setSnapSize] = useState(40);
+  const [hoverCursor, setHoverCursor] = useState('');
+
+  const RESIZE_CURSORS: Record<string, string> = {
+    n: 'ns-resize', s: 'ns-resize',
+    e: 'ew-resize', w: 'ew-resize',
+    ne: 'nesw-resize', sw: 'nesw-resize',
+    nw: 'nwse-resize', se: 'nwse-resize',
+  };
+
+  function handleCanvasPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.buttons !== 0) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const screen = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    const selectedEntities = [...core.selection]
+      .map((id) => core.scene.entities.get(id))
+      .filter((en): en is NonNullable<typeof en> => en != null);
+    const handleHit = hitTestResizeHandles(selectedEntities, (p) => core.worldToScreen(p), screen);
+    if (handleHit) {
+      setHoverCursor(RESIZE_CURSORS[handleHit.direction]);
+    } else {
+      setHoverCursor(core.hitTest(core.screenToWorld(screen)) ? 'grab' : '');
+    }
+  }
 
   useEffect(() => {
     core.fitToScene(48);
@@ -202,14 +225,20 @@ export function App() {
       </header>
 
       <div id="main">
-        <FloormapCanvas
-          core={core}
-          drawEntity={drawEntity}
-          grid={{ size: snapEnabled ? snapSize : 40, stroke: '#f1f5f9', strokeWidth: 1 }}
-          selectionOverlay={false}
-          snapToGrid={snapEnabled ? snapSize : undefined}
-          style={{ flex: 1 }}
-        />
+        <div
+          style={{ flex: 1, display: 'flex', cursor: hoverCursor }}
+          onPointerMove={handleCanvasPointerMove}
+          onPointerLeave={() => setHoverCursor('')}
+        >
+          <FloormapCanvas
+            core={core}
+            drawEntity={drawEntity}
+            grid={{ size: snapEnabled ? snapSize : 40, stroke: '#f1f5f9', strokeWidth: 1 }}
+            selectionOverlay={false}
+            snapToGrid={snapEnabled ? snapSize : undefined}
+            style={{ flex: 1 }}
+          />
+        </div>
 
         <aside id="panel">
           <div className="panel-section">
@@ -220,6 +249,7 @@ export function App() {
                   <p className="hint">Click an entity to select it.</p>
                   <p className="hint">Shift+click to add, Ctrl/⌘+click to toggle.</p>
                   <p className="hint">Drag a selected entity to move it.</p>
+                  <p className="hint">Drag a handle to resize it.</p>
                 </>
               ) : (
                 selectedEntities.map((entity) => {

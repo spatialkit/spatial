@@ -1,4 +1,4 @@
-import { createCore, createEmptyScene } from '@floormap-tools/core';
+import { createCore, createEmptyScene, hitTestResizeHandles } from '@floormap-tools/core';
 
 document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
 document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
@@ -234,7 +234,10 @@ function renderPanel() {
     const p3 = document.createElement('p');
     p3.className = 'hint';
     p3.textContent = 'Drag a selected entity to move it.';
-    container.append(p1, p2, p3);
+    const p4 = document.createElement('p');
+    p4.className = 'hint';
+    p4.textContent = 'Drag a handle to resize it.';
+    container.append(p1, p2, p3, p4);
     return;
   }
 
@@ -282,11 +285,27 @@ updateZoomDisplay();
 
 // ── Hover cursor ─────────────────────────────────────────────────────────────
 
+const RESIZE_CURSORS: Record<string, string> = {
+  n: 'ns-resize', s: 'ns-resize',
+  e: 'ew-resize', w: 'ew-resize',
+  ne: 'nesw-resize', sw: 'nesw-resize',
+  nw: 'nwse-resize', se: 'nwse-resize',
+};
+
 svgEl.addEventListener('pointermove', (e) => {
   if (e.buttons !== 0) return;
   const rect = svgEl.getBoundingClientRect();
-  const world = core.screenToWorld({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  svgEl.style.cursor = core.hitTest(world) ? 'grab' : '';
+  const screen = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  const selectedEntities = [...core.selection]
+    .map((id) => core.scene.entities.get(id))
+    .filter((en): en is NonNullable<typeof en> => en != null);
+  const handleHit = hitTestResizeHandles(selectedEntities, (p) => core.worldToScreen(p), screen);
+  if (handleHit) {
+    svgEl.style.cursor = RESIZE_CURSORS[handleHit.direction];
+  } else {
+    const world = core.screenToWorld(screen);
+    svgEl.style.cursor = core.hitTest(world) ? 'grab' : '';
+  }
 });
 
 // ── Resize handling ───────────────────────────────────────────────────────────
