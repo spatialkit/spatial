@@ -7,9 +7,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   resolve: {
     alias: {
-      '@floormap-tools/core': resolve(__dirname, 'packages/core/src/index.ts'),
-      '@floormap-tools/svg': resolve(__dirname, 'packages/svg/src/index.ts'),
-      '@floormap-tools/react': resolve(__dirname, 'packages/adapters/react/src/index.ts'),
+      '@spatialkit/core': resolve(__dirname, 'packages/core/src/index.ts'),
+      '@spatialkit/svg': resolve(__dirname, 'packages/svg/src/index.ts'),
+      '@spatialkit/react': resolve(__dirname, 'packages/adapters/react/src/index.ts'),
     },
   },
   test: {

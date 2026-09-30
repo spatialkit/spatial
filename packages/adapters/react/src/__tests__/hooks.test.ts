@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { createCore, createEmptyScene } from '@floormap-tools/core';
-import type { EntityId, LayerId } from '@floormap-tools/core';
-import { useFloormapCore, useSelection, useViewport } from '../index';
+import { createCore, createEmptyScene } from '@spatialkit/core';
+import type { EntityId, LayerId } from '@spatialkit/core';
+import { useSpatialCore, useSelection, useViewport } from '../index';
 
 function makeCore() {
   return createCore({
@@ -12,10 +12,10 @@ function makeCore() {
   });
 }
 
-describe('useFloormapCore', () => {
+describe('useSpatialCore', () => {
   it('returns a stable core instance across re-renders', () => {
     const { result, rerender } = renderHook(() =>
-      useFloormapCore({
+      useSpatialCore({
         scene: createEmptyScene({ width: 100, height: 100 }, []),
         viewport: { zoom: 1, pan: { x: 0, y: 0 }, screenSize: { width: 800, height: 600 } },
       }),
@@ -28,7 +28,7 @@ describe('useFloormapCore', () => {
   it('accepts an initializer function called only once', () => {
     let calls = 0;
     const { result, rerender } = renderHook(() =>
-      useFloormapCore(() => {
+      useSpatialCore(() => {
         calls++;
         return {
           scene: createEmptyScene({ width: 100, height: 100 }, []),

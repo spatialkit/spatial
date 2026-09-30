@@ -1,10 +1,10 @@
-# Floormap — Claude Code Guide
+# Spatial — Claude Code Guide
 
 ## Project overview
 
-Floormap is a zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts, warehouse maps). It exposes low-level primitives for pan/zoom/selection/picking and ships pluggable renderers.
+Spatial is a zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts, warehouse maps). It exposes low-level primitives for pan/zoom/selection/picking and ships pluggable renderers.
 
-**Repo:** `github.com/floormap-tools/floormap`  
+**Repo:** `github.com/spatialkit/spatial`  
 **Status:** v0.0.0 — core stable, SVG renderer complete, React adapter in progress
 
 > Detailed per-package guides: [`packages/core/CLAUDE.md`](packages/core/CLAUDE.md) · [`packages/svg/CLAUDE.md`](packages/svg/CLAUDE.md)
@@ -15,10 +15,10 @@ Floormap is a zero-dependency TypeScript toolkit for building interactive 2D edi
 
 ```
 packages/
-  core/             @floormap-tools/core   — scene engine, viewport, selection, events, picking
-  svg/              @floormap-tools/svg    — SVG renderer + DOM event handlers
+  core/             @spatialkit/core   — scene engine, viewport, selection, events, picking
+  svg/              @spatialkit/svg    — SVG renderer + DOM event handlers
   adapters/
-    react/          @floormap-tools/react  — React adapter (hooks + FloormapCanvas component)
+    react/          @spatialkit/react  — React adapter (hooks + SpatialCanvas component)
   examples/
     js-vanilla/     vanilla JS example
     react/          React example
@@ -47,7 +47,7 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 
 ## Architecture
 
-### @floormap-tools/core
+### @spatialkit/core
 
 | Module | Responsibility |
 |--------|---------------|
@@ -71,7 +71,7 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 - `zoomAt` delta is multiplicative: `0.1` = +10%, `−0.1` = −10%
 - `panBy` takes screen-space delta; positive `x` shifts content left (pan moves right in world)
 
-### @floormap-tools/svg
+### @spatialkit/svg
 
 | Module | Responsibility |
 |--------|---------------|
@@ -84,13 +84,13 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 **SVG group hierarchy:**
 ```
 <svg>
-  <g data-fm="viewport">           ← transform matrix applied here
-    <g data-fm="grid">
-    <g data-fm="objects">
-      <g data-fm-layer="...">      ← one per layer, in scene.layers order
-    <g data-fm="selection">
-    <g data-fm="overlays">
-  <defs data-fm="defs">            ← only if defs callback is provided
+  <g data-spatial="viewport">           ← transform matrix applied here
+    <g data-spatial="grid">
+    <g data-spatial="objects">
+      <g data-spatial-layer="...">      ← one per layer, in scene.layers order
+    <g data-spatial="selection">
+    <g data-spatial="overlays">
+  <defs data-spatial="defs">            ← only if defs callback is provided
 ```
 
 **Transform matrix:** `matrix(zoom 0 0 zoom -pan.x*zoom -pan.y*zoom)`
@@ -142,8 +142,8 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 
 ## What NOT to do
 
-- Do not add production dependencies to `@floormap-tools/core` or `@floormap-tools/svg`.
+- Do not add production dependencies to `@spatialkit/core` or `@spatialkit/svg`.
 - Do not bypass branded types with plain strings.
 - Do not mutate `Set` objects returned by `applySelection`.
-- Do not add framework-specific code to `@floormap-tools/core` (keep it agnostic).
+- Do not add framework-specific code to `@spatialkit/core` (keep it agnostic).
 - Do not skip typecheck — the build uses project references.

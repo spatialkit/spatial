@@ -1,20 +1,20 @@
-# @floormap-tools/core
+# @spatialkit/core
 
 Scene engine for interactive 2D editors. Manages entities, viewport transforms, event pub/sub, hit testing, and selection. Framework-agnostic — no DOM, no browser APIs.
 
 ## Installation
 
 ```bash
-npm install @floormap-tools/core
+npm install @spatialkit/core
 # or
-pnpm add @floormap-tools/core
+pnpm add @spatialkit/core
 ```
 
 ## Quick start
 
 ```ts
-import { createCore, createEmptyScene } from '@floormap-tools/core';
-import type { EntityId, LayerId } from '@floormap-tools/core';
+import { createCore, createEmptyScene } from '@spatialkit/core';
+import type { EntityId, LayerId } from '@spatialkit/core';
 
 const scene = createEmptyScene(
   { width: 2000, height: 1500 },
@@ -83,7 +83,7 @@ const core = createCore({
 
 ---
 
-### `FloormapCore` interface
+### `SpatialCore` interface
 
 The object returned by `createCore`. Pass this to renderers and adapters.
 
@@ -283,7 +283,7 @@ type SelectionMode = 'replace' | 'add' | 'toggle';
 These are exported for use in renderers and application code:
 
 ```ts
-import { createEmptyScene, clamp, containsPointAABB, expandBounds, unionBounds } from '@floormap-tools/core';
+import { createEmptyScene, clamp, containsPointAABB, expandBounds, unionBounds } from '@spatialkit/core';
 
 clamp(value, min, max)                  // numeric clamp
 containsPointAABB(bounds, point)        // true if point is inside bounds (inclusive)
@@ -298,7 +298,7 @@ unionBounds(a, b)                       // smallest AABB containing both bounds
 ### Creating branded ids
 
 ```ts
-import type { EntityId, LayerId } from '@floormap-tools/core';
+import type { EntityId, LayerId } from '@spatialkit/core';
 
 // Option 1: cast at point of use
 core.add({ id: 'table-1' as EntityId, layer: 'furniture' as LayerId, ... });

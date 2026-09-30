@@ -1,7 +1,7 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
-import type { Entity, FloormapCore } from '@floormap-tools/core';
+import type { Entity, SpatialCore } from '@spatialkit/core';
 
-export function useEntities(core: FloormapCore): Entity[] {
+export function useEntities(core: SpatialCore): Entity[] {
   const snapshotRef = useRef<Entity[]>([...core.scene.entities.values()]);
 
   return useSyncExternalStore(

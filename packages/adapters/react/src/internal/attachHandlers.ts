@@ -1,5 +1,5 @@
-import { snapToGrid, hitTestResizeHandles, applyResizeDelta } from '@floormap-tools/core';
-import type { FloormapCore, EntityId, Bounds, ResizeDirection } from '@floormap-tools/core';
+import { snapToGrid, hitTestResizeHandles, applyResizeDelta } from '@spatialkit/core';
+import type { SpatialCore, EntityId, Bounds, ResizeDirection } from '@spatialkit/core';
 
 export type AttachHandlersOptions = {
   enableWheel: boolean;
@@ -17,7 +17,7 @@ export type AttachHandlersOptions = {
 
 export function attachHandlers(
   svg: SVGSVGElement,
-  core: FloormapCore,
+  core: SpatialCore,
   options: AttachHandlersOptions,
 ) {
   const state = {

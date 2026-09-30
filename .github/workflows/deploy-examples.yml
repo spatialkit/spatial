@@ -38,7 +38,7 @@ jobs:
           <html lang="en">
           <head>
             <meta charset="UTF-8" />
-            <title>Floormap — Examples</title>
+            <title>Spatial — Examples</title>
             <style>
               body { font-family: sans-serif; max-width: 480px; margin: 80px auto; padding: 0 24px; }
               h1 { font-size: 1.5rem; margin-bottom: 8px; }
@@ -51,15 +51,15 @@ jobs:
             </style>
           </head>
           <body>
-            <h1>Floormap</h1>
+            <h1>Spatial</h1>
             <p>Interactive 2D editor toolkit — live examples</p>
             <a href="vanilla/">
               Vanilla JS
-              <span>@floormap-tools/core + @floormap-tools/svg</span>
+              <span>@spatialkit/core + @spatialkit/svg</span>
             </a>
             <a href="react/">
               React
-              <span>@floormap-tools/core + @floormap-tools/react</span>
+              <span>@spatialkit/core + @spatialkit/react</span>
             </a>
           </body>
           </html>

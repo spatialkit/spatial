@@ -1,7 +1,7 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
-import type { EntityId, FloormapCore } from '@floormap-tools/core';
+import type { EntityId, SpatialCore } from '@spatialkit/core';
 
-export function useSelection(core: FloormapCore): ReadonlySet<EntityId> {
+export function useSelection(core: SpatialCore): ReadonlySet<EntityId> {
   const snapshotRef = useRef<ReadonlySet<EntityId>>(new Set(core.selection));
 
   return useSyncExternalStore(

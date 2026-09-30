@@ -1,5 +1,5 @@
 {
-  "name": "@floormap-tools/example-js-vanilla",
+  "name": "@spatialkit/example-js-vanilla",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@floormap-tools/core": "workspace:*",
-    "@floormap-tools/svg": "workspace:*"
+    "@spatialkit/core": "workspace:*",
+    "@spatialkit/svg": "workspace:*"
   },
   "devDependencies": {
     "vite": "^6.0.0"

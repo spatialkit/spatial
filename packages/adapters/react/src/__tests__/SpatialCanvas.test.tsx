@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { render, act } from '@testing-library/react';
-import { createCore, createEmptyScene } from '@floormap-tools/core';
-import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
-import { FloormapCanvas } from '../FloormapCanvas';
+import { createCore, createEmptyScene } from '@spatialkit/core';
+import type { Entity, EntityId, LayerId } from '@spatialkit/core';
+import { SpatialCanvas } from '../SpatialCanvas';
 
 beforeAll(() => {
   vi.stubGlobal(
@@ -41,21 +41,21 @@ function makeSvgStubs(container: HTMLElement) {
   return svg;
 }
 
-describe('FloormapCanvas', () => {
+describe('SpatialCanvas', () => {
   it('renders an SVG element with viewport group', () => {
     const core = makeCore();
     const { container } = render(
-      <FloormapCanvas core={core} drawEntity={() => null} />,
+      <SpatialCanvas core={core} drawEntity={() => null} />,
     );
     expect(container.querySelector('svg')).toBeTruthy();
-    expect(container.querySelector("g[data-fm='viewport']")).toBeTruthy();
-    expect(container.querySelector("g[data-fm='objects']")).toBeTruthy();
+    expect(container.querySelector("g[data-spatial='viewport']")).toBeTruthy();
+    expect(container.querySelector("g[data-spatial='objects']")).toBeTruthy();
   });
 
   it('calls drawEntity for each entity in the scene', () => {
     const core = makeCore();
     const drawEntity = vi.fn((_e: Entity) => null);
-    render(<FloormapCanvas core={core} drawEntity={drawEntity} />);
+    render(<SpatialCanvas core={core} drawEntity={drawEntity} />);
     expect(drawEntity).toHaveBeenCalledWith(
       expect.objectContaining({ id: 'e1' }),
       expect.objectContaining({ selected: false }),
@@ -65,7 +65,7 @@ describe('FloormapCanvas', () => {
   it('renders JSX returned by drawEntity into the SVG', () => {
     const core = makeCore();
     const { container } = render(
-      <FloormapCanvas
+      <SpatialCanvas
         core={core}
         drawEntity={(entity) => (
           <rect data-testid={`entity-${entity.id}`} x={0} y={0} width={10} height={10} />
@@ -78,7 +78,7 @@ describe('FloormapCanvas', () => {
   it('re-renders with selected=true when entity is selected', () => {
     const core = makeCore();
     const drawEntity = vi.fn((_e: Entity, _ctx: { selected: boolean }) => null);
-    render(<FloormapCanvas core={core} drawEntity={drawEntity} />);
+    render(<SpatialCanvas core={core} drawEntity={drawEntity} />);
 
     act(() => {
       core.setSelection(['e1' as EntityId], 'replace');
@@ -91,7 +91,7 @@ describe('FloormapCanvas', () => {
   it('re-renders when a new entity is added', () => {
     const core = makeCore();
     const drawEntity = vi.fn((_e: Entity) => null);
-    render(<FloormapCanvas core={core} drawEntity={drawEntity} />);
+    render(<SpatialCanvas core={core} drawEntity={drawEntity} />);
     const callsBefore = drawEntity.mock.calls.length;
 
     act(() => {
@@ -109,27 +109,27 @@ describe('FloormapCanvas', () => {
   it('renders a layer group per scene layer', () => {
     const core = makeCore();
     const { container } = render(
-      <FloormapCanvas core={core} drawEntity={() => null} />,
+      <SpatialCanvas core={core} drawEntity={() => null} />,
     );
-    expect(container.querySelector("[data-fm-layer='L']")).toBeTruthy();
+    expect(container.querySelector("[data-spatial-layer='L']")).toBeTruthy();
   });
 
   it('renders SelectionOverlay when selectionOverlay is set', () => {
     const core = makeCore();
     core.setSelection(['e1' as EntityId], 'replace');
     const { container } = render(
-      <FloormapCanvas
+      <SpatialCanvas
         core={core}
         drawEntity={() => null}
         selectionOverlay={{ stroke: '#ff0000' }}
       />,
     );
-    expect(container.querySelector("g[data-fm='selection'] rect")).toBeTruthy();
+    expect(container.querySelector("g[data-spatial='selection'] rect")).toBeTruthy();
   });
 
   it('entity drag moves entity in world space', () => {
     const core = makeCore();
-    const { container } = render(<FloormapCanvas core={core} drawEntity={() => null} />);
+    const { container } = render(<SpatialCanvas core={core} drawEntity={() => null} />);
     const svg = makeSvgStubs(container);
 
     act(() => {
@@ -146,7 +146,7 @@ describe('FloormapCanvas', () => {
   it('enableEntityDrag: false disables entity movement', () => {
     const core = makeCore();
     const { container } = render(
-      <FloormapCanvas core={core} drawEntity={() => null} enableEntityDrag={false} />,
+      <SpatialCanvas core={core} drawEntity={() => null} enableEntityDrag={false} />,
     );
     const svg = makeSvgStubs(container);
 
@@ -163,7 +163,7 @@ describe('FloormapCanvas', () => {
   it('click on entity selects it via clickSelect', () => {
     const core = makeCore();
     const { container } = render(
-      <FloormapCanvas core={core} drawEntity={() => null} />,
+      <SpatialCanvas core={core} drawEntity={() => null} />,
     );
     const svg = makeSvgStubs(container);
 

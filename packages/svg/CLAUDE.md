@@ -1,13 +1,13 @@
-# @floormap-tools/svg — Claude Code Guide
+# @spatialkit/svg — Claude Code Guide
 
-SVG renderer and DOM event handlers for `@floormap-tools/core`. Subscribes to core events and paints the scene into an `<svg>` element. No production dependencies.
+SVG renderer and DOM event handlers for `@spatialkit/core`. Subscribes to core events and paints the scene into an `<svg>` element. No production dependencies.
 
 ---
 
 ## Entry point
 
 ```ts
-import { mountSvgRenderer } from '@floormap-tools/svg';
+import { mountSvgRenderer } from '@spatialkit/svg';
 
 const renderer = mountSvgRenderer(core, {
   mount: svgElement,
@@ -28,18 +28,18 @@ renderer.destroy();   // unsubscribe from core, remove DOM groups
 
 ```
 <svg>
-  <g data-fm="viewport">        ← CSS matrix transform applied here
-    <g data-fm="grid">          ← background grid lines
-    <g data-fm="objects">       ← one <g data-fm-layer="..."> per layer
-      <g data-fm-layer="floor">
-      <g data-fm-layer="furniture">
+  <g data-spatial="viewport">        ← CSS matrix transform applied here
+    <g data-spatial="grid">          ← background grid lines
+    <g data-spatial="objects">       ← one <g data-spatial-layer="..."> per layer
+      <g data-spatial-layer="floor">
+      <g data-spatial-layer="furniture">
       ...
-    <g data-fm="selection">     ← selection overlay rects
-    <g data-fm="overlays">      ← reserved for future use
-  <defs data-fm="defs">         ← optional, only if `defs` callback provided
+    <g data-spatial="selection">     ← selection overlay rects
+    <g data-spatial="overlays">      ← reserved for future use
+  <defs data-spatial="defs">         ← optional, only if `defs` callback provided
 ```
 
-**Transform matrix on `<g data-fm="viewport">`:**
+**Transform matrix on `<g data-spatial="viewport">`:**
 ```
 matrix(zoom  0  0  zoom  -pan.x*zoom  -pan.y*zoom)
 ```
@@ -84,7 +84,7 @@ drawEntity: (entity: Entity, ctx: { g: SVGGElement; selected: boolean }) => void
 | Core event | What the renderer does |
 |-----------|------------------------|
 | `"viewport:change"` | Updates viewport transform matrix + repaints grid |
-| `"entities:changed"` | Repaints `<g data-fm="objects">` (calls `drawEntity` for all entities) |
+| `"entities:changed"` | Repaints `<g data-spatial="objects">` (calls `drawEntity` for all entities) |
 | `"selection:change"` | Repaints objects (to pass updated `selected` flag) + repaints selection overlay |
 
 `rerender()` forces all three: objects, selection overlay, and grid.
@@ -178,7 +178,7 @@ Clicking empty space in `'replace'` mode clears selection. In `'add'`/`'toggle'`
 3. Subscribes to `"viewport:change"`, `"entities:changed"`, `"selection:change"`
 4. Calls `attachHandlers`
 
-**`paint()` helper** — pre-groups entities by `LayerId` in a single O(n) pass, then iterates `scene.layers` to create `<g data-fm-layer>` elements in z-order. Avoids the O(layers × entities) nested loop.
+**`paint()` helper** — pre-groups entities by `LayerId` in a single O(n) pass, then iterates `scene.layers` to create `<g data-spatial-layer>` elements in z-order. Avoids the O(layers × entities) nested loop.
 
 ---
 
@@ -190,7 +190,7 @@ All SVG tests require jsdom. Use the `// @vitest-environment jsdom` pragma at th
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@floormap-tools/core';
+import { createCore } from '@spatialkit/core';
 ```
 
 **Required stubs** (jsdom doesn't implement these):
@@ -223,11 +223,11 @@ At zoom=1 and pan=0, screen coords equal world coords. Entity at `bounds { x: 10
 
 **Querying groups:**
 ```ts
-svg.querySelector("g[data-fm='viewport']")
-svg.querySelector("g[data-fm='objects']")
-svg.querySelector("g[data-fm='grid']")
-svg.querySelector("g[data-fm='selection']")
-svg.querySelector("[data-fm-layer='myLayer']")
+svg.querySelector("g[data-spatial='viewport']")
+svg.querySelector("g[data-spatial='objects']")
+svg.querySelector("g[data-spatial='grid']")
+svg.querySelector("g[data-spatial='selection']")
+svg.querySelector("[data-spatial-layer='myLayer']")
 ```
 
 ---

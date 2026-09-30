@@ -6,7 +6,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
-import type { Entity, EntityId, FloormapCore, LayerId } from '@floormap-tools/core';
+import type { Entity, EntityId, SpatialCore, LayerId } from '@spatialkit/core';
 import { attachHandlers } from './internal/attachHandlers';
 import { useEntities } from './internal/useEntities';
 import { useViewportTransform } from './internal/useViewportTransform';
@@ -19,8 +19,8 @@ import type { GridOptions, SelectionOverlayStyle } from './types';
 
 const DEFAULT_SELECTION_OVERLAY: SelectionOverlayStyle = {};
 
-export interface FloormapCanvasProps {
-  core: FloormapCore;
+export interface SpatialCanvasProps {
+  core: SpatialCore;
   drawEntity: (entity: Entity, ctx: { selected: boolean }) => ReactNode;
 
   // Visual
@@ -46,7 +46,7 @@ export interface FloormapCanvasProps {
   style?: CSSProperties;
 }
 
-export const FloormapCanvas = memo(function FloormapCanvas({
+export const SpatialCanvas = memo(function SpatialCanvas({
   core,
   drawEntity,
   grid = false,
@@ -64,7 +64,7 @@ export const FloormapCanvas = memo(function FloormapCanvas({
   snapToGrid,
   className,
   style,
-}: FloormapCanvasProps) {
+}: SpatialCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const viewportGRef = useRef<SVGGElement>(null);
 
@@ -133,11 +133,11 @@ export const FloormapCanvas = memo(function FloormapCanvas({
 
   return (
     <svg ref={svgRef} className={className} style={{ display: 'block', touchAction: 'none', ...style }}>
-      <g data-fm="viewport" ref={viewportGRef}>
+      <g data-spatial="viewport" ref={viewportGRef}>
         {grid !== false && <GridLayer core={core} options={grid} />}
-        <g data-fm="objects">
+        <g data-spatial="objects">
           {core.scene.layers.map((layerId) => (
-            <g key={String(layerId)} data-fm-layer={String(layerId)}>
+            <g key={String(layerId)} data-spatial-layer={String(layerId)}>
               {(entitiesByLayer.get(layerId) ?? []).map((entity) => (
                 <g key={entity.id}>
                   {drawEntity(entity, { selected: selection.has(entity.id) })}

@@ -1,12 +1,12 @@
-# @floormap-tools/react
+# @spatialkit/react
 
 ## 0.1.0
 
 ### Minor Changes
 
-- Initial release of @floormap-tools/core, @floormap-tools/svg, and @floormap-tools/react.
+- Initial release of @spatialkit/core, @spatialkit/svg, and @spatialkit/react.
 
 ### Patch Changes
 
 - Updated dependencies
-  - @floormap-tools/core@0.1.0
+  - @spatialkit/core@0.1.0

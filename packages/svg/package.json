@@ -1,5 +1,5 @@
 {
-  "name": "@floormap-tools/svg",
+  "name": "@spatialkit/svg",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/floormap-tools/floormap.git"
+    "url": "https://github.com/spatialkit/spatial.git"
   },
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm,cjs --clean",
@@ -26,11 +26,11 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@floormap-tools/core": "workspace:*",
+    "@spatialkit/core": "workspace:*",
     "jsdom": "^27.2.0",
     "vitest": "^2.0.0"
   },
   "peerDependencies": {
-    "@floormap-tools/core": "0.x"
+    "@spatialkit/core": "0.x"
   }
 }

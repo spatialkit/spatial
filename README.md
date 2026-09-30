@@ -1,10 +1,10 @@
 <p align="center">
-    <a href="https://github.com/floormap-tools">
-        <img src="https://github.com/floormap-tools.png" alt="Floor Map" height="80" />
+    <a href="https://github.com/spatialkit">
+        <img src="https://github.com/spatialkit.png" alt="Spatial" height="80" />
     </a>
     <br />
     <br />
-    <strong>Floormap</strong>
+    <strong>Spatial</strong>
     <br />
     Open-source TypeScript toolkit for interactive 2D editors and floor plans.
 </p>
@@ -13,15 +13,15 @@
 
 A zero-dependency toolkit for building interactive 2D editors — floor plans, seat maps, office layouts, warehouse maps, and more.
 
-Floormap provides the low-level engine for pan/zoom, selection, hit testing, and event management, plus pluggable renderers. No framework lock-in, no production dependencies.
+Spatial provides the low-level engine for pan/zoom, selection, hit testing, and event management, plus pluggable renderers. No framework lock-in, no production dependencies.
 
 ## Packages
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| [`@floormap-tools/core`](packages/core) | 0.1.0 | Scene engine, viewport, event bus, picking, selection |
-| [`@floormap-tools/svg`](packages/svg) | 0.1.0 | SVG renderer + DOM event handlers |
-| [`@floormap-tools/react`](packages/adapters/react) | 0.1.0 | React adapter — hooks and `FloormapCanvas` component |
+| [`@spatialkit/core`](packages/core) | 0.1.0 | Scene engine, viewport, event bus, picking, selection |
+| [`@spatialkit/svg`](packages/svg) | 0.1.0 | SVG renderer + DOM event handlers |
+| [`@spatialkit/react`](packages/adapters/react) | 0.1.0 | React adapter — hooks and `SpatialCanvas` component |
 
 ---
 
@@ -30,13 +30,13 @@ Floormap provides the low-level engine for pan/zoom, selection, hit testing, and
 **Vanilla JS / framework-agnostic:**
 
 ```bash
-npm install @floormap-tools/core @floormap-tools/svg
+npm install @spatialkit/core @spatialkit/svg
 ```
 
 **React:**
 
 ```bash
-npm install @floormap-tools/core @floormap-tools/react
+npm install @spatialkit/core @spatialkit/react
 ```
 
 All packages ship dual **ESM + CJS** builds with full TypeScript declarations.
@@ -47,14 +47,14 @@ All packages ship dual **ESM + CJS** builds with full TypeScript declarations.
 
 ```tsx
 import { useCallback, useEffect } from 'react';
-import { createEmptyScene, addEntity } from '@floormap-tools/core';
-import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
+import { createEmptyScene, addEntity } from '@spatialkit/core';
+import type { Entity, EntityId, LayerId } from '@spatialkit/core';
 import {
-  FloormapCanvas,
-  useFloormapCore,
+  SpatialCanvas,
+  useSpatialCore,
   useSelection,
   useViewport,
-} from '@floormap-tools/react';
+} from '@spatialkit/react';
 
 const LAYER = 'main' as LayerId;
 
@@ -73,7 +73,7 @@ const initialScene = (() => {
 
 export function FloorPlan() {
   // Create the engine once per component lifetime
-  const core = useFloormapCore(() => ({
+  const core = useSpatialCore(() => ({
     scene: initialScene,
     viewport: { zoom: 1, pan: { x: 0, y: 0 }, screenSize: { width: 800, height: 600 } },
   }));
@@ -99,7 +99,7 @@ export function FloorPlan() {
     <div>
       <p>Zoom: {Math.round(viewport.zoom * 100)}%</p>
       <p>Selected: {[...selection].join(', ') || 'none'}</p>
-      <FloormapCanvas
+      <SpatialCanvas
         core={core}
         drawEntity={drawEntity}
         grid={{ size: 40 }}
@@ -115,12 +115,12 @@ export function FloorPlan() {
 
 ## React API
 
-### `<FloormapCanvas>`
+### `<SpatialCanvas>`
 
 The main component. Renders an `<svg>` element and wires all interactions.
 
 ```tsx
-<FloormapCanvas
+<SpatialCanvas
   core={core}
   drawEntity={(entity, { selected }) => <rect ... />}
 
@@ -156,18 +156,18 @@ The main component. Renders an `<svg>` element and wires all interactions.
 
 ### Hooks
 
-#### `useFloormapCore(init)`
+#### `useSpatialCore(init)`
 
-Creates a `FloormapCore` instance that persists for the lifetime of the component.
+Creates a `SpatialCore` instance that persists for the lifetime of the component.
 
 ```ts
-const core = useFloormapCore(() => ({
+const core = useSpatialCore(() => ({
   scene: myScene,
   viewport: { zoom: 1, pan: { x: 0, y: 0 }, screenSize: { width: 800, height: 600 } },
 }));
 ```
 
-Accepts an initializer function (lazy) or a plain `FloormapCoreOptions` object. The core is created exactly once and never re-created on re-renders.
+Accepts an initializer function (lazy) or a plain `SpatialCoreOptions` object. The core is created exactly once and never re-created on re-renders.
 
 ---
 
@@ -208,9 +208,9 @@ useCoreEvent(core, 'entities:changed', ({ type, ids }) => {
 ## Quick start — Vanilla JS
 
 ```ts
-import { createCore, createEmptyScene } from '@floormap-tools/core';
-import { mountSvgRenderer } from '@floormap-tools/svg';
-import type { EntityId, LayerId } from '@floormap-tools/core';
+import { createCore, createEmptyScene } from '@spatialkit/core';
+import { mountSvgRenderer } from '@spatialkit/svg';
+import type { EntityId, LayerId } from '@spatialkit/core';
 
 // 1. Define layers (bottom → top z-order)
 const LAYERS = {
@@ -290,7 +290,7 @@ renderer.destroy();
 - `fitToBounds`, `fitToScene`, `centerOn` for programmatic camera control
 - Precise coordinate transforms: `worldToScreen` / `screenToWorld`
 
-**Interaction** (via `@floormap-tools/svg` or `@floormap-tools/react`)
+**Interaction** (via `@spatialkit/svg` or `@spatialkit/react`)
 - Mouse wheel zoom (configurable sensitivity)
 - Pointer drag-to-pan
 - Pinch-to-zoom on touch and pen devices
@@ -298,15 +298,15 @@ renderer.destroy();
 - Multi-select: Shift (add), Ctrl/Meta (toggle)
 - Drag-to-move selected entities
 
-**Rendering** (via `@floormap-tools/svg` or `@floormap-tools/react`)
+**Rendering** (via `@spatialkit/svg` or `@spatialkit/react`)
 - Bring-your-own-drawEntity callback — full SVG freedom
 - World-aligned background grid that stays crisp at any zoom
 - Built-in selection highlight overlay with customisable style
 - Automatic repaints on viewport, entity, and selection changes
 
-**React adapter** (`@floormap-tools/react`)
-- `FloormapCanvas` component — drop in an SVG canvas with zero boilerplate
-- `useFloormapCore` — lazy engine initialisation, stable across re-renders
+**React adapter** (`@spatialkit/react`)
+- `SpatialCanvas` component — drop in an SVG canvas with zero boilerplate
+- `useSpatialCore` — lazy engine initialisation, stable across re-renders
 - `useSelection` / `useViewport` — fine-grained reactive subscriptions via `useSyncExternalStore`
 - `useCoreEvent` — subscribe to any core event with a stable handler ref
 
@@ -325,25 +325,25 @@ renderer.destroy();
   │               Your application          │
   │  (add/update entities, read selection)  │
   └────────────────┬────────────────────────┘
-                   │  FloormapCore API
+                   │  SpatialCore API
        ┌───────────▼────────────┐
-       │     @floormap-tools/core     │
+       │    @spatialkit/core    │
        │  scene · viewport      │
        │  events · picking      │
        │  selection · store     │
        └─────────┬──────────────┘
                  │  subscribes to events
        ┌─────────┴──────────────┬──────────────────────┐
-       │     @floormap-tools/svg      │   @floormap-tools/react     │
-       │  DOM setup · renderer  │  FloormapCanvas       │
-       │  handlers · grid       │  useFloormapCore      │
-       │  selection overlay     │  useSelection         │
-       └────────────────────────┘  useViewport          │
-                                   useCoreEvent         │
-                                   └────────────────────┘
+       │    @spatialkit/svg     │  @spatialkit/react   │
+       │  DOM setup · renderer  │  SpatialCanvas       │
+       │  handlers · grid       │  useSpatialCore      │
+       │  selection overlay     │  useSelection        │
+       └────────────────────────┤  useViewport         │
+                                │  useCoreEvent        │
+                                └──────────────────────┘
 ```
 
-`@floormap-tools/core` is fully framework-agnostic — no DOM, no browser APIs. `@floormap-tools/svg` and `@floormap-tools/react` are independent renderer/adapter layers that connect core to the browser. Use whichever fits your stack.
+`@spatialkit/core` is fully framework-agnostic — no DOM, no browser APIs. `@spatialkit/svg` and `@spatialkit/react` are independent renderer/adapter layers that connect core to the browser. Use whichever fits your stack.
 
 ---
 
@@ -372,8 +372,8 @@ All entity `bounds` are in world coordinates. Mouse positions from DOM events ar
 **Prerequisites:** Node 22, pnpm 10
 
 ```bash
-git clone https://github.com/floormap-tools/floormap
-cd floormap
+git clone https://github.com/spatialkit/spatial
+cd spatial
 pnpm install
 ```
 
@@ -397,7 +397,7 @@ If you find a bug or want to suggest an improvement, please open an **issue**.
 For pull requests:
 - Keep the PR focused on a single change or feature
 - Run `pnpm typecheck && pnpm test && pnpm lint` before submitting
-- Do not add production dependencies to `@floormap-tools/core`, `@floormap-tools/svg`, or `@floormap-tools/react`
+- Do not add production dependencies to `@spatialkit/core`, `@spatialkit/svg`, or `@spatialkit/react`
 
 ---
 

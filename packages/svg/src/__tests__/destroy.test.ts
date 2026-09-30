@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@floormap-tools/core';
+import { createCore } from '@spatialkit/core';
 
 function makeSetup() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGSVGElement;
@@ -27,9 +27,9 @@ describe('Svg renderer - destroy DOM cleanup', () => {
   it('destroy() removes viewport group by default', () => {
     const renderer = mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
 
-    expect(svg.querySelector("g[data-fm='viewport']")).toBeTruthy();
+    expect(svg.querySelector("g[data-spatial='viewport']")).toBeTruthy();
     renderer.destroy();
-    expect(svg.querySelector("g[data-fm='viewport']")).toBeNull();
+    expect(svg.querySelector("g[data-spatial='viewport']")).toBeNull();
   });
 
   it('destroy() removes defs element when present', () => {
@@ -42,9 +42,9 @@ describe('Svg renderer - destroy DOM cleanup', () => {
       },
     });
 
-    expect(svg.querySelector("defs[data-fm='defs']")).toBeTruthy();
+    expect(svg.querySelector("defs[data-spatial='defs']")).toBeTruthy();
     renderer.destroy();
-    expect(svg.querySelector("defs[data-fm='defs']")).toBeNull();
+    expect(svg.querySelector("defs[data-spatial='defs']")).toBeNull();
   });
 
   it('destroy() with clearOnDestroy: false preserves DOM', () => {
@@ -55,7 +55,7 @@ describe('Svg renderer - destroy DOM cleanup', () => {
     });
 
     renderer.destroy();
-    expect(svg.querySelector("g[data-fm='viewport']")).toBeTruthy();
+    expect(svg.querySelector("g[data-spatial='viewport']")).toBeTruthy();
   });
 
   it('destroy() unsubscribes from core events (no repaint after destroy)', () => {

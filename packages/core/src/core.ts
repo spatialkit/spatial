@@ -5,7 +5,7 @@ import { addEntity, getEntity, removeEntity, sceneBounds, updateEntity } from ".
 import type { Bounds, Entity, EntityId, Scene, SelectionMode, Vec2, Viewport } from "./types";
 import { fitToBounds, panBy, screenToWorld, setZoomAt, worldToScreen } from "./viewport";
 
-export interface FloormapCore {
+export interface SpatialCore {
   scene: Scene;
   viewport: Viewport;
   selection: Set<EntityId>;
@@ -43,13 +43,13 @@ type CreateCoreProps = {
   viewport: Viewport;
 };
 
-export function createCore(props: CreateCoreProps): FloormapCore {
+export function createCore(props: CreateCoreProps): SpatialCore {
   const bus = new EventBus();
   const selection = new Set<EntityId>();
   const scene = props.scene;
   const viewport = { ...props.viewport };
 
-  const api: FloormapCore = {
+  const api: SpatialCore = {
     scene,
     viewport,
     selection,
