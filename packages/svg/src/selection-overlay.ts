@@ -1,4 +1,4 @@
-import type { FloormapCore } from '@floormap-tools/core';
+import type { SpatialCore } from '@spatialkit/core';
 import { clearChildren } from './dom';
 
 export type SelectionOverlayStyle = {
@@ -11,7 +11,7 @@ export type SelectionOverlayStyle = {
 const NS = 'http://www.w3.org/2000/svg';
 
 export function paintSelectionOverlay(
-  core: FloormapCore,
+  core: SpatialCore,
   selectionG: SVGGElement,
   style: SelectionOverlayStyle = {},
 ): void {

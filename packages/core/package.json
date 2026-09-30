@@ -1,5 +1,5 @@
 {
-  "name": "@floormap-tools/core",
+  "name": "@spatialkit/core",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/floormap-tools/floormap.git"
+    "url": "https://github.com/spatialkit/spatial.git"
   },
   "scripts": {
     "test": "vitest run",

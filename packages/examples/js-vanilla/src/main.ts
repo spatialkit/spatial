@@ -1,9 +1,9 @@
-import { createCore, createEmptyScene, hitTestResizeHandles } from '@floormap-tools/core';
+import { createCore, createEmptyScene, hitTestResizeHandles } from '@spatialkit/core';
 
 document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
 document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
-import { mountSvgRenderer } from '@floormap-tools/svg';
-import type { EntityId, LayerId } from '@floormap-tools/core';
+import { mountSvgRenderer } from '@spatialkit/svg';
+import type { EntityId, LayerId } from '@spatialkit/core';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -79,7 +79,7 @@ for (let row = 0; row < DESK_GRID.rows; row++) {
 
 const NS = 'http://www.w3.org/2000/svg';
 
-import type { Entity } from '@floormap-tools/core';
+import type { Entity } from '@spatialkit/core';
 
 function drawEntity(entity: Entity, { g, selected }: { g: SVGGElement; selected: boolean }) {
   const data = entity.data as EntityData;

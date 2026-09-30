@@ -1,4 +1,4 @@
-import type { FloormapCore } from '@floormap-tools/core';
+import type { SpatialCore } from '@spatialkit/core';
 import { clearChildren } from './dom';
 
 export type ResizeHandleStyle = {
@@ -29,7 +29,7 @@ function handleCenter(bounds: { x: number; y: number; width: number; height: num
 }
 
 export function paintResizeHandles(
-  core: FloormapCore,
+  core: SpatialCore,
   overlaysG: SVGGElement,
   style: ResizeHandleStyle = {},
 ): void {

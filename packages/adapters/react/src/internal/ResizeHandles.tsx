@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import type { Entity, EntityId } from '@floormap-tools/core';
+import type { Entity, EntityId } from '@spatialkit/core';
 
 export type ResizeHandleStyle = {
   size?: number;
@@ -45,7 +45,7 @@ export const ResizeHandles = memo(function ResizeHandles({
   if (selected.length === 0) return null;
 
   return (
-    <g data-fm="overlays">
+    <g data-spatial="overlays">
       {selected.flatMap((entity) =>
         DIRECTIONS.map((dir) => {
           const center = handleCenter(entity.bounds, dir);

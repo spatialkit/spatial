@@ -1,9 +1,9 @@
 import { memo, useEffect, useRef } from 'react';
-import type { FloormapCore, Viewport } from '@floormap-tools/core';
+import type { SpatialCore, Viewport } from '@spatialkit/core';
 import type { GridOptions } from '../types';
 
 interface GridLayerProps {
-  core: FloormapCore;
+  core: SpatialCore;
   options: GridOptions;
 }
 
@@ -20,7 +20,7 @@ export const GridLayer = memo(function GridLayer({ core, options }: GridLayerPro
     return core.on('viewport:change', paint);
   }, [core, options]);
 
-  return <g data-fm="grid" ref={gRef} />;
+  return <g data-spatial="grid" ref={gRef} />;
 });
 
 const NS = 'http://www.w3.org/2000/svg';

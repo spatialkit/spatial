@@ -44,7 +44,7 @@ importers:
 
   packages/adapters/react:
     devDependencies:
-      '@floormap-tools/core':
+      '@spatialkit/core':
         specifier: workspace:*
         version: link:../../core
       '@testing-library/react':
@@ -77,10 +77,10 @@ importers:
 
   packages/examples/js-vanilla:
     dependencies:
-      '@floormap-tools/core':
+      '@spatialkit/core':
         specifier: workspace:*
         version: link:../../core
-      '@floormap-tools/svg':
+      '@spatialkit/svg':
         specifier: workspace:*
         version: link:../../svg
     devDependencies:
@@ -90,10 +90,10 @@ importers:
 
   packages/examples/react:
     dependencies:
-      '@floormap-tools/core':
+      '@spatialkit/core':
         specifier: workspace:*
         version: link:../../core
-      '@floormap-tools/react':
+      '@spatialkit/react':
         specifier: workspace:*
         version: link:../../adapters/react
       react:
@@ -118,7 +118,7 @@ importers:
 
   packages/svg:
     devDependencies:
-      '@floormap-tools/core':
+      '@spatialkit/core':
         specifier: workspace:*
         version: link:../core
       jsdom:

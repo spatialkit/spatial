@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@floormap-tools/core';
+import { createCore } from '@spatialkit/core';
 
 function stubRect(svg: SVGSVGElement) {
   (svg as any).getBoundingClientRect = () => ({
@@ -75,8 +75,8 @@ describe('Svg renderer (smoke)', () => {
       },
     });
 
-    expect(svg.querySelector("g[data-fm='viewport']")).toBeTruthy();
-    expect(svg.querySelector("g[data-fm='objects']")).toBeTruthy();
+    expect(svg.querySelector("g[data-spatial='viewport']")).toBeTruthy();
+    expect(svg.querySelector("g[data-spatial='objects']")).toBeTruthy();
 
     expect(svg.querySelector('circle')).toBeTruthy();
 
@@ -122,7 +122,7 @@ describe('Svg renderer - event-driven repaints', () => {
     const core = makeCore();
     mountSvgRenderer(core, { mount: svg, drawEntity: () => {} });
 
-    const viewportG = svg.querySelector<SVGGElement>("g[data-fm='viewport']")!;
+    const viewportG = svg.querySelector<SVGGElement>("g[data-spatial='viewport']")!;
     const before = viewportG.getAttribute('transform');
 
     core.zoomAt({ x: 400, y: 300 }, 0.5);

@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import type { FloormapCore } from '@floormap-tools/core';
+import type { SpatialCore } from '@spatialkit/core';
 
 export function useCoreEvent<T = unknown>(
-  core: FloormapCore,
+  core: SpatialCore,
   event: string,
   handler: (payload: T) => void,
 ): void {

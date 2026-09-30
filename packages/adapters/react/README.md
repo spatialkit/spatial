@@ -1,13 +1,13 @@
-# @floormap-tools/react
+# @spatialkit/react
 
-React adapter for [`@floormap-tools/core`](../../core). Provides a drop-in `<FloormapCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
+React adapter for [`@spatialkit/core`](../../core). Provides a drop-in `<SpatialCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
 
 ## Installation
 
 ```bash
-npm install @floormap-tools/core @floormap-tools/react
+npm install @spatialkit/core @spatialkit/react
 # or
-pnpm add @floormap-tools/core @floormap-tools/react
+pnpm add @spatialkit/core @spatialkit/react
 ```
 
 React 18 is required as a peer dependency.
@@ -16,21 +16,21 @@ React 18 is required as a peer dependency.
 
 ```tsx
 import { useCallback, useEffect } from 'react';
-import { createEmptyScene } from '@floormap-tools/core';
-import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
-import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap-tools/react';
+import { createEmptyScene } from '@spatialkit/core';
+import type { Entity, EntityId, LayerId } from '@spatialkit/core';
+import { SpatialCanvas, useSpatialCore, useSelection, useViewport } from '@spatialkit/react';
 
 const LAYER = 'main' as LayerId;
 
 const initialScene = (() => {
   const scene = createEmptyScene({ width: 1200, height: 800 }, [LAYER]);
-  // addEntity is a store helper — import from @floormap-tools/core if needed,
+  // addEntity is a store helper — import from @spatialkit/core if needed,
   // or use core.add() after the core is created.
   return scene;
 })();
 
 export function FloorPlan() {
-  const core = useFloormapCore(() => ({
+  const core = useSpatialCore(() => ({
     scene: initialScene,
     viewport: { zoom: 1, pan: { x: 0, y: 0 }, screenSize: { width: 800, height: 600 } },
   }));
@@ -61,7 +61,7 @@ export function FloorPlan() {
     <div>
       <p>Zoom: {Math.round(viewport.zoom * 100)}%</p>
       <p>Selected: {[...selection].join(', ') || 'none'}</p>
-      <FloormapCanvas
+      <SpatialCanvas
         core={core}
         drawEntity={drawEntity}
         grid={{ size: 40 }}
@@ -77,12 +77,12 @@ export function FloorPlan() {
 
 ## API reference
 
-### `<FloormapCanvas>`
+### `<SpatialCanvas>`
 
 The main component. Renders an `<svg>` element, manages the viewport transform, wires all pointer/wheel interactions, and calls `drawEntity` for every entity in the scene.
 
 ```tsx
-<FloormapCanvas
+<SpatialCanvas
   core={core}
   drawEntity={(entity, { selected }) => <rect ... />}
   grid={{ size: 40 }}
@@ -95,7 +95,7 @@ The main component. Renders an `<svg>` element, manages the viewport transform, 
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `core` | `FloormapCore` | The engine instance created with `useFloormapCore` |
+| `core` | `SpatialCore` | The engine instance created with `useSpatialCore` |
 | `drawEntity` | `(entity, ctx) => ReactNode` | Called for every entity — return React SVG elements |
 
 #### Rendering
@@ -172,12 +172,12 @@ interface SelectionOverlayStyle {
 
 ---
 
-### `useFloormapCore(init)`
+### `useSpatialCore(init)`
 
-Creates a `FloormapCore` instance that persists for the lifetime of the component. The initializer is called exactly once.
+Creates a `SpatialCore` instance that persists for the lifetime of the component. The initializer is called exactly once.
 
 ```ts
-const core = useFloormapCore(() => ({
+const core = useSpatialCore(() => ({
   scene: myScene,
   viewport: { zoom: 1, pan: { x: 0, y: 0 }, screenSize: { width: 800, height: 600 } },
 }));
@@ -229,7 +229,7 @@ useCoreEvent(core, 'selection:change', ({ selection }) => {
 
 ### Updating `screenSize` on resize
 
-`FloormapCanvas` automatically keeps `core.viewport.screenSize` in sync with the `<svg>` element via a `ResizeObserver` — no manual wiring needed.
+`SpatialCanvas` automatically keeps `core.viewport.screenSize` in sync with the `<svg>` element via a `ResizeObserver` — no manual wiring needed.
 
 ### Fitting the scene on mount
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FloormapCanvas, useFloormapCore, useSelection, useViewport } from '@floormap-tools/react';
-import { addEntity, createEmptyScene, hitTestResizeHandles } from '@floormap-tools/core';
-import type { Entity, EntityId, LayerId } from '@floormap-tools/core';
+import { SpatialCanvas, useSpatialCore, useSelection, useViewport } from '@spatialkit/react';
+import { addEntity, createEmptyScene, hitTestResizeHandles } from '@spatialkit/core';
+import type { Entity, EntityId, LayerId } from '@spatialkit/core';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -109,7 +109,7 @@ function DeskShape({ entity, selected }: { entity: Entity; selected: boolean }) 
 // ── App ────────────────────────────────────────────────────────────────────────
 
 export function App() {
-  const core = useFloormapCore(() => ({
+  const core = useSpatialCore(() => ({
     scene: initialScene,
     viewport: { zoom: 1, pan: { x: 0, y: 0 }, screenSize: { width: 800, height: 600 } },
   }));
@@ -192,7 +192,7 @@ export function App() {
   return (
     <div id="app">
       <header id="toolbar">
-        <span className="logo">Floormap</span>
+        <span className="logo">Spatial</span>
         <span className="example-name">Office Floor Plan — React</span>
         <div className="controls">
           <button onClick={() => core.fitToScene(48)}>Fit to scene</button>
@@ -230,7 +230,7 @@ export function App() {
           onPointerMove={handleCanvasPointerMove}
           onPointerLeave={() => setHoverCursor('')}
         >
-          <FloormapCanvas
+          <SpatialCanvas
             core={core}
             drawEntity={drawEntity}
             grid={{ size: snapEnabled ? snapSize : 40, stroke: '#f1f5f9', strokeWidth: 1 }}

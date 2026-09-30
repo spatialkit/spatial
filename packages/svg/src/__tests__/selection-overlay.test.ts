@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@floormap-tools/core';
+import { createCore } from '@spatialkit/core';
 
 function makeSetup() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGSVGElement;
@@ -28,7 +28,7 @@ function makeSetup() {
 }
 
 function getSelectionG(svg: SVGSVGElement) {
-  return svg.querySelector<SVGGElement>("g[data-fm='selection']")!;
+  return svg.querySelector<SVGGElement>("g[data-spatial='selection']")!;
 }
 
 describe('Svg renderer - selection overlay', () => {

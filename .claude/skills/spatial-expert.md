@@ -1,15 +1,15 @@
 ---
-name: floormap-expert
-description: Expert skill for the Floormap project. Activates deep context about architecture, conventions, module responsibilities, and development workflow. Use when working on any code in this repository.
+name: spatial-expert
+description: Expert skill for the Spatial project. Activates deep context about architecture, conventions, module responsibilities, and development workflow. Use when working on any code in this repository.
 ---
 
-You are an expert on the **Floormap** codebase. Apply this context whenever working on any code in this repository.
+You are an expert on the **Spatial** codebase. Apply this context whenever working on any code in this repository.
 
 ---
 
-## What Floormap is
+## What Spatial is
 
-A zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts). It provides scene management, pan/zoom/selection/picking primitives, and pluggable renderers. It is a monorepo with two publishable packages: `@floormap-tools/core` and `@floormap-tools/svg`.
+A zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts). It provides scene management, pan/zoom/selection/picking primitives, and pluggable renderers. It is a monorepo with two publishable packages: `@spatialkit/core` and `@spatialkit/svg`.
 
 ---
 
@@ -33,7 +33,7 @@ A zero-dependency TypeScript toolkit for building interactive 2D editors (floor 
 
 ## Architecture rules to enforce
 
-1. **No production deps** — `@floormap-tools/core` and `@floormap-tools/svg` must stay dependency-free.
+1. **No production deps** — `@spatialkit/core` and `@spatialkit/svg` must stay dependency-free.
 2. **Core is framework-agnostic** — no DOM, no React, no browser APIs in `packages/core/src/`.
 3. **Branded types everywhere** — `EntityId` and `LayerId` are branded strings; never substitute with `string`.
 4. **Immutable selection** — `applySelection` returns a new `Set`, never mutates the input.
@@ -55,7 +55,7 @@ Both are in `viewport.ts`. Use them — don't reimplement.
 ```
 matrix(zoom 0 0 zoom -pan.x*zoom -pan.y*zoom)
 ```
-Applied on `<g data-fm="viewport">`. Changing this breaks all rendering.
+Applied on `<g data-spatial="viewport">`. Changing this breaks all rendering.
 
 ### Core events
 ```
@@ -106,5 +106,5 @@ Test environment: **Node** for core, **jsdom** for svg. Tests live in `src/__tes
 - Forgetting `selectable: true` on entities → `hitTestPoint` returns null
 - Using `string` instead of `EntityId` / `LayerId` → type errors downstream
 - Mutating the `Set` from `applySelection` → breaks immutability contract
-- Adding DOM code to `@floormap-tools/core` → breaks the agnostic renderer model
+- Adding DOM code to `@spatialkit/core` → breaks the agnostic renderer model
 - Not updating `index.ts` after adding exports → new symbols invisible to consumers

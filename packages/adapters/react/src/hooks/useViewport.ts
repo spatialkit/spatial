@@ -1,7 +1,7 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
-import type { FloormapCore, Viewport } from '@floormap-tools/core';
+import type { SpatialCore, Viewport } from '@spatialkit/core';
 
-export function useViewport(core: FloormapCore): Viewport {
+export function useViewport(core: SpatialCore): Viewport {
   const snapshotRef = useRef<Viewport>({ ...core.viewport, pan: { ...core.viewport.pan } });
 
   return useSyncExternalStore(

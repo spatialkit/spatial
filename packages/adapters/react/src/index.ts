@@ -1,8 +1,8 @@
-export { FloormapCanvas } from './FloormapCanvas';
-export type { FloormapCanvasProps } from './FloormapCanvas';
+export { SpatialCanvas } from './SpatialCanvas';
+export type { SpatialCanvasProps } from './SpatialCanvas';
 
-export { useFloormapCore } from './hooks/useFloormapCore';
-export type { FloormapCoreOptions } from './hooks/useFloormapCore';
+export { useSpatialCore } from './hooks/useSpatialCore';
+export type { SpatialCoreOptions } from './hooks/useSpatialCore';
 
 export { useSelection } from './hooks/useSelection';
 export { useViewport } from './hooks/useViewport';

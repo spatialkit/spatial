@@ -5,9 +5,9 @@
     "jsx": "react-jsx",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "paths": {
-      "@floormap-tools/core": ["./packages/core/src/index.ts"],
-      "@floormap-tools/svg": ["./packages/svg/src/index.ts"],
-      "@floormap-tools/react": ["./packages/adapters/react/src/index.ts"]
+      "@spatialkit/core": ["./packages/core/src/index.ts"],
+      "@spatialkit/svg": ["./packages/svg/src/index.ts"],
+      "@spatialkit/react": ["./packages/adapters/react/src/index.ts"]
     }
   },
   "include": [

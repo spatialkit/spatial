@@ -1,5 +1,5 @@
 {
-  "name": "@floormap-tools/example-react",
+  "name": "@spatialkit/example-react",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@floormap-tools/core": "workspace:*",
-    "@floormap-tools/react": "workspace:*",
+    "@spatialkit/core": "workspace:*",
+    "@spatialkit/react": "workspace:*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

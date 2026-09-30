@@ -1,4 +1,4 @@
-import type { FloormapCore } from '@floormap-tools/core';
+import type { SpatialCore } from '@spatialkit/core';
 import { clearChildren } from './dom';
 
 export type GridOptions = {
@@ -9,7 +9,7 @@ export type GridOptions = {
 
 const NS = 'http://www.w3.org/2000/svg';
 
-export function paintGrid(core: FloormapCore, gridG: SVGGElement, options: GridOptions = {}): void {
+export function paintGrid(core: SpatialCore, gridG: SVGGElement, options: GridOptions = {}): void {
   const { size = 50, stroke = '#e5e7eb', strokeWidth = 1 } = options;
   const { zoom, pan, screenSize } = core.viewport;
 

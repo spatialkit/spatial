@@ -1,8 +1,8 @@
 import { type RefObject, useEffect } from 'react';
-import type { FloormapCore } from '@floormap-tools/core';
+import type { SpatialCore } from '@spatialkit/core';
 
 export function useViewportTransform(
-  core: FloormapCore,
+  core: SpatialCore,
   ref: RefObject<SVGGElement | null>,
 ): void {
   useEffect(() => {

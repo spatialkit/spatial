@@ -1,4 +1,4 @@
-import type { FloormapCore, Entity, LayerId } from '@floormap-tools/core';
+import type { SpatialCore, Entity, LayerId } from '@spatialkit/core';
 import type { SvgRenderer, SvgRendererOptions } from './index';
 import { setupSvgRoot, getGroups, clearChildren } from './dom';
 import { attachHandlers } from './handlers';
@@ -6,7 +6,7 @@ import { paintSelectionOverlay } from './selection-overlay';
 import { paintResizeHandles } from './resize-handles';
 import { paintGrid } from './grid';
 
-export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): SvgRenderer {
+export function mountSvgRenderer(core: SpatialCore, opts: SvgRendererOptions): SvgRenderer {
   const {
     mount,
     drawEntity,
@@ -86,13 +86,13 @@ export function mountSvgRenderer(core: FloormapCore, opts: SvgRendererOptions): 
       detach();
       if (clearOnDestroy) {
         groups.viewportG.remove();
-        mount.querySelector("defs[data-fm='defs']")?.remove();
+        mount.querySelector("defs[data-spatial='defs']")?.remove();
       }
     },
   };
 }
 
-function applyViewportTransform(core: FloormapCore, viewportG: SVGGElement) {
+function applyViewportTransform(core: SpatialCore, viewportG: SVGGElement) {
   const { zoom, pan } = core.viewport;
 
   const a = zoom,
@@ -107,7 +107,7 @@ function applyViewportTransform(core: FloormapCore, viewportG: SVGGElement) {
 }
 
 function paint(
-  core: FloormapCore,
+  core: SpatialCore,
   objectsG: SVGGElement,
   drawEntity: (e: Entity, ctx: { g: SVGGElement; selected: boolean }) => void,
 ) {
@@ -125,7 +125,7 @@ function paint(
 
   for (const layer of core.scene.layers) {
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    g.setAttribute('data-fm-layer', String(layer));
+    g.setAttribute('data-spatial-layer', String(layer));
     objectsG.appendChild(g);
 
     for (const e of byLayer.get(layer) ?? []) {

@@ -1,4 +1,4 @@
-# @floormap-tools/core — Claude Code Guide
+# @spatialkit/core — Claude Code Guide
 
 Zero-dependency scene engine for 2D interactive editors. Manages entities, viewport transforms, event pub/sub, hit testing, and selection. Framework-agnostic — no DOM, no browser APIs anywhere in this package.
 
@@ -6,10 +6,10 @@ Zero-dependency scene engine for 2D interactive editors. Manages entities, viewp
 
 ## Public API surface
 
-Everything flows through `FloormapCore`, the object returned by `createCore()`. Renderers and adapters receive this object and subscribe to its events.
+Everything flows through `SpatialCore`, the object returned by `createCore()`. Renderers and adapters receive this object and subscribe to its events.
 
 ```ts
-import { createCore, createEmptyScene } from '@floormap-tools/core';
+import { createCore, createEmptyScene } from '@spatialkit/core';
 
 const scene = createEmptyScene({ width: 2000, height: 1500 }, ['floor' as LayerId, 'furniture' as LayerId]);
 const core = createCore({
@@ -18,10 +18,10 @@ const core = createCore({
 });
 ```
 
-### `FloormapCore` interface
+### `SpatialCore` interface
 
 ```ts
-interface FloormapCore {
+interface SpatialCore {
   scene: Scene;               // mutable — entities live here
   viewport: Viewport;         // mutable — zoom/pan state
   selection: Set<EntityId>;   // mutable — current selection
@@ -247,7 +247,7 @@ Use `vi.fn()` to spy on event bus handlers. Always call `core.on(event, handler)
 
 1. New types → `types.ts`
 2. Pure logic → appropriate module (`store`, `viewport`, `selection`, `picking`, `utils`)
-3. Wire into `FloormapCore` interface + `createCore` factory in `core.ts`
+3. Wire into `SpatialCore` interface + `createCore` factory in `core.ts`
 4. Export from `index.ts`
 5. Tests in `src/__tests__/<module>.test.ts`
 

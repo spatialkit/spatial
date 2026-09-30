@@ -1,21 +1,21 @@
-# @floormap-tools/svg
+# @spatialkit/svg
 
-SVG renderer and DOM event handlers for [`@floormap-tools/core`](../core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, and a selection highlight overlay.
+SVG renderer and DOM event handlers for [`@spatialkit/core`](../core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, and a selection highlight overlay.
 
 ## Installation
 
 ```bash
-npm install @floormap-tools/core @floormap-tools/svg
+npm install @spatialkit/core @spatialkit/svg
 # or
-pnpm add @floormap-tools/core @floormap-tools/svg
+pnpm add @spatialkit/core @spatialkit/svg
 ```
 
 ## Quick start
 
 ```ts
-import { createCore, createEmptyScene } from '@floormap-tools/core';
-import { mountSvgRenderer } from '@floormap-tools/svg';
-import type { EntityId, LayerId } from '@floormap-tools/core';
+import { createCore, createEmptyScene } from '@spatialkit/core';
+import { mountSvgRenderer } from '@spatialkit/svg';
+import type { EntityId, LayerId } from '@spatialkit/core';
 
 const core = createCore({
   scene: createEmptyScene({ width: 2000, height: 1500 }, ['layer' as LayerId]),
@@ -233,15 +233,15 @@ The renderer builds and manages this group hierarchy inside your `<svg>`:
 
 ```
 <svg>
-  <g data-fm="viewport">         ← viewport transform matrix applied here
-    <g data-fm="grid">           ← background grid lines
-    <g data-fm="objects">        ← entity groups, one per layer
-      <g data-fm-layer="floor">
-      <g data-fm-layer="furniture">
+  <g data-spatial="viewport">         ← viewport transform matrix applied here
+    <g data-spatial="grid">           ← background grid lines
+    <g data-spatial="objects">        ← entity groups, one per layer
+      <g data-spatial-layer="floor">
+      <g data-spatial-layer="furniture">
       ...
-    <g data-fm="selection">      ← selection overlay rects
-    <g data-fm="overlays">       ← reserved
-  <defs data-fm="defs">          ← present only if defs option is provided
+    <g data-spatial="selection">      ← selection overlay rects
+    <g data-spatial="overlays">       ← reserved
+  <defs data-spatial="defs">          ← present only if defs option is provided
 ```
 
 **Viewport transform:**
@@ -249,7 +249,7 @@ The renderer builds and manages this group hierarchy inside your `<svg>`:
 matrix(zoom  0  0  zoom  -pan.x×zoom  -pan.y×zoom)
 ```
 
-All children of `<g data-fm="viewport">` — including grid and selection overlay — share the same camera transform. Entity coordinates in `drawEntity` can be used directly as world coordinates.
+All children of `<g data-spatial="viewport">` — including grid and selection overlay — share the same camera transform. Entity coordinates in `drawEntity` can be used directly as world coordinates.
 
 The hierarchy is created once and is **idempotent** — calling `mountSvgRenderer` again on the same SVG (e.g. after a hot reload) will reuse the existing groups.
 

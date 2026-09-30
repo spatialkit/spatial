@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import type { Entity, EntityId } from '@floormap-tools/core';
+import type { Entity, EntityId } from '@spatialkit/core';
 import type { SelectionOverlayStyle } from '../types';
 
 interface SelectionOverlayProps {
@@ -16,7 +16,7 @@ export const SelectionOverlay = memo(function SelectionOverlay({
   const { stroke = '#2563eb', strokeWidth = 2, padding = 4, fill = 'none' } = style;
 
   return (
-    <g data-fm="selection">
+    <g data-spatial="selection">
       {entities
         .filter((e) => selection.has(e.id))
         .map((entity) => {
