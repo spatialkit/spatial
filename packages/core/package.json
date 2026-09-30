@@ -1,8 +1,30 @@
 {
   "name": "@spatialkit/core",
   "version": "0.1.0",
+  "description": "Framework-agnostic scene engine for interactive 2D editors: entities, viewport, events, hit testing and selection.",
+  "keywords": [
+    "2d",
+    "editor",
+    "floor-plan",
+    "scene-graph",
+    "viewport",
+    "pan-zoom",
+    "hit-testing",
+    "selection",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Lucas Felix",
+  "homepage": "https://github.com/spatialkit/spatial/tree/main/packages/core#readme",
+  "bugs": "https://github.com/spatialkit/spatial/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spatialkit/spatial.git",
+    "directory": "packages/core"
+  },
   "private": false,
   "type": "module",
+  "sideEffects": false,
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,14 +33,16 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/spatialkit/spatial.git"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "test": "vitest run",
@@ -28,5 +52,8 @@
   },
   "devDependencies": {
     "vitest": "^2.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
