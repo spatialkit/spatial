@@ -51,7 +51,7 @@
   "devDependencies": {
     "@spatialkit/core": "workspace:*",
     "jsdom": "^27.2.0",
-    "vitest": "^2.0.0"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@spatialkit/core": "0.x"

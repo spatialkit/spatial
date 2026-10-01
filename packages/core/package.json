@@ -51,7 +51,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "vitest": "^2.0.0"
+    "vitest": "^4.1.11"
   },
   "publishConfig": {
     "access": "public"
