@@ -5,7 +5,7 @@
 Spatial is a zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts, warehouse maps). It exposes low-level primitives for pan/zoom/selection/picking and ships pluggable renderers.
 
 **Repo:** `github.com/spatialkit/spatial`  
-**Status:** v0.0.0 — core stable, SVG renderer complete, React adapter in progress
+**Status:** v0.x — core, SVG renderer and React adapter are functional; the API may still change between minor versions
 
 > Detailed per-package guides: [`packages/core/CLAUDE.md`](packages/core/CLAUDE.md) · [`packages/svg/CLAUDE.md`](packages/svg/CLAUDE.md)
 
@@ -34,7 +34,7 @@ Adapters live under `packages/adapters/` — add new framework adapters (e.g. `v
 ```bash
 pnpm test          # run all tests once (vitest)
 pnpm test:watch    # vitest in watch mode
-pnpm typecheck     # tsc -b --verbose (all packages)
+pnpm typecheck     # tsc --noEmit (all packages)
 pnpm build         # tsup build for all packages
 pnpm lint          # eslint on all .ts/.tsx
 pnpm dev           # dev server (packages/examples)
