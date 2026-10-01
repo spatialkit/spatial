@@ -14,7 +14,7 @@
 
 <p align="center">
     <a href="https://github.com/spatialkit/spatial/actions/workflows/ci.yml"><img src="https://github.com/spatialkit/spatial/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-    <a href="https://www.npmjs.com/package/@spatial-kit/core"><img src="https://img.shields.io/npm/v/@spatial-kit/core?label=%40spatialkit%2Fcore" alt="npm @spatial-kit/core" /></a>
+    <a href="https://www.npmjs.com/package/@spatial-kit/core"><img src="https://img.shields.io/npm/v/@spatial-kit/core?label=%40spatial-kit%2Fcore" alt="npm @spatial-kit/core" /></a>
     <a href="./LICENSE"><img src="https://img.shields.io/github/license/spatialkit/spatial" alt="MIT license" /></a>
 </p>
 
@@ -343,14 +343,14 @@ renderer.destroy();
   └────────────────┬────────────────────────┘
                    │  SpatialCore API
        ┌───────────▼────────────┐
-       │    @spatial-kit/core    │
+       │    @spatial-kit/core   │
        │  scene · viewport      │
        │  events · picking      │
        │  selection · store     │
        └─────────┬──────────────┘
                  │  subscribes to events
        ┌─────────┴──────────────┬──────────────────────┐
-       │    @spatial-kit/svg     │  @spatial-kit/react   │
+       │    @spatial-kit/svg    │  @spatial-kit/react  │
        │  DOM setup · renderer  │  SpatialCanvas       │
        │  handlers · grid       │  useSpatialCore      │
        │  selection overlay     │  useSelection        │
