@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@spatialkit/core';
+import { createCore } from '@spatial-kit/core';
 
 function makeSetup() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGSVGElement;

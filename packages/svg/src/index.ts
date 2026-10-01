@@ -1,4 +1,4 @@
-import type { Entity, EntityId } from '@spatialkit/core';
+import type { Entity, EntityId } from '@spatial-kit/core';
 import type { SelectionOverlayStyle } from './selection-overlay';
 import type { GridOptions } from './grid';
 

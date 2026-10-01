@@ -9,7 +9,7 @@ You are an expert on the **Spatial** codebase. Apply this context whenever worki
 
 ## What Spatial is
 
-A zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts). It provides scene management, pan/zoom/selection/picking primitives, and pluggable renderers. It is a monorepo with two publishable packages: `@spatialkit/core` and `@spatialkit/svg`.
+A zero-dependency TypeScript toolkit for building interactive 2D editors (floor plans, seat maps, office layouts). It provides scene management, pan/zoom/selection/picking primitives, and pluggable renderers. It is a monorepo with two publishable packages: `@spatial-kit/core` and `@spatial-kit/svg`.
 
 ---
 
@@ -33,7 +33,7 @@ A zero-dependency TypeScript toolkit for building interactive 2D editors (floor 
 
 ## Architecture rules to enforce
 
-1. **No production deps** — `@spatialkit/core` and `@spatialkit/svg` must stay dependency-free.
+1. **No production deps** — `@spatial-kit/core` and `@spatial-kit/svg` must stay dependency-free.
 2. **Core is framework-agnostic** — no DOM, no React, no browser APIs in `packages/core/src/`.
 3. **Branded types everywhere** — `EntityId` and `LayerId` are branded strings; never substitute with `string`.
 4. **Immutable selection** — `applySelection` returns a new `Set`, never mutates the input.
@@ -106,5 +106,5 @@ Test environment: **Node** for core, **jsdom** for svg. Tests live in `src/__tes
 - Forgetting `selectable: true` on entities → `hitTestPoint` returns null
 - Using `string` instead of `EntityId` / `LayerId` → type errors downstream
 - Mutating the `Set` from `applySelection` → breaks immutability contract
-- Adding DOM code to `@spatialkit/core` → breaks the agnostic renderer model
+- Adding DOM code to `@spatial-kit/core` → breaks the agnostic renderer model
 - Not updating `index.ts` after adding exports → new symbols invisible to consumers

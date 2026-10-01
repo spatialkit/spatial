@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef } from 'react';
-import type { SpatialCore, Viewport } from '@spatialkit/core';
+import type { SpatialCore, Viewport } from '@spatial-kit/core';
 import type { GridOptions } from '../types';
 
 interface GridLayerProps {

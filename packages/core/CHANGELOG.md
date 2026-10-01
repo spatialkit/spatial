@@ -1,7 +1,7 @@
-# @spatialkit/core
+# @spatial-kit/core
 
 ## 0.1.0
 
 ### Minor Changes
 
-- Initial release of @spatialkit/core, @spatialkit/svg, and @spatialkit/react.
+- Initial release of @spatial-kit/core, @spatial-kit/svg, and @spatial-kit/react.

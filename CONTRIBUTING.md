@@ -38,10 +38,10 @@ pnpm test
 
 ```
 packages/
-  core/             @spatialkit/core   — scene engine, viewport, selection, events, picking
-  svg/              @spatialkit/svg    — SVG renderer + DOM event handlers
+  core/             @spatial-kit/core   — scene engine, viewport, selection, events, picking
+  svg/              @spatial-kit/svg    — SVG renderer + DOM event handlers
   adapters/
-    react/          @spatialkit/react  — React adapter (hooks + SpatialCanvas)
+    react/          @spatial-kit/react  — React adapter (hooks + SpatialCanvas)
   examples/
     js-vanilla/     vanilla JS example (not published)
     react/          React example (not published)
@@ -51,8 +51,8 @@ Each package README documents its public API.
 
 ## Code conventions
 
-- **No production dependencies** in `@spatialkit/core`, `@spatialkit/svg` or `@spatialkit/react`. Peer dependencies on other `@spatialkit/*` packages and on React are the only exceptions.
-- **`@spatialkit/core` stays framework-agnostic**: no DOM, no browser APIs.
+- **No production dependencies** in `@spatial-kit/core`, `@spatial-kit/svg` or `@spatial-kit/react`. Peer dependencies on other `@spatial-kit/*` packages and on React are the only exceptions.
+- **`@spatial-kit/core` stays framework-agnostic**: no DOM, no browser APIs.
 - **TypeScript strict**: no `any`, no unused variables (prefix intentionally unused arguments with `_`).
 - **Branded ids**: use `EntityId` and `LayerId`, never plain `string`.
 - **Immutable selection**: never mutate the `Set` returned by `applySelection`.

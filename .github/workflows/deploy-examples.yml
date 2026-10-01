@@ -62,11 +62,11 @@ jobs:
             <p>Interactive 2D editor toolkit — live examples</p>
             <a href="vanilla/">
               Vanilla JS
-              <span>@spatialkit/core + @spatialkit/svg</span>
+              <span>@spatial-kit/core + @spatial-kit/svg</span>
             </a>
             <a href="react/">
               React
-              <span>@spatialkit/core + @spatialkit/react</span>
+              <span>@spatial-kit/core + @spatial-kit/react</span>
             </a>
           </body>
           </html>

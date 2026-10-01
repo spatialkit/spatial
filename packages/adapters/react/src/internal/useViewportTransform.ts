@@ -1,5 +1,5 @@
 import { type RefObject, useEffect } from 'react';
-import type { SpatialCore } from '@spatialkit/core';
+import type { SpatialCore } from '@spatial-kit/core';
 
 export function useViewportTransform(
   core: SpatialCore,

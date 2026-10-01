@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { render, act } from '@testing-library/react';
-import { createCore, createEmptyScene } from '@spatialkit/core';
-import type { Entity, EntityId, LayerId } from '@spatialkit/core';
+import { createCore, createEmptyScene } from '@spatial-kit/core';
+import type { Entity, EntityId, LayerId } from '@spatial-kit/core';
 import { SpatialCanvas } from '../SpatialCanvas';
 
 beforeAll(() => {

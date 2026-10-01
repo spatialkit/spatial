@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import { createCore } from '@spatialkit/core';
-import type { SpatialCore, Scene, Viewport } from '@spatialkit/core';
+import { createCore } from '@spatial-kit/core';
+import type { SpatialCore, Scene, Viewport } from '@spatial-kit/core';
 
 export interface SpatialCoreOptions {
   scene: Scene;

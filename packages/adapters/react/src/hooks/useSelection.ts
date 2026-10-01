@@ -1,5 +1,5 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
-import type { EntityId, SpatialCore } from '@spatialkit/core';
+import type { EntityId, SpatialCore } from '@spatial-kit/core';
 
 export function useSelection(core: SpatialCore): ReadonlySet<EntityId> {
   const snapshotRef = useRef<ReadonlySet<EntityId>>(new Set(core.selection));

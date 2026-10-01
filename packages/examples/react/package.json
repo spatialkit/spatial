@@ -1,5 +1,5 @@
 {
-  "name": "@spatialkit/example-react",
+  "name": "@spatial-kit/example-react",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@spatialkit/core": "workspace:*",
-    "@spatialkit/react": "workspace:*",
+    "@spatial-kit/core": "workspace:*",
+    "@spatial-kit/react": "workspace:*",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

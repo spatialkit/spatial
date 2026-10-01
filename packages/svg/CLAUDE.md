@@ -1,13 +1,13 @@
-# @spatialkit/svg — Claude Code Guide
+# @spatial-kit/svg — Claude Code Guide
 
-SVG renderer and DOM event handlers for `@spatialkit/core`. Subscribes to core events and paints the scene into an `<svg>` element. No production dependencies.
+SVG renderer and DOM event handlers for `@spatial-kit/core`. Subscribes to core events and paints the scene into an `<svg>` element. No production dependencies.
 
 ---
 
 ## Entry point
 
 ```ts
-import { mountSvgRenderer } from '@spatialkit/svg';
+import { mountSvgRenderer } from '@spatial-kit/svg';
 
 const renderer = mountSvgRenderer(core, {
   mount: svgElement,
@@ -190,7 +190,7 @@ All SVG tests require jsdom. Use the `// @vitest-environment jsdom` pragma at th
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mountSvgRenderer } from '../renderer';
-import { createCore } from '@spatialkit/core';
+import { createCore } from '@spatial-kit/core';
 ```
 
 **Required stubs** (jsdom doesn't implement these):

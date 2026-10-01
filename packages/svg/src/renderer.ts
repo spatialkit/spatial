@@ -1,4 +1,4 @@
-import type { SpatialCore, Entity, LayerId } from '@spatialkit/core';
+import type { SpatialCore, Entity, LayerId } from '@spatial-kit/core';
 import type { SvgRenderer, SvgRendererOptions } from './index';
 import { setupSvgRoot, getGroups, clearChildren } from './dom';
 import { attachHandlers } from './handlers';

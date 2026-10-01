@@ -1,9 +1,9 @@
-# @spatialkit/example-js-vanilla
+# @spatial-kit/example-js-vanilla
 
 ## 0.0.1
 
 ### Patch Changes
 
 - Updated dependencies
-  - @spatialkit/core@0.1.0
-  - @spatialkit/svg@1.0.0
+  - @spatial-kit/core@0.1.0
+  - @spatial-kit/svg@1.0.0

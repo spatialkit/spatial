@@ -8,8 +8,8 @@ export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/vanilla/' : '/',
   resolve: {
     alias: {
-      '@spatialkit/core': resolve(__dirname, '../../core/src/index.ts'),
-      '@spatialkit/svg': resolve(__dirname, '../../svg/src/index.ts'),
+      '@spatial-kit/core': resolve(__dirname, '../../core/src/index.ts'),
+      '@spatial-kit/svg': resolve(__dirname, '../../svg/src/index.ts'),
     },
   },
 }));

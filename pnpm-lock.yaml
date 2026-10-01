@@ -44,7 +44,7 @@ importers:
 
   packages/adapters/react:
     devDependencies:
-      '@spatialkit/core':
+      '@spatial-kit/core':
         specifier: workspace:*
         version: link:../../core
       '@testing-library/react':
@@ -77,10 +77,10 @@ importers:
 
   packages/examples/js-vanilla:
     dependencies:
-      '@spatialkit/core':
+      '@spatial-kit/core':
         specifier: workspace:*
         version: link:../../core
-      '@spatialkit/svg':
+      '@spatial-kit/svg':
         specifier: workspace:*
         version: link:../../svg
     devDependencies:
@@ -90,10 +90,10 @@ importers:
 
   packages/examples/react:
     dependencies:
-      '@spatialkit/core':
+      '@spatial-kit/core':
         specifier: workspace:*
         version: link:../../core
-      '@spatialkit/react':
+      '@spatial-kit/react':
         specifier: workspace:*
         version: link:../../adapters/react
       react:
@@ -118,7 +118,7 @@ importers:
 
   packages/svg:
     devDependencies:
-      '@spatialkit/core':
+      '@spatial-kit/core':
         specifier: workspace:*
         version: link:../core
       jsdom:

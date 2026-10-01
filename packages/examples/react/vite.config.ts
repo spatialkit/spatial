@@ -10,8 +10,8 @@ export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/react/' : '/',
   resolve: {
     alias: {
-      '@spatialkit/core': resolve(__dirname, '../../core/src/index.ts'),
-      '@spatialkit/react': resolve(__dirname, '../../adapters/react/src/index.ts'),
+      '@spatial-kit/core': resolve(__dirname, '../../core/src/index.ts'),
+      '@spatial-kit/react': resolve(__dirname, '../../adapters/react/src/index.ts'),
     },
   },
 }));

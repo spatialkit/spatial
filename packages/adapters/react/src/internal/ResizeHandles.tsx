@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import type { Entity, EntityId } from '@spatialkit/core';
+import type { Entity, EntityId } from '@spatial-kit/core';
 
 export type ResizeHandleStyle = {
   size?: number;

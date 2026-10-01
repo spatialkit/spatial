@@ -1,9 +1,9 @@
-import { createCore, createEmptyScene, hitTestResizeHandles } from '@spatialkit/core';
+import { createCore, createEmptyScene, hitTestResizeHandles } from '@spatial-kit/core';
 
 document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
 document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
-import { mountSvgRenderer } from '@spatialkit/svg';
-import type { EntityId, LayerId } from '@spatialkit/core';
+import { mountSvgRenderer } from '@spatial-kit/svg';
+import type { EntityId, LayerId } from '@spatial-kit/core';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -79,7 +79,7 @@ for (let row = 0; row < DESK_GRID.rows; row++) {
 
 const NS = 'http://www.w3.org/2000/svg';
 
-import type { Entity } from '@spatialkit/core';
+import type { Entity } from '@spatial-kit/core';
 
 function drawEntity(entity: Entity, { g, selected }: { g: SVGGElement; selected: boolean }) {
   const data = entity.data as EntityData;

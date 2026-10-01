@@ -1,20 +1,20 @@
-# @spatialkit/core
+# @spatial-kit/core
 
 Scene engine for interactive 2D editors. Manages entities, viewport transforms, event pub/sub, hit testing, and selection. Framework-agnostic — no DOM, no browser APIs.
 
 ## Installation
 
 ```bash
-npm install @spatialkit/core
+npm install @spatial-kit/core
 # or
-pnpm add @spatialkit/core
+pnpm add @spatial-kit/core
 ```
 
 ## Quick start
 
 ```ts
-import { createCore, createEmptyScene } from '@spatialkit/core';
-import type { EntityId, LayerId } from '@spatialkit/core';
+import { createCore, createEmptyScene } from '@spatial-kit/core';
+import type { EntityId, LayerId } from '@spatial-kit/core';
 
 const scene = createEmptyScene(
   { width: 2000, height: 1500 },
@@ -291,7 +291,7 @@ import {
   snapToGrid,
   hitTestResizeHandles,
   applyResizeDelta,
-} from '@spatialkit/core';
+} from '@spatial-kit/core';
 
 clamp(value, min, max)                  // numeric clamp
 containsPointAABB(bounds, point)        // true if point is inside bounds (inclusive)
@@ -305,7 +305,7 @@ snapToGrid(value, gridSize)             // rounds value to the nearest multiple 
 Renderers use these to implement resize handles. They are exported so custom renderers can reuse the same behavior.
 
 ```ts
-import type { ResizeDirection } from '@spatialkit/core';
+import type { ResizeDirection } from '@spatial-kit/core';
 // 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
 
 hitTestResizeHandles(selectedEntities, worldToScreen, screenPoint, handleSizePx = 8)
@@ -341,7 +341,7 @@ if (handle) {
 ### Creating branded ids
 
 ```ts
-import type { EntityId, LayerId } from '@spatialkit/core';
+import type { EntityId, LayerId } from '@spatial-kit/core';
 
 // Option 1: cast at point of use
 core.add({ id: 'table-1' as EntityId, layer: 'furniture' as LayerId, ... });

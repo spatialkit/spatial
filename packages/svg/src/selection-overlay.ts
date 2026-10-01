@@ -1,4 +1,4 @@
-import type { SpatialCore } from '@spatialkit/core';
+import type { SpatialCore } from '@spatial-kit/core';
 import { clearChildren } from './dom';
 
 export type SelectionOverlayStyle = {

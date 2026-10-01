@@ -1,5 +1,5 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
-import type { Entity, SpatialCore } from '@spatialkit/core';
+import type { Entity, SpatialCore } from '@spatial-kit/core';
 
 export function useEntities(core: SpatialCore): Entity[] {
   const snapshotRef = useRef<Entity[]>([...core.scene.entities.values()]);
