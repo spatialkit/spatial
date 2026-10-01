@@ -1,4 +1,4 @@
-# @spatialkit/core — Claude Code Guide
+# @spatial-kit/core — Claude Code Guide
 
 Zero-dependency scene engine for 2D interactive editors. Manages entities, viewport transforms, event pub/sub, hit testing, and selection. Framework-agnostic — no DOM, no browser APIs anywhere in this package.
 
@@ -9,7 +9,7 @@ Zero-dependency scene engine for 2D interactive editors. Manages entities, viewp
 Everything flows through `SpatialCore`, the object returned by `createCore()`. Renderers and adapters receive this object and subscribe to its events.
 
 ```ts
-import { createCore, createEmptyScene } from '@spatialkit/core';
+import { createCore, createEmptyScene } from '@spatial-kit/core';
 
 const scene = createEmptyScene({ width: 2000, height: 1500 }, ['floor' as LayerId, 'furniture' as LayerId]);
 const core = createCore({

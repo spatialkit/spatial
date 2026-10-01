@@ -7,7 +7,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   resolve: {
     alias: {
-      '@spatialkit/core': resolve(__dirname, '../../core/src/index.ts'),
+      '@spatial-kit/core': resolve(__dirname, '../../core/src/index.ts'),
     },
   },
   test: {

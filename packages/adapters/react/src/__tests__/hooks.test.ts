@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { createCore, createEmptyScene } from '@spatialkit/core';
-import type { EntityId, LayerId } from '@spatialkit/core';
+import { createCore, createEmptyScene } from '@spatial-kit/core';
+import type { EntityId, LayerId } from '@spatial-kit/core';
 import { useSpatialCore, useSelection, useViewport } from '../index';
 
 function makeCore() {

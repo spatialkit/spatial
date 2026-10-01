@@ -1,5 +1,5 @@
 {
-  "name": "@spatialkit/core",
+  "name": "@spatial-kit/core",
   "version": "0.1.0",
   "description": "Framework-agnostic scene engine for interactive 2D editors: entities, viewport, events, hit testing and selection.",
   "keywords": [

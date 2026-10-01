@@ -1,21 +1,21 @@
-# @spatialkit/svg
+# @spatial-kit/svg
 
-SVG renderer and DOM event handlers for [`@spatialkit/core`](https://github.com/spatialkit/spatial/tree/main/packages/core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, a selection highlight overlay, drag-to-move, resize handles, and optional snap-to-grid.
+SVG renderer and DOM event handlers for [`@spatial-kit/core`](https://github.com/spatialkit/spatial/tree/main/packages/core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, a selection highlight overlay, drag-to-move, resize handles, and optional snap-to-grid.
 
 ## Installation
 
 ```bash
-npm install @spatialkit/core @spatialkit/svg
+npm install @spatial-kit/core @spatial-kit/svg
 # or
-pnpm add @spatialkit/core @spatialkit/svg
+pnpm add @spatial-kit/core @spatial-kit/svg
 ```
 
 ## Quick start
 
 ```ts
-import { createCore, createEmptyScene } from '@spatialkit/core';
-import { mountSvgRenderer } from '@spatialkit/svg';
-import type { EntityId, LayerId } from '@spatialkit/core';
+import { createCore, createEmptyScene } from '@spatial-kit/core';
+import { mountSvgRenderer } from '@spatial-kit/svg';
+import type { EntityId, LayerId } from '@spatial-kit/core';
 
 const core = createCore({
   scene: createEmptyScene({ width: 2000, height: 1500 }, ['layer' as LayerId]),
@@ -100,8 +100,8 @@ Resize handles are always drawn in the `overlays` group around each selected ent
 To draw handles yourself, for example in a custom renderer, use `paintResizeHandles`:
 
 ```ts
-import { paintResizeHandles } from '@spatialkit/svg';
-import type { ResizeHandleStyle } from '@spatialkit/svg';
+import { paintResizeHandles } from '@spatial-kit/svg';
+import type { ResizeHandleStyle } from '@spatial-kit/svg';
 
 const style: ResizeHandleStyle = { size: 8, fill: '#fff', stroke: '#2563eb', strokeWidth: 1.5 };
 paintResizeHandles(core, overlaysGroup, style); // values shown are the defaults

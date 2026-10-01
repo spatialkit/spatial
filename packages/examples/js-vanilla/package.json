@@ -1,5 +1,5 @@
 {
-  "name": "@spatialkit/example-js-vanilla",
+  "name": "@spatial-kit/example-js-vanilla",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@spatialkit/core": "workspace:*",
-    "@spatialkit/svg": "workspace:*"
+    "@spatial-kit/core": "workspace:*",
+    "@spatial-kit/svg": "workspace:*"
   },
   "devDependencies": {
     "vite": "^8.3.1"

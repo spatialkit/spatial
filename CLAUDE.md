@@ -15,10 +15,10 @@ Spatial is a zero-dependency TypeScript toolkit for building interactive 2D edit
 
 ```
 packages/
-  core/             @spatialkit/core   — scene engine, viewport, selection, events, picking
-  svg/              @spatialkit/svg    — SVG renderer + DOM event handlers
+  core/             @spatial-kit/core   — scene engine, viewport, selection, events, picking
+  svg/              @spatial-kit/svg    — SVG renderer + DOM event handlers
   adapters/
-    react/          @spatialkit/react  — React adapter (hooks + SpatialCanvas component)
+    react/          @spatial-kit/react  — React adapter (hooks + SpatialCanvas component)
   examples/
     js-vanilla/     vanilla JS example
     react/          React example
@@ -47,7 +47,7 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 
 ## Architecture
 
-### @spatialkit/core
+### @spatial-kit/core
 
 | Module | Responsibility |
 |--------|---------------|
@@ -71,7 +71,7 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 - `zoomAt` delta is multiplicative: `0.1` = +10%, `−0.1` = −10%
 - `panBy` takes screen-space delta; positive `x` shifts content left (pan moves right in world)
 
-### @spatialkit/svg
+### @spatial-kit/svg
 
 | Module | Responsibility |
 |--------|---------------|
@@ -142,8 +142,8 @@ Run from repo root. Per-package commands work inside each `packages/*` directory
 
 ## What NOT to do
 
-- Do not add production dependencies to `@spatialkit/core` or `@spatialkit/svg`.
+- Do not add production dependencies to `@spatial-kit/core` or `@spatial-kit/svg`.
 - Do not bypass branded types with plain strings.
 - Do not mutate `Set` objects returned by `applySelection`.
-- Do not add framework-specific code to `@spatialkit/core` (keep it agnostic).
+- Do not add framework-specific code to `@spatial-kit/core` (keep it agnostic).
 - Do not skip typecheck — the build uses project references.

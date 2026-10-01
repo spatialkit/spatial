@@ -5,9 +5,9 @@
     "jsx": "react-jsx",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "paths": {
-      "@spatialkit/core": ["./packages/core/src/index.ts"],
-      "@spatialkit/svg": ["./packages/svg/src/index.ts"],
-      "@spatialkit/react": ["./packages/adapters/react/src/index.ts"]
+      "@spatial-kit/core": ["./packages/core/src/index.ts"],
+      "@spatial-kit/svg": ["./packages/svg/src/index.ts"],
+      "@spatial-kit/react": ["./packages/adapters/react/src/index.ts"]
     }
   },
   "include": [

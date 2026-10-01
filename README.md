@@ -14,7 +14,7 @@
 
 <p align="center">
     <a href="https://github.com/spatialkit/spatial/actions/workflows/ci.yml"><img src="https://github.com/spatialkit/spatial/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-    <a href="https://www.npmjs.com/package/@spatialkit/core"><img src="https://img.shields.io/npm/v/@spatialkit/core?label=%40spatialkit%2Fcore" alt="npm @spatialkit/core" /></a>
+    <a href="https://www.npmjs.com/package/@spatial-kit/core"><img src="https://img.shields.io/npm/v/@spatial-kit/core?label=%40spatialkit%2Fcore" alt="npm @spatial-kit/core" /></a>
     <a href="./LICENSE"><img src="https://img.shields.io/github/license/spatialkit/spatial" alt="MIT license" /></a>
 </p>
 
@@ -28,9 +28,9 @@ Spatial provides the low-level engine for pan/zoom, selection, hit testing, and 
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| [`@spatialkit/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@spatialkit/core)](https://www.npmjs.com/package/@spatialkit/core) | Scene engine, viewport, event bus, picking, selection |
-| [`@spatialkit/svg`](packages/svg) | [![npm](https://img.shields.io/npm/v/@spatialkit/svg)](https://www.npmjs.com/package/@spatialkit/svg) | SVG renderer + DOM event handlers |
-| [`@spatialkit/react`](packages/adapters/react) | [![npm](https://img.shields.io/npm/v/@spatialkit/react)](https://www.npmjs.com/package/@spatialkit/react) | React adapter — hooks and `SpatialCanvas` component |
+| [`@spatial-kit/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@spatial-kit/core)](https://www.npmjs.com/package/@spatial-kit/core) | Scene engine, viewport, event bus, picking, selection |
+| [`@spatial-kit/svg`](packages/svg) | [![npm](https://img.shields.io/npm/v/@spatial-kit/svg)](https://www.npmjs.com/package/@spatial-kit/svg) | SVG renderer + DOM event handlers |
+| [`@spatial-kit/react`](packages/adapters/react) | [![npm](https://img.shields.io/npm/v/@spatial-kit/react)](https://www.npmjs.com/package/@spatial-kit/react) | React adapter — hooks and `SpatialCanvas` component |
 
 ---
 
@@ -39,13 +39,13 @@ Spatial provides the low-level engine for pan/zoom, selection, hit testing, and 
 **Vanilla JS / framework-agnostic:**
 
 ```bash
-npm install @spatialkit/core @spatialkit/svg
+npm install @spatial-kit/core @spatial-kit/svg
 ```
 
 **React:**
 
 ```bash
-npm install @spatialkit/core @spatialkit/react
+npm install @spatial-kit/core @spatial-kit/react
 ```
 
 All packages ship dual **ESM + CJS** builds with full TypeScript declarations.
@@ -56,14 +56,14 @@ All packages ship dual **ESM + CJS** builds with full TypeScript declarations.
 
 ```tsx
 import { useCallback, useEffect } from 'react';
-import { createEmptyScene, addEntity } from '@spatialkit/core';
-import type { Entity, EntityId, LayerId } from '@spatialkit/core';
+import { createEmptyScene, addEntity } from '@spatial-kit/core';
+import type { Entity, EntityId, LayerId } from '@spatial-kit/core';
 import {
   SpatialCanvas,
   useSpatialCore,
   useSelection,
   useViewport,
-} from '@spatialkit/react';
+} from '@spatial-kit/react';
 
 const LAYER = 'main' as LayerId;
 
@@ -222,9 +222,9 @@ useCoreEvent(core, 'entities:changed', ({ type, ids }) => {
 ## Quick start — Vanilla JS
 
 ```ts
-import { createCore, createEmptyScene } from '@spatialkit/core';
-import { mountSvgRenderer } from '@spatialkit/svg';
-import type { EntityId, LayerId } from '@spatialkit/core';
+import { createCore, createEmptyScene } from '@spatial-kit/core';
+import { mountSvgRenderer } from '@spatial-kit/svg';
+import type { EntityId, LayerId } from '@spatial-kit/core';
 
 // 1. Define layers (bottom → top z-order)
 const LAYERS = {
@@ -304,7 +304,7 @@ renderer.destroy();
 - `fitToBounds`, `fitToScene`, `centerOn` for programmatic camera control
 - Precise coordinate transforms: `worldToScreen` / `screenToWorld`
 
-**Interaction** (via `@spatialkit/svg` or `@spatialkit/react`)
+**Interaction** (via `@spatial-kit/svg` or `@spatial-kit/react`)
 - Mouse wheel zoom (configurable sensitivity)
 - Pointer drag-to-pan
 - Pinch-to-zoom on touch and pen devices
@@ -314,13 +314,13 @@ renderer.destroy();
 - Drag handles to resize the selected entity
 - Optional snap-to-grid for drag and resize
 
-**Rendering** (via `@spatialkit/svg` or `@spatialkit/react`)
+**Rendering** (via `@spatial-kit/svg` or `@spatial-kit/react`)
 - Bring-your-own-drawEntity callback — full SVG freedom
 - World-aligned background grid that stays crisp at any zoom
 - Built-in selection highlight overlay with customisable style
 - Automatic repaints on viewport, entity, and selection changes
 
-**React adapter** (`@spatialkit/react`)
+**React adapter** (`@spatial-kit/react`)
 - `SpatialCanvas` component — drop in an SVG canvas with zero boilerplate
 - `useSpatialCore` — lazy engine initialisation, stable across re-renders
 - `useSelection` / `useViewport` — fine-grained reactive subscriptions via `useSyncExternalStore`
@@ -343,14 +343,14 @@ renderer.destroy();
   └────────────────┬────────────────────────┘
                    │  SpatialCore API
        ┌───────────▼────────────┐
-       │    @spatialkit/core    │
+       │    @spatial-kit/core    │
        │  scene · viewport      │
        │  events · picking      │
        │  selection · store     │
        └─────────┬──────────────┘
                  │  subscribes to events
        ┌─────────┴──────────────┬──────────────────────┐
-       │    @spatialkit/svg     │  @spatialkit/react   │
+       │    @spatial-kit/svg     │  @spatial-kit/react   │
        │  DOM setup · renderer  │  SpatialCanvas       │
        │  handlers · grid       │  useSpatialCore      │
        │  selection overlay     │  useSelection        │
@@ -359,7 +359,7 @@ renderer.destroy();
                                 └──────────────────────┘
 ```
 
-`@spatialkit/core` is fully framework-agnostic — no DOM, no browser APIs. `@spatialkit/svg` and `@spatialkit/react` are independent renderer/adapter layers that connect core to the browser. Use whichever fits your stack.
+`@spatial-kit/core` is fully framework-agnostic — no DOM, no browser APIs. `@spatial-kit/svg` and `@spatial-kit/react` are independent renderer/adapter layers that connect core to the browser. Use whichever fits your stack.
 
 ---
 

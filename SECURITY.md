@@ -6,9 +6,9 @@ Spatial is in `0.x`. Security fixes are released for the latest published minor 
 
 | Package | Supported |
 |---------|-----------|
-| `@spatialkit/core` | latest `0.x` minor |
-| `@spatialkit/svg` | latest `0.x` minor |
-| `@spatialkit/react` | latest `0.x` minor |
+| `@spatial-kit/core` | latest `0.x` minor |
+| `@spatial-kit/svg` | latest `0.x` minor |
+| `@spatial-kit/react` | latest `0.x` minor |
 
 ## Reporting a vulnerability
 

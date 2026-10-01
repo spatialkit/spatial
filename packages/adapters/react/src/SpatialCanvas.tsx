@@ -6,7 +6,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
-import type { Entity, EntityId, SpatialCore, LayerId } from '@spatialkit/core';
+import type { Entity, EntityId, SpatialCore, LayerId } from '@spatial-kit/core';
 import { attachHandlers } from './internal/attachHandlers';
 import { useEntities } from './internal/useEntities';
 import { useViewportTransform } from './internal/useViewportTransform';

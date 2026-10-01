@@ -1,13 +1,13 @@
-# @spatialkit/react
+# @spatial-kit/react
 
-React adapter for [`@spatialkit/core`](https://github.com/spatialkit/spatial/tree/main/packages/core). Provides a drop-in `<SpatialCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
+React adapter for [`@spatial-kit/core`](https://github.com/spatialkit/spatial/tree/main/packages/core). Provides a drop-in `<SpatialCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
 
 ## Installation
 
 ```bash
-npm install @spatialkit/core @spatialkit/react
+npm install @spatial-kit/core @spatial-kit/react
 # or
-pnpm add @spatialkit/core @spatialkit/react
+pnpm add @spatial-kit/core @spatial-kit/react
 ```
 
 React 18 or 19 is required as a peer dependency.
@@ -16,15 +16,15 @@ React 18 or 19 is required as a peer dependency.
 
 ```tsx
 import { useCallback, useEffect } from 'react';
-import { createEmptyScene } from '@spatialkit/core';
-import type { Entity, EntityId, LayerId } from '@spatialkit/core';
-import { SpatialCanvas, useSpatialCore, useSelection, useViewport } from '@spatialkit/react';
+import { createEmptyScene } from '@spatial-kit/core';
+import type { Entity, EntityId, LayerId } from '@spatial-kit/core';
+import { SpatialCanvas, useSpatialCore, useSelection, useViewport } from '@spatial-kit/react';
 
 const LAYER = 'main' as LayerId;
 
 const initialScene = (() => {
   const scene = createEmptyScene({ width: 1200, height: 800 }, [LAYER]);
-  // addEntity is a store helper — import from @spatialkit/core if needed,
+  // addEntity is a store helper — import from @spatial-kit/core if needed,
   // or use core.add() after the core is created.
   return scene;
 })();

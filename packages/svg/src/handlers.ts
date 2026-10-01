@@ -1,5 +1,5 @@
-import { SpatialCore, EntityId, snapToGrid, hitTestResizeHandles, applyResizeDelta } from '@spatialkit/core';
-import type { Bounds, ResizeDirection } from '@spatialkit/core';
+import { SpatialCore, EntityId, snapToGrid, hitTestResizeHandles, applyResizeDelta } from '@spatial-kit/core';
+import type { Bounds, ResizeDirection } from '@spatial-kit/core';
 
 type AttachHandlersOptions = {
   enableWheel: boolean;

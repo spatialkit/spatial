@@ -8,9 +8,9 @@ body:
       label: Package
       multiple: true
       options:
-        - '@spatialkit/core'
-        - '@spatialkit/svg'
-        - '@spatialkit/react'
+        - '@spatial-kit/core'
+        - '@spatial-kit/svg'
+        - '@spatial-kit/react'
         - New package
         - Not sure
     validations:

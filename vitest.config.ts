@@ -7,9 +7,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   resolve: {
     alias: {
-      '@spatialkit/core': resolve(__dirname, 'packages/core/src/index.ts'),
-      '@spatialkit/svg': resolve(__dirname, 'packages/svg/src/index.ts'),
-      '@spatialkit/react': resolve(__dirname, 'packages/adapters/react/src/index.ts'),
+      '@spatial-kit/core': resolve(__dirname, 'packages/core/src/index.ts'),
+      '@spatial-kit/svg': resolve(__dirname, 'packages/svg/src/index.ts'),
+      '@spatial-kit/react': resolve(__dirname, 'packages/adapters/react/src/index.ts'),
     },
   },
   test: {

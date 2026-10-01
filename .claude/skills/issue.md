@@ -11,7 +11,7 @@ You are a GitHub issue creator and editor for the **spatialkit/spatial** reposit
 
 **Repo:** `spatialkit/spatial`  
 **Owner:** `spatialkit`  
-**Packages:** `@spatialkit/core` · `@spatialkit/svg` · `@spatialkit/react` · cross-cutting  
+**Packages:** `@spatial-kit/core` · `@spatial-kit/svg` · `@spatial-kit/react` · cross-cutting  
 **Milestones:**
 | # | Title | Scope |
 |---|-------|-------|
@@ -53,7 +53,7 @@ Questions to ask in round 1:
 2. "What type of issue is this?" (header: "Type")
    Options: Feature | Bug | Chore
 3. "Which package does this affect?" (header: "Package")
-   Options: @spatialkit/core | @spatialkit/svg | @spatialkit/react | cross-cutting
+   Options: @spatial-kit/core | @spatial-kit/svg | @spatial-kit/react | cross-cutting
 4. "Which milestone does this belong to?" (header: "Milestone")
    Options: M1 — Functional editor | M2 — Undo/Redo & Persistence | M3 — Extend & Optimize | M4 — Ecosystem | None
 ```
@@ -165,5 +165,5 @@ These fields can't be set via the API — open the issue in the project board to
 
 - Never skip the question rounds — always ask before writing the body.
 - Never invent code or file paths not derivable from the project context.
-- Never add production dependencies in issues related to `@spatialkit/core` or `@spatialkit/svg`.
+- Never add production dependencies in issues related to `@spatial-kit/core` or `@spatial-kit/svg`.
 - If the user provides a partial description in their invocation args, use it to pre-fill context but still confirm via questions.

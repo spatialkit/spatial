@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { SpatialCanvas, useSpatialCore, useSelection, useViewport } from '@spatialkit/react';
-import { addEntity, createEmptyScene, hitTestResizeHandles } from '@spatialkit/core';
-import type { Entity, EntityId, LayerId } from '@spatialkit/core';
+import { SpatialCanvas, useSpatialCore, useSelection, useViewport } from '@spatial-kit/react';
+import { addEntity, createEmptyScene, hitTestResizeHandles } from '@spatial-kit/core';
+import type { Entity, EntityId, LayerId } from '@spatial-kit/core';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 

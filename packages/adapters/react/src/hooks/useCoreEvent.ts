@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { SpatialCore } from '@spatialkit/core';
+import type { SpatialCore } from '@spatial-kit/core';
 
 export function useCoreEvent<T = unknown>(
   core: SpatialCore,
