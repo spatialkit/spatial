@@ -7,6 +7,15 @@
     <strong>Spatial</strong>
     <br />
     Open-source TypeScript toolkit for interactive 2D editors and floor plans.
+    <br />
+    <br />
+    <a href="https://spatial.lucasfelixdev.workers.dev"><strong>Live demo</strong></a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/spatialkit/spatial/actions/workflows/ci.yml"><img src="https://github.com/spatialkit/spatial/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+    <a href="https://www.npmjs.com/package/@spatialkit/core"><img src="https://img.shields.io/npm/v/@spatialkit/core?label=%40spatialkit%2Fcore" alt="npm @spatialkit/core" /></a>
+    <a href="./LICENSE"><img src="https://img.shields.io/github/license/spatialkit/spatial" alt="MIT license" /></a>
 </p>
 
 ---
@@ -19,9 +28,9 @@ Spatial provides the low-level engine for pan/zoom, selection, hit testing, and 
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| [`@spatialkit/core`](packages/core) | 0.1.0 | Scene engine, viewport, event bus, picking, selection |
-| [`@spatialkit/svg`](packages/svg) | 0.1.0 | SVG renderer + DOM event handlers |
-| [`@spatialkit/react`](packages/adapters/react) | 0.1.0 | React adapter — hooks and `SpatialCanvas` component |
+| [`@spatialkit/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@spatialkit/core)](https://www.npmjs.com/package/@spatialkit/core) | Scene engine, viewport, event bus, picking, selection |
+| [`@spatialkit/svg`](packages/svg) | [![npm](https://img.shields.io/npm/v/@spatialkit/svg)](https://www.npmjs.com/package/@spatialkit/svg) | SVG renderer + DOM event handlers |
+| [`@spatialkit/react`](packages/adapters/react) | [![npm](https://img.shields.io/npm/v/@spatialkit/react)](https://www.npmjs.com/package/@spatialkit/react) | React adapter — hooks and `SpatialCanvas` component |
 
 ---
 
@@ -139,6 +148,7 @@ The main component. Renders an `<svg>` element and wires all interactions.
   clickThresholdPx={3}
   wheelZoomFactor={0.0015}
   pinchZoomFactor={0.005}
+  snapToGrid={20}    // snap drag and resize to a 20-unit grid (off by default)
 
   // SVG element
   className="my-canvas"
@@ -151,6 +161,10 @@ The main component. Renders an `<svg>` element and wires all interactions.
 **`grid`** renders a background grid aligned to world space. Pass `false` to disable.
 
 **`selectionOverlay`** draws an outline rect around each selected entity. Pass `false` to disable.
+
+**Resize handles** are drawn on every selected entity. Drag one of the 8 handles to resize; the size in pixels stays the same at any zoom level.
+
+**`snapToGrid`** rounds entity positions (on drag) and edges (on resize) to the nearest multiple of the given world-space size.
 
 ---
 
@@ -297,6 +311,8 @@ renderer.destroy();
 - Click-to-select with AABB hit testing
 - Multi-select: Shift (add), Ctrl/Meta (toggle)
 - Drag-to-move selected entities
+- Drag handles to resize the selected entity
+- Optional snap-to-grid for drag and resize
 
 **Rendering** (via `@spatialkit/svg` or `@spatialkit/react`)
 - Bring-your-own-drawEntity callback — full SVG freedom
@@ -364,6 +380,7 @@ All entity `bounds` are in world coordinates. Mouse positions from DOM events ar
 
 - **[`packages/core/README.md`](packages/core/README.md)** — full API reference: `createCore`, `createEmptyScene`, viewport methods, events, picking, selection
 - **[`packages/svg/README.md`](packages/svg/README.md)** — `mountSvgRenderer` options, `drawEntity` callback, grid, selection overlay, pointer handler configuration
+- **[`packages/adapters/react/README.md`](packages/adapters/react/README.md)** — `SpatialCanvas` props, hooks (`useSpatialCore`, `useSelection`, `useViewport`, `useCoreEvent`), patterns
 
 ---
 
@@ -381,7 +398,7 @@ pnpm install
 |---------|-------------|
 | `pnpm test` | Run all tests once (vitest) |
 | `pnpm test:watch` | Vitest in watch mode |
-| `pnpm typecheck` | `tsc -b` across all packages |
+| `pnpm typecheck` | `tsc --noEmit` across all packages |
 | `pnpm build` | tsup build (ESM + CJS + .d.ts) |
 | `pnpm lint` | ESLint on all `.ts` files |
 | `pnpm dev` | Start examples dev server (Vite, `localhost:5173`) |
@@ -392,12 +409,9 @@ All commands run from the repo root. Per-package commands also work inside each 
 
 ## Contributing
 
-If you find a bug or want to suggest an improvement, please open an **issue**.
+Contributions are welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) for the development setup and pull request process, and the [Code of Conduct](./CODE_OF_CONDUCT.md) before participating.
 
-For pull requests:
-- Keep the PR focused on a single change or feature
-- Run `pnpm typecheck && pnpm test && pnpm lint` before submitting
-- Do not add production dependencies to `@spatialkit/core`, `@spatialkit/svg`, or `@spatialkit/react`
+To report a security issue, follow [SECURITY.md](./SECURITY.md). Do not open a public issue.
 
 ---
 

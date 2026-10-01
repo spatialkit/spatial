@@ -1,6 +1,6 @@
 # @spatialkit/react
 
-React adapter for [`@spatialkit/core`](../../core). Provides a drop-in `<SpatialCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
+React adapter for [`@spatialkit/core`](https://github.com/spatialkit/spatial/tree/main/packages/core). Provides a drop-in `<SpatialCanvas>` component and hooks for building interactive 2D editors — floor plans, seat maps, office layouts — with zero boilerplate.
 
 ## Installation
 
@@ -10,7 +10,7 @@ npm install @spatialkit/core @spatialkit/react
 pnpm add @spatialkit/core @spatialkit/react
 ```
 
-React 18 is required as a peer dependency.
+React 18 or 19 is required as a peer dependency.
 
 ## Quick start
 
@@ -121,6 +121,9 @@ The main component. Renders an `<svg>` element, manages the viewport transform, 
 | `modifierSelect` | `boolean` | `true` | Shift = add to selection, Ctrl/Meta = toggle |
 | `onClickEntity` | `(id: EntityId) => void` | — | Called after `core.setSelection` when clicking a selectable entity |
 | `clickThresholdPx` | `number` | `3` | Max pointer travel in pixels before a pointerdown/up is treated as a drag instead of a click |
+| `snapToGrid` | `number` | — | Grid size in world units. When set, entity positions (drag) and edges (resize) snap to multiples of it |
+
+Resize handles are drawn around each selected entity: 8 handles (corners and edge midpoints) with a fixed pixel size at any zoom. Dragging a handle resizes the entity.
 
 #### `drawEntity` callback
 
@@ -278,4 +281,4 @@ off();
 
 ## License
 
-[MIT](../../../LICENSE)
+[MIT](./LICENSE)

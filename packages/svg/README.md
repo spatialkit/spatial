@@ -1,6 +1,6 @@
 # @spatialkit/svg
 
-SVG renderer and DOM event handlers for [`@spatialkit/core`](../core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, and a selection highlight overlay.
+SVG renderer and DOM event handlers for [`@spatialkit/core`](https://github.com/spatialkit/spatial/tree/main/packages/core). Mounts into any `<svg>` element, subscribes to core events, and paints the scene automatically. Includes wheel zoom, drag-to-pan, pinch-to-zoom, click-to-select, a background grid, a selection highlight overlay, drag-to-move, resize handles, and optional snap-to-grid.
 
 ## Installation
 
@@ -84,6 +84,7 @@ interface SvgRenderer {
 | `clickThresholdPx` | `number` | `3` | Max pointer travel in pixels before a pointerdown/up is classified as a drag instead of a click |
 | `modifierSelect` | `boolean` | `true` | Shift = add to selection, Ctrl/Meta = toggle. When `false`, clicks always replace selection |
 | `onClickEntity` | `(id: EntityId) => void` | — | Called after `core.setSelection` when clicking a selectable entity |
+| `snapToGrid` | `number` | — | Grid size in world units. When set, entity positions (drag) and edges (resize) snap to multiples of it |
 
 #### Rendering
 
@@ -93,6 +94,18 @@ interface SvgRenderer {
 | `grid` | `GridOptions \| false` | `false` | Background grid. Pass `{}` to enable with defaults, or configure below |
 | `defs` | `(defs: SVGDefsElement) => void` | — | Populate `<defs>` with gradients, clip paths, patterns, etc. |
 | `clearOnDestroy` | `boolean` | `true` | Remove the viewport group and `<defs>` from the DOM on `destroy()` |
+
+Resize handles are always drawn in the `overlays` group around each selected entity: 8 handles (corners and edge midpoints) with a fixed pixel size at any zoom. Dragging a handle resizes the entity, and takes priority over moving it.
+
+To draw handles yourself, for example in a custom renderer, use `paintResizeHandles`:
+
+```ts
+import { paintResizeHandles } from '@spatialkit/svg';
+import type { ResizeHandleStyle } from '@spatialkit/svg';
+
+const style: ResizeHandleStyle = { size: 8, fill: '#fff', stroke: '#2563eb', strokeWidth: 1.5 };
+paintResizeHandles(core, overlaysGroup, style); // values shown are the defaults
+```
 
 ---
 
@@ -340,4 +353,4 @@ mountSvgRenderer(core, {
 
 ## License
 
-[MIT](../../LICENSE)
+[MIT](./LICENSE)
