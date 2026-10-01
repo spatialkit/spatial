@@ -1,6 +1,6 @@
 {
   "name": "@spatial-kit/svg",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "SVG renderer and pointer handlers for @spatial-kit/core: pan, zoom, pinch, selection, drag, resize and grid.",
   "keywords": [
     "2d",
