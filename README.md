@@ -24,6 +24,17 @@ A zero-dependency toolkit for building interactive 2D editors — floor plans, s
 
 Spatial provides the low-level engine for pan/zoom, selection, hit testing, and event management, plus pluggable renderers. No framework lock-in, no production dependencies.
 
+## Why Spatial
+
+- **Primitives, not a finished editor.** You decide how every entity looks through a single `drawEntity` callback. Spatial handles the camera, selection, hit testing, and pointer interaction, which is the part every 2D editor has to rebuild from scratch.
+- **Zero dependencies.** Nothing to audit, nothing to dedupe, nothing pulled in transitively. What you install is what runs.
+- **A core with no DOM.** `@spatial-kit/core` is plain TypeScript: scene, viewport math, selection, and events. It runs in Node, so editor logic can be unit tested without a browser.
+- **Pluggable rendering.** The core knows nothing about how a scene is drawn. Renderers subscribe to its events, so the same scene and interaction model can back different rendering targets.
+- **Framework-agnostic.** Use it from vanilla JS or with the React adapter. Other frameworks can be added as thin adapters on top of the same core.
+- **Typed end to end.** Strict TypeScript with branded `EntityId` and `LayerId`, so an entity id can't be passed where a layer id is expected.
+
+**When to reach for something else:** if you need a full whiteboard out of the box, look at [tldraw](https://tldraw.dev) or [Excalidraw](https://excalidraw.com). For node-and-edge graphs and flowcharts, [React Flow](https://reactflow.dev) is the better fit. For freeform graphics and image editing, use [Konva](https://konvajs.org) or [Fabric.js](https://fabricjs.com). Spatial is for editors where positioned entities (desks, seats, rooms, shelves) are the core of the product and you want full control over how they look.
+
 ## Packages
 
 | Package | Version | Description |
