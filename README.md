@@ -26,11 +26,13 @@ Spatial provides the low-level engine for pan/zoom, selection, hit testing, and 
 
 ## Packages
 
-| Package | Version | Description |
-|---------|---------|-------------|
-| [`@spatial-kit/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@spatial-kit/core)](https://www.npmjs.com/package/@spatial-kit/core) | Scene engine, viewport, event bus, picking, selection |
-| [`@spatial-kit/svg`](packages/svg) | [![npm](https://img.shields.io/npm/v/@spatial-kit/svg)](https://www.npmjs.com/package/@spatial-kit/svg) | SVG renderer + DOM event handlers |
-| [`@spatial-kit/react`](packages/adapters/react) | [![npm](https://img.shields.io/npm/v/@spatial-kit/react)](https://www.npmjs.com/package/@spatial-kit/react) | React adapter — hooks and `SpatialCanvas` component |
+| Package | Version | Size (gzip) | Description |
+|---------|---------|-------------|-------------|
+| [`@spatial-kit/core`](packages/core) | [![npm](https://img.shields.io/npm/v/@spatial-kit/core)](https://www.npmjs.com/package/@spatial-kit/core) | [![size](https://deno.bundlejs.com/badge?q=@spatial-kit/core)](https://bundlejs.com/?q=@spatial-kit/core) | Scene engine, viewport, event bus, picking, selection |
+| [`@spatial-kit/svg`](packages/svg) | [![npm](https://img.shields.io/npm/v/@spatial-kit/svg)](https://www.npmjs.com/package/@spatial-kit/svg) | [![size](https://deno.bundlejs.com/badge?q=@spatial-kit/svg&config=%7B%22esbuild%22%3A%7B%22external%22%3A%5B%22%40spatial-kit/core%22%5D%7D%7D)](https://bundlejs.com/?q=@spatial-kit/svg&config=%7B%22esbuild%22%3A%7B%22external%22%3A%5B%22%40spatial-kit/core%22%5D%7D%7D) | SVG renderer + DOM event handlers |
+| [`@spatial-kit/react`](packages/adapters/react) | [![npm](https://img.shields.io/npm/v/@spatial-kit/react)](https://www.npmjs.com/package/@spatial-kit/react) | [![size](https://deno.bundlejs.com/badge?q=@spatial-kit/react&config=%7B%22esbuild%22%3A%7B%22external%22%3A%5B%22%40spatial-kit/core%22%2C%22react%22%2C%22react-dom%22%2C%22react/jsx-runtime%22%5D%7D%7D)](https://bundlejs.com/?q=@spatial-kit/react&config=%7B%22esbuild%22%3A%7B%22external%22%3A%5B%22%40spatial-kit/core%22%2C%22react%22%2C%22react-dom%22%2C%22react/jsx-runtime%22%5D%7D%7D) | React adapter — hooks and `SpatialCanvas` component |
+
+Sizes are minified and gzipped, excluding peer dependencies (`@spatial-kit/core`, `react`).
 
 ---
 
