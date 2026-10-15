@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "@spatial-kit/core": "workspace:*",
-    "jsdom": "^30.1.1",
-    "vitest": "^5.0.3"
+    "jsdom": "^30.1.2",
+    "vitest": "^5.0.4"
   },
   "peerDependencies": {
     "@spatial-kit/core": "0.x"
